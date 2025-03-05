@@ -1,0 +1,62 @@
+import { useState } from "react";
+
+export default function Add{{pascalCase modelName}}() {
+const [formData, setFormData] = useState({
+{{#each fields}}
+{{#unless (startsWith this.name "@@")}}
+{{this.name}}: "",
+{{/unless}}
+{{/each}}
+});
+
+const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+    });
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form Data Submitted:", formData);
+    // TODO: Add API call to create {{camelCase modelName}}
+    };
+
+    return (
+    <div className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-lg">
+        <h2 className="text-2xl font-bold mb-4">Add {{pascalCase modelName}}</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+            {{#each fields}}
+            {{#unless (startsWith this.name "@@")}}
+            <div>
+                <label className="block text-sm font-medium">{{this.name}}</label>
+                {{#if (eq this.type "String")}}
+                <input type="text" name="{{this.name}}" value={formData["{{this.name}}"]} onChange={handleChange}
+                    className="w-full p-2 border rounded" required />
+                {{else if (eq this.type "Int")}}
+                <input type="number" name="{{this.name}}" value={formData["{{this.name}}"]} onChange={handleChange}
+                    className="w-full p-2 border rounded" required />
+                {{else if (eq this.type "Boolean")}}
+                <select name="{{this.name}}" value={formData["{{this.name}}"]} onChange={handleChange}
+                    className="w-full p-2 border rounded">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+                {{else if (eq this.type "DateTime")}}
+                <input type="date" name="{{this.name}}" value={formData["{{this.name}}"]} onChange={handleChange}
+                    className="w-full p-2 border rounded" required />
+                {{else}}
+                <input type="text" name="{{this.name}}" value={formData["{{this.name}}"]} onChange={handleChange}
+                    className="w-full p-2 border rounded" required />
+                {{/if}}
+            </div>
+            {{/unless}}
+            {{/each}}
+
+            <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
+                Add {{pascalCase modelName}}
+            </button>
+        </form>
+    </div>
+    );
+    }
