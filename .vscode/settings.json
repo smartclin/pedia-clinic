@@ -34,4 +34,6 @@
     ],
     "eslint.format.enable": true,
     "npm.packageManager": "npm",
+    "IDX.aI.enableInlineCompletion": true,
+    "IDX.aI.enableCodebaseIndexing": true,
 }

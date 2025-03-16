@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import { auth } from '@/auth'
+
 import { db } from '@/prisma'
 
 export async function GET() {
@@ -20,6 +21,7 @@ export async function GET() {
     return NextResponse.json(doctors)
   } catch (error) {
     console.error('[DOCTORS_GET]', error)
+
     return new NextResponse('Internal error', { status: 500 })
   }
 }

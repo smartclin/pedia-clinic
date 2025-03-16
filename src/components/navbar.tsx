@@ -1,7 +1,9 @@
 'use client'
 
+import { User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react'
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -14,8 +16,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import placeholder from '@/public/placeholder.svg'
 
-import { User } from 'lucide-react'
-import { signOut } from 'next-auth/react'
 
 interface UserAccountNavProps {
   user: {

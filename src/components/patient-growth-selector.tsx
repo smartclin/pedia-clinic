@@ -1,8 +1,8 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select'
 
 interface Patient {
-  id: string
+  id: number
   firstName: string
   lastName: string
 }

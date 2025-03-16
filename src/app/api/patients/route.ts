@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import { auth } from '@/auth'
+
 import { db } from '@/prisma'
 
 export async function POST(req: Request) {
@@ -36,6 +37,7 @@ export async function POST(req: Request) {
     return NextResponse.json(patient)
   } catch (error) {
     console.error('[PATIENTS_POST]', error)
+
     return new NextResponse('Internal error', { status: 500 })
   }
 }
@@ -76,6 +78,7 @@ export async function GET(req: Request) {
     return NextResponse.json(patients)
   } catch (error) {
     console.error('[PATIENTS_GET]', error)
+
     return new NextResponse('Internal error', { status: 500 })
   }
 }

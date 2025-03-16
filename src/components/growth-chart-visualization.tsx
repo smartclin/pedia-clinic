@@ -1,12 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-
 import { useSearchParams } from 'next/navigation'
-
-import { Card, CardContent } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-
+import { useEffect, useState } from 'react'
 import {
   CartesianGrid,
   Legend,
@@ -17,6 +12,10 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+
+import { Card, CardContent } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+
 
 export function GrowthChartVisualization() {
   const searchParams = useSearchParams()
@@ -42,6 +41,7 @@ export function GrowthChartVisualization() {
           { age: '60', height: 110, weight: 18.5, headCircumference: 51 },
         ]
         setGrowthData(sampleData)
+
         return
       }
 

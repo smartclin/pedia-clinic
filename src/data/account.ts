@@ -1,14 +1,13 @@
-import { db } from '@/prisma'
+import { db } from '@/lib/db'
 
-export async function getAccountByUserId(userId: number) {
+export const getAccountByUserId = async (userId: string) => {
   try {
     const account = await db.account.findFirst({
       where: { userId },
     })
 
     return account
-  } catch (error) {
-    console.log(error)
+  } catch {
     return null
   }
 }

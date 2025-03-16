@@ -1,10 +1,12 @@
-import { db } from '@/prisma'
 import { PrismaAdapter } from '@auth/prisma-adapter'
-
-import { getAccountByUserId } from '../data/account'
-import { getUserById } from '../data/user'
-import authConfig from './auth.config'
+import { UserRole } from '@prisma/client'
 import NextAuth from 'next-auth'
+
+import { getUserById } from '@/actions/data/user'
+import { db } from '@/lib/db'
+
+import authConfig from './auth.config'
+
 
 export const {
   auth,
@@ -12,57 +14,40 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
-  adapter: PrismaAdapter(db),
-  secret: process.env.AUTH_SECRET,
-  session: {
-    strategy: 'jwt',
+  pages: {
+    signIn: '/auth/login',
+    error: '/auth/error',
   },
-  ...authConfig,
+  events: {
+    async linkAccount({ user }) {
+      await db.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      })
+    },
+  },
   callbacks: {
+    async session({ token, session }) {
+      session.user.id
+      if (token.sub && session.user) {
+        session.user.id = token.sub
+      }
+      if (token.role && session.user) {
+        session.user.role = token.role as UserRole // coudn't find solution for this
+      }
+
+      return session
+    },
     async jwt({ token }) {
       if (!token.sub) return token
-      const numericId = Number(token.sub) // Convert to number
-      if (isNaN(numericId)) {
-        console.error('Invalid user ID format')
-        return token
-      }
-      const existingUser = await getUserById(numericId)
+      const existingUser = await getUserById(token.sub)
       if (!existingUser) return token
-
-      const existingAccount = await getAccountByUserId(existingUser.id)
-
-      token.isOauth = !!existingAccount
-      token.name = existingUser.name
-      token.email = existingUser.email
-      token.image = existingUser.image
+      token.role = existingUser.role
 
       return token
     },
-    async session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.sub,
-          email: token.email,
-          image: token.image as string,
-          isOauth: token.isOauth,
-          name: token.name,
-        },
-      }
-    },
-    async signIn({ account, user }) {
-      if (account?.provider !== 'credentials') return true
-      if (!user.id) return false // Handle undefined
-      const numericId = Number(user.id) // Convert to number
-      if (isNaN(numericId)) {
-        console.error('Invalid user ID format')
-        return false
-      }
-      const existingUser = await getUserById(numericId)
-      // Remove ?number
-      if (!existingUser || !existingUser.emailVerified) return false
-      return true
-    },
   },
+  adapter: PrismaAdapter(db),
+  session: { strategy: 'jwt' },
+  ...authConfig,
 })

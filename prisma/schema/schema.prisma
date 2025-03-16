@@ -1,0 +1,251 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["views", "postgresqlExtensions", "prismaSchemaFolder", "driverAdapters", "relationJoins"]
+}
+
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Patient {
+  id                   Int                 @id @default(autoincrement())
+  firstName            String
+  lastName             String
+  dateOfBirth          DateTime
+  gender               Gender
+  phone                String
+  email                String?             @unique
+  address              String?
+  guardianName         String?
+  guardianRelationship String?
+  bloodGroup           String?
+  allergies            String?
+  medicalConditions    String?
+  insuranceProvider    String?
+  insuranceNumber      String?
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  appointments         Appointment[]
+  medicalRecords       MedicalRecord[]
+  payments             Payment[]
+  growthMeasurements   GrowthMeasurement[]
+}
+
+model Doctor {
+  id                  Int           @id @default(autoincrement())
+  email               String        @unique
+  name                String
+  specialization      String?
+  license_number      String?
+  phone               String?
+  address             String?
+  department          String?
+  img                 String?
+  colorCode           String?
+  availability_status String?
+  userId              String?
+  user                User?         @relation(references: [id], fields: [userId], onDelete: Cascade)
+  type                JOBTYPE       @default(FULL)
+  working_days        WorkingDays[]
+  appointments        Appointment[]
+  diagnosis           Diagnosis[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  MedicalRecord MedicalRecord[]
+}
+
+model VitalSigns {
+  id               Int           @id @default(autoincrement())
+  medicalRecordId  Int           @unique
+  medicalRecord    MedicalRecord @relation(fields: [medicalRecordId], references: [id])
+  temperature      Float?
+  heartRate        Int?
+  bloodPressureSys Int?
+  bloodPressureDia Int?
+  respiratoryRate  Int?
+  oxygenSaturation Int?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  INSURANCE
+}
+
+enum PaymentStatus {
+  PAID
+  UNPAID
+  PARTIAL
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum AppointmentStatus {
+  PENDING
+  SCHEDULED
+  CANCELLED
+  COMPLETED
+}
+
+model Appointment {
+  id            Int               @id @default(autoincrement())
+  patientId     Int
+  patient       Patient           @relation(fields: [patientId], references: [id])
+  doctorId      Int
+  doctor        Doctor            @relation(fields: [doctorId], references: [id])
+  date          DateTime
+  status        AppointmentStatus
+  type          String
+  notes         String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  medicalRecord MedicalRecord?
+  payment       Payment?
+}
+
+model Payment {
+  id            Int           @id @default(autoincrement())
+  appointmentId Int           @unique
+  appointment   Appointment   @relation(fields: [appointmentId], references: [id])
+  patientId     Int
+  patient       Patient       @relation(fields: [patientId], references: [id])
+  amount        Float
+  method        PaymentMethod
+  status        PaymentStatus
+  date          DateTime
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  DORMANT
+}
+
+enum JOBTYPE {
+  FULL
+  PART
+}
+
+model WorkingDays {
+  id         Int    @id @default(autoincrement())
+  doctorId   Int
+  day        String
+  start_time String
+  close_time String
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Diagnosis {
+  id                     Int     @id @default(autoincrement())
+  patientId              Int
+  medicalId              Int
+  doctorId               Int
+  doctor                 Doctor  @relation(fields: [doctorId], references: [id])
+  symptoms               String
+  diagnosis              String
+  notes                  String?
+  prescribed_medications String?
+  follow_up_plan         String?
+
+  medical MedicalRecord @relation(fields: [medicalId], references: [id], onDelete: Cascade)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Services {
+  id           Int      @id @default(autoincrement())
+  service_name String
+  description  String
+  price        Float
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+model ClinicExpense {
+  id          Int             @id @default(autoincrement())
+  category    ExpenseCategory
+  amount      Float
+  description String?
+  expenseDate DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ClinicIncome {
+  id          Int      @id @default(autoincrement())
+  source      String
+  amount      Float
+  description String?
+  incomeDate  DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ExpenseCategory {
+  SALARY
+  RENT
+  EQUIPMENT
+  SUPPLIES
+  UTILITIES
+  OTHER
+}
+
+model MedicalRecord {
+  id            Int         @id @default(autoincrement())
+  appointmentId Int         @unique
+  appointment   Appointment @relation(fields: [appointmentId], references: [id])
+  patientId     Int
+  patient       Patient     @relation(fields: [patientId], references: [id])
+  doctorId      Int
+  doctor        Doctor      @relation(fields: [doctorId], references: [id])
+  diagnosis     String?
+  treatment     String?
+  prescription  String?
+  notes         String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  vitalSigns    VitalSigns?
+
+  Diagnosis Diagnosis[]
+}
+
+model GrowthMeasurement {
+  id                Int      @id @default(autoincrement())
+  patientId         Int
+  patient           Patient  @relation(fields: [patientId], references: [id])
+  date              DateTime
+  height            Float
+  weight            Float
+  headCircumference Float?
+  bmi               Float?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}

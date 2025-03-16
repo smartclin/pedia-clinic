@@ -1,17 +1,22 @@
-import type React from 'react'
 
-import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 
 import { AuthProvider } from '@/components/auth-provider'
+import { SidebarProvider } from '@/components/sidebar-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
-import { geistMono, geistSans } from '@/styles/fonts'
+
+import type { Metadata } from 'next'
+import type React from 'react'
 
 import '../styles/globals.css'
 
+const inter = Inter({ subsets: ['latin'] })
+
 export const metadata: Metadata = {
-  title: 'PediCare - Pediatric Clinic Management',
-  description: 'Complete pediatric clinic management system',
+  title: 'MediCare - Healthcare Management System',
+  description:
+    'Complete healthcare management solution for clinics and hospitals',
 }
 
 export default function RootLayout({
@@ -21,11 +26,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground antialiased`}>
+      <body className={inter.className}>
         <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
+            <SidebarProvider>{children}</SidebarProvider>
             <Toaster />
           </ThemeProvider>
         </AuthProvider>

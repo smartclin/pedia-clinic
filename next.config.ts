@@ -11,12 +11,7 @@ const withBundleAnalyzer = initializeBundleAnalyzer({
 const nextConfig: NextConfig = {
   experimental: {
     turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
+    
       resolveAlias: {
         underscore: 'lodash',
         mocha: { browser: 'mocha/browser-entry.js' },

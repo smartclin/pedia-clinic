@@ -1,8 +1,9 @@
+import { Prisma } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
 import { auth } from '@/auth'
+
 import { db } from '@/prisma'
-import { Prisma } from '@prisma/client'
 
 export async function POST(req: Request) {
   try {
@@ -36,6 +37,7 @@ export async function POST(req: Request) {
     return NextResponse.json(appointment)
   } catch (error) {
     console.error('[APPOINTMENTS_POST]', error)
+
     return new NextResponse('Internal error', { status: 500 })
   }
 }
@@ -97,6 +99,7 @@ export async function GET(req: Request) {
     return NextResponse.json(appointments)
   } catch (error) {
     console.error('[APPOINTMENTS_GET]', error)
+
     return new NextResponse('Internal error', { status: 500 })
   }
 }

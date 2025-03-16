@@ -1,0 +1,13 @@
+2025-03-11 07:35:41.918 UTC [77923] LOG:  starting PostgreSQL 15.10 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 13.2.0, 64-bit
+2025-03-11 07:35:41.920 UTC [77923] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-03-11 07:35:41.925 UTC [77923] LOG:  listening on Unix socket "/run/postgresql/.s.PGSQL.5432"
+2025-03-11 07:35:41.952 UTC [77926] LOG:  database system was shut down at 2025-03-11 07:35:41 UTC
+2025-03-11 07:35:41.980 UTC [77923] LOG:  database system is ready to accept connections
+2025-03-11 07:35:48.512 UTC [77969] LOG:  invalid length of startup packet
+2025-03-11 07:35:48.527 UTC [77970] LOG:  invalid length of startup packet
+2025-03-11 07:40:42.044 UTC [77924] LOG:  checkpoint starting: time
+2025-03-11 07:40:45.489 UTC [77924] LOG:  checkpoint complete: wrote 37 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=3.421 s, sync=0.009 s, total=3.446 s; sync files=11, longest=0.005 s, average=0.001 s; distance=180 kB, estimate=180 kB
+2025-03-11 07:40:58.579 UTC [79414] LOG:  invalid length of startup packet
+2025-03-11 07:40:58.614 UTC [79418] LOG:  invalid length of startup packet
+2025-03-11 07:45:42.575 UTC [77924] LOG:  checkpoint starting: time
+2025-03-11 07:47:18.947 UTC [77924] LOG:  checkpoint complete: wrote 963 buffers (5.9%); 0 WAL file(s) added, 0 removed, 0 recycled; write=96.336 s, sync=0.023 s, total=96.372 s; sync files=307, longest=0.002 s, average=0.001 s; distance=4471 kB, estimate=4471 kB

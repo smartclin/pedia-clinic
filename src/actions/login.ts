@@ -1,56 +1,37 @@
 'use server'
 
-import { signIn } from '@/auth'
-import { PROTECTED_ROUTES } from '@/constants'
-import { db } from '@/prisma'
-import { loginSchema } from '@/validations/auth'
-
 import { AuthError } from 'next-auth'
-import { z } from 'zod'
+import * as z from 'zod'
 
-export async function login(data: z.infer<typeof loginSchema>) {
-  const validatedData = loginSchema.parse(data)
+import { signIn } from '@/auth'
+import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
+import { LoginSchema } from '@/schemas'
 
-  if (!validatedData) {
-    return { error: 'Invalid input data' }
+
+export async function login(values: z.infer<typeof LoginSchema>) {
+  const validatedValues = LoginSchema.safeParse(values)
+
+  if (!validatedValues) {
+    return { error: 'invalid fields' }
   }
-
-  const { email, password } = validatedData
-
-  const userExists = await db.user.findFirst({
-    where: {
-      email,
-    },
-  })
-
-  if (!userExists || !userExists.password || !userExists.email) {
-    return { error: 'User not found' }
-  }
-
+  const { email, password }: any = validatedValues.data
   try {
     await signIn('credentials', {
-      email: userExists.email,
+      email,
       password,
-      redirectTo: PROTECTED_ROUTES.DASHBOARD,
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
     })
+
+    return { success: 'logged in successfuly' }
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
-        case 'AccessDenied':
-          return {
-            error:
-              'We sent you an email, please confirm your email address to login',
-          }
         case 'CredentialsSignin':
-          return { error: 'Invalid credentials' }
+          return { error: 'invalid credentials!' }
         default:
-          return {
-            error: 'Something went wrong, you can call our customer support',
-          }
+          return { error: 'something went wrong!' }
       }
     }
     throw error
   }
-
-  return { success: 'Logged in successfully' }
 }

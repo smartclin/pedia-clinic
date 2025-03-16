@@ -1,30 +1,40 @@
-import { PROTECTED_ROUTES, PUBLIC_ROUTES } from '@/constants'
-import { protectedRoutes } from '@/constants/routes'
+import NextAuth from 'next-auth'
+
+import {
+  DEFAULT_LOGIN_REDIRECT,
+  apiAuthPrefix,
+  authRoutes,
+  publicRoutes,
+} from '@/lib/routes'
 
 import authConfig from './auth.config'
-import NextAuth from 'next-auth'
 
 const { auth } = NextAuth(authConfig)
 
-export default auth(async req => {
-  const isLoggedIn = !!req.auth
+export default auth(req => {
   const { nextUrl } = req
+  const isLoggedIn = !!req.auth
+  const isApiRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
+  const isPublicUrl = publicRoutes.includes(nextUrl.pathname)
+  const isAuthUrl = authRoutes.includes(nextUrl.pathname)
 
-  const isProtectedRoute = protectedRoutes.includes(nextUrl.pathname)
-  const isAuthRoute = nextUrl.pathname.startsWith('/auth')
-  const isApiAuthRoute = nextUrl.pathname.startsWith('/api')
+  /*/ routes checking  /*/
 
-  if (isApiAuthRoute) return
+  if (isApiRoute) {
+    return
+  }
+  if (isAuthUrl) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+    }
 
-  if (isAuthRoute && !isLoggedIn) return
+    return
+  }
+  if (!isLoggedIn && !isPublicUrl) {
+    return Response.redirect(new URL('/auth/login', nextUrl))
+  }
 
-  if (isLoggedIn && isAuthRoute)
-    return Response.redirect(
-      new URL(PROTECTED_ROUTES.DASHBOARD, nextUrl.toString()),
-    )
-
-  if (isProtectedRoute && !isLoggedIn)
-    return Response.redirect(new URL(PUBLIC_ROUTES.LOGIN, nextUrl.toString()))
+  return
 })
 
 export const config = {
