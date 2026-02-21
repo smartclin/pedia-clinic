@@ -1,0 +1,70 @@
+{
+	"servers": {
+		"prisma-postgres": {
+			"url": "https://mcp.prisma.io/mcp",
+			"type": "http"
+		},
+		"Prisma-Local": {
+			"command": "npx",
+			"args": ["-y", "prisma", "mcp"]
+		},
+		"Prisma-Remote": {
+			"url": "https://mcp.prisma.io/mcp"
+		},
+		"better-auth": {
+			"type": "http",
+			"url": "https://mcp.chonkie.ai/better-auth/better-auth-builder/mcp"
+		},
+		"next-devtools": {
+			"args": ["-y", "next-devtools-mcp@latest"],
+			"command": "npx",
+			"type": "stdio"
+		},
+		"shadcn": {
+			"args": ["shadcn@latest", "mcp"],
+			"command": "npx",
+			"type": "stdio"
+		},
+		"prisma": {
+			"args": ["-y", "prisma", "mcp"],
+			"command": "npx",
+			"type": "stdio"
+		},
+		"shadcn-ui": {
+			"args": ["@jpisnice/shadcn-ui-mcp-server"],
+			"command": "npx"
+		}
+	},
+	"inputs": [
+		{
+			"id": "browser_url",
+			"type": "promptString",
+			"description": "Optional: connect to an already-running Chrome (remote debugging / port-forward). Example: http://127.0.0.1:9222",
+			"password": false
+		},
+		{
+			"id": "headless",
+			"type": "promptString",
+			"description": "Run Chrome headless (true/false). Default: false",
+			"password": false
+		},
+		{
+			"id": "chrome_executable_path",
+			"type": "promptString",
+			"description": "Path to a specific Chrome/Chromium binary.",
+			"password": false
+		},
+		{
+			"id": "isolated",
+			"type": "promptString",
+			"description": "Use a temporary user-data-dir (true/false). Default: false",
+			"password": false
+		},
+		{
+			"id": "chrome_channel",
+			"type": "promptString",
+			"description": "Chrome channel: stable | canary | beta | dev (default: stable).",
+			"password": false
+		}
+	]
+}

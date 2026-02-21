@@ -1,0 +1,123 @@
+model FileStorage {
+  id          String    @id @default(uuid())
+  fileName    String
+  filePath    String    @unique
+  fileType    String?
+  fileSize    Int?
+  mimeType    String?
+  isSecure    Boolean   @default(false)
+  accessToken String?   @unique
+  tokenExpiry DateTime?
+  description String?
+  metadata    Json?
+    clinicId    String?
+  clinic      Clinic?   @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+status      String?
+uploadExpiresAt     DateTime?
+  doctorId      String?
+  doctor        Doctor?        @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  patientId     String?
+  patient       Patient?       @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  trainingFiles TrainingFile[]
+
+  @@index([clinicId])
+  @@index([userId])
+  @@index([accessToken])
+}
+
+model TrainingFile {
+  id              String             @id @default(uuid())
+  knowledgeBaseId String
+  knowledgeBase   KnowledgeBase      @relation(fields: [knowledgeBaseId], references: [id], onDelete: Cascade)
+  fileStorageId   String
+  fileStorage     FileStorage        @relation(fields: [fileStorageId], references: [id], onDelete: Cascade)
+  status          TrainingFileStatus @default(PENDING)
+  errorMessage    String?
+  processedAt     DateTime?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@index([knowledgeBaseId])
+  @@index([fileStorageId])
+}
+
+enum TrainingFileStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum KnowledgeBaseStatus {
+  PENDING
+  CREATING
+  READY
+  ERROR
+}
+
+model KnowledgeBase {
+  id            String              @id @default(uuid())
+  clinicId      String
+  clinic        Clinic              @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  name          String
+  description   String?
+  vectorStoreId String?             @unique // OpenAI Vector Store ID
+  status        KnowledgeBaseStatus @default(PENDING)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  agents           Agent[]
+  trainingFiles    TrainingFile[]
+  trainingWebsites TrainingWebsite[]
+
+  // One knowledge base per clinic
+  @@unique([clinicId])
+  @@index([clinicId])
+  @@index([vectorStoreId])
+}
+
+model TrainingWebsite {
+  id              String                @id @default(uuid())
+  knowledgeBaseId String
+  knowledgeBase   KnowledgeBase         @relation(fields: [knowledgeBaseId], references: [id], onDelete: Cascade)
+  url             String
+  status          TrainingWebsiteStatus @default(PENDING)
+  errorMessage    String?
+  processedAt     DateTime?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@index([knowledgeBaseId])
+  @@index([url])
+}
+
+enum TrainingWebsiteStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model Agent {
+  id              String         @id @default(uuid())
+  clinicId        String
+  clinic          Clinic         @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  knowledgeBaseId String?
+  knowledgeBase   KnowledgeBase? @relation(fields: [knowledgeBaseId], references: [id], onDelete: SetNull)
+  name            String
+  description     String?
+  systemPrompt    String?
+  model           String         @default("gpt-4")
+  temperature     Float          @default(0.7)
+  maxTokens       Int?
+  isActive        Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([clinicId])
+  @@index([knowledgeBaseId])
+}

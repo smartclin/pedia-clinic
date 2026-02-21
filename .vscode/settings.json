@@ -1,0 +1,301 @@
+{
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma",
+		"editor.formatOnSave": true
+	},
+	// Biome specific settings
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[less]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	// ========== MARKDOWN ==========
+	"[markdown]": {
+		"editor.defaultFormatter": "yzhang.markdown-all-in-one",
+		"editor.quickSuggestions": {
+			"comments": "off",
+			"other": "off",
+			"strings": "off"
+		},
+		"editor.wordWrap": "on"
+	},
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma",
+		"editor.formatOnSave": true
+	},
+	// ========== SCSS/LESS ==========
+	"[scss]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	// Biome as linter
+	"biome.lspBin": "node_modules/@biomejs/biome/bin/biome",
+	"biome.requireConfiguration": true,
+	// ========== DEBUGGING ==========
+	"debug.console.fontSize": 13,
+	"debug.console.lineHeight": 1.3,
+	"debug.internalConsoleOptions": "neverOpen",
+	"debug.openDebug": "openOnSessionStart",
+	"debug.showInStatusBar": "always",
+	// ========== DIFF EDITOR ==========
+	"diffEditor.ignoreTrimWhitespace": false,
+	"diffEditor.renderSideBySide": true,
+	"diffEditor.wordWrap": "off",
+	"editor.acceptSuggestionOnEnter": "on",
+	"editor.codeActionsOnSave": {
+		"source.addMissingImports.ts": "explicit",
+		"source.fixAll.biome": "always",
+		"source.organizeImports": "always",
+		"source.removeUnusedImports": "explicit",
+		"source.sort.json": "explicit"
+	},
+	"editor.codeLens": false, // Disable for performance
+	"editor.colorDecorators": true,
+	// ========== FORMATTING (BIOME) ==========
+	// Since you're switching to Biome, use Biome as default formatter
+	"editor.defaultFormatter": "biomejs.biome",
+	"editor.detectIndentation": false,
+	"editor.folding": true,
+	"editor.foldingStrategy": "auto",
+	"editor.formatOnPaste": false,
+	"editor.formatOnSave": true,
+	"editor.formatOnSaveMode": "file",
+	"editor.formatOnType": false,
+	"editor.glyphMargin": true,
+	"editor.hideCursorInOverviewRuler": false,
+	"editor.hover.enabled": "on",
+	"editor.hover.sticky": true, // Disable for performance
+	"editor.insertSpaces": true,
+	// ========== PERFORMANCE OPTIMIZATIONS ==========
+	"editor.largeFileOptimizations": true,
+	"editor.lightbulb.enabled": "off", // Disable for performance
+	"editor.lineNumbers": "on",
+	"editor.maxTokenizationLineLength": 20000,
+	"editor.occurrencesHighlight": "multiFile",
+	"editor.overviewRulerBorder": false,
+	"editor.quickSuggestionsDelay": 10,
+	"editor.renderControlCharacters": true,
+	"editor.renderFinalNewline": "on",
+	"editor.renderWhitespace": "boundary",
+	"editor.rulers": [80, 100, 120],
+	"editor.selectionHighlight": true,
+	"editor.snippetSuggestions": "top",
+	"editor.suggest.snippetsPreventQuickSuggestions": false,
+	"editor.suggestOnTriggerCharacters": true,
+	"editor.tabCompletion": "on",
+	// ========== EDITOR BEHAVIOR ==========
+	"editor.tabSize": 2,
+	"editor.wordBasedSuggestions": "off", // Disable for performance
+	"editor.wordWrap": "off",
+	// ========== EMMET ==========
+	"emmet.includeLanguages": {
+		"javascript": "javascriptreact",
+		"typescript": "typescriptreact"
+	},
+	"emmet.showExpandedAbbreviation": "always",
+	"emmet.triggerExpansionOnTab": true,
+	// ========== EXPLORER ==========
+	"explorer.compactFolders": false,
+	"explorer.confirmDelete": true,
+	"explorer.confirmDragAndDrop": true,
+	"explorer.incrementalNaming": "smart",
+	"explorer.sortOrder": "type", // Folders first
+	"extensions.autoUpdate": true,
+	"extensions.closeExtensionDetailsOnViewChange": true,
+	// ========== EXTENSIONS ==========
+	"extensions.ignoreRecommendations": false,
+	"files.associations": {
+		"*.css": "tailwindcss",
+		"*.js": "javascript",
+		"*.jsx": "javascriptreact",
+		"*.prisma": "prisma",
+		"*.scss": "postcss",
+		"*.ts": "typescript",
+		"*.tsx": "typescriptreact"
+	},
+	// ========== FILES & FOLDERS ==========
+	"files.autoSave": "afterDelay",
+	"files.autoSaveDelay": 1000,
+	// ========== FILES: ENCODING ==========
+	"files.encoding": "utf8",
+	"files.eol": "\n", // LF for consistency
+	"files.exclude": {
+		"**/.DS_Store": true,
+		"**/.git": true,
+		"**/.hg": true,
+		"**/.next": true,
+		"**/.svn": true,
+		"**/.turbo": true,
+		"**/build": true,
+		"**/CVS": true,
+		"**/dist": true,
+		"**/node_modules": true,
+		"**/Thumbs.db": true
+	},
+	"files.insertFinalNewline": true,
+	"files.trimFinalNewlines": true,
+	"files.trimTrailingWhitespace": true,
+	"files.watcherExclude": {
+		"**/.git/objects/**": true,
+		"**/.git/subtree-cache/**": true,
+		"**/.next/**": true,
+		"**/.turbo/**": true,
+		"**/build/**": true,
+		"**/dist/**": true,
+		"**/node_modules/**": true
+	},
+	"git.autofetch": true,
+	"git.confirmSync": false,
+	// ========== GIT ==========
+	"git.enableSmartCommit": true,
+	"git.inputValidation": true,
+	"git.inputValidationLength": 72,
+	"git.inputValidationSubjectLength": 50,
+	"javascript.preferences.importModuleSpecifier": "relative",
+	"javascript.preferences.importModuleSpecifierEnding": "minimal",
+	"javascript.preferences.quoteStyle": "single",
+	// ========== JAVASCRIPT ==========
+	"javascript.suggest.autoImports": true,
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	// ========== YAML ==========
+	// "[yaml]": {
+	//     "editor.defaultFormatter": "redhat.vscode-yaml",
+	//     "editor.insertSpaces": true,
+	//     "editor.tabSize": 2,
+	//     "editor.autoIndent": "advanced"
+	// },
+	// ========== DOCKER ==========
+	// "[dockerfile]": {
+	//     "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+	// },
+	// ========== HEALTHCARE SPECIFIC ==========
+	// Add validation for medical data
+	"json.schemas": [
+		{
+			"fileMatch": ["fhir/*.json"],
+			"url": "https://json.schemastore.org/fhir.schema.json"
+		}
+	],
+	// ========== OUTPUT PANEL ==========
+	"output.smartScroll.enabled": true,
+	// ========== PRISMA ==========
+	"prisma.pinToPrisma6": false,
+	// ========== PROBLEMS PANEL ==========
+	"problems.autoReveal": true,
+	"problems.showCurrentInStatus": true,
+	// ========== SEARCH ==========
+	"search.exclude": {
+		"**/.git": true,
+		"**/.next": true,
+		"**/.turbo": true,
+		"**/bower_components": true,
+		"**/build": true,
+		"**/coverage": true,
+		"**/dist": true,
+		"**/node_modules": true
+	},
+	"search.followSymlinks": false, // Performance
+	"search.quickOpen.includeHistory": false,
+	"search.useIgnoreFiles": true,
+	// ========== TAILWIND CSS ==========
+	"tailwindCSS.emmetCompletions": true,
+	"tailwindCSS.experimental.classRegex": [
+		["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+		["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+		["clsx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+	],
+	"tailwindCSS.includeLanguages": {
+		"javascript": "javascript",
+		"javascriptreact": "javascript",
+		"typescript": "javascript",
+		"typescriptreact": "javascript"
+	},
+	"tailwindCSS.lint.cssConflict": "warning",
+	"tailwindCSS.lint.invalidConfigPath": "error",
+	"tailwindCSS.lint.invalidScreen": "error",
+	"tailwindCSS.lint.invalidVariant": "error",
+	"tailwindCSS.lint.recommendedVariantOrder": "warning",
+	"terminal.integrated.copyOnSelection": true,
+	"terminal.integrated.cursorBlinking": true,
+	"terminal.integrated.cursorStyle": "line",
+	// ========== TERMINAL ==========
+	"terminal.integrated.fontFamily": "Menlo, Monaco, 'Courier New', monospace",
+	"terminal.integrated.fontSize": 13,
+	"terminal.integrated.lineHeight": 1.2,
+	"terminal.integrated.rightClickBehavior": "selectWord",
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"typescript.preferences.importModuleSpecifier": "relative",
+	"typescript.preferences.importModuleSpecifierEnding": "minimal",
+	"typescript.preferences.includePackageJsonAutoImports": "auto",
+	"typescript.preferences.quoteStyle": "single",
+	"typescript.suggest.autoImports": true,
+	"typescript.suggest.completeFunctionCalls": true,
+	// ========== TYPESCRIPT ==========
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.tsserver.experimental.enableProjectDiagnostics": true,
+	"typescript.tsserver.maxTsServerMemory": 4096, // Increase for large projects
+	"typescript.tsserver.watchOptions": {
+		"fallbackPolling": "dynamicPriorityPolling",
+		"watchDirectory": "useFsEvents",
+		"watchFile": "useFsEvents"
+	},
+	"window.closeWhenEmpty": false,
+	// ========== WINDOW ==========
+	"window.newWindowDimensions": "maximized",
+	"window.restoreWindows": "all",
+	"window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}",
+	"workbench.editor.closeOnFileDelete": true,
+	"workbench.editor.enablePreview": true,
+	"workbench.editor.enablePreviewFromQuickOpen": false,
+	"workbench.editor.openPositioning": "right",
+	"workbench.editor.pinnedTabSizing": "normal",
+	"workbench.editor.tabSizing": "shrink",
+	"workbench.editor.wrapTabs": true,
+	// ========== EMOJI & ICONS ==========
+	"workbench.iconTheme": "material-icon-theme", // If installed
+	"workbench.list.smoothScrolling": true,
+	"workbench.productIconTheme": "material-product-icons", // If installed
+	"workbench.settings.editor": "json",
+	// ========== TELEMETRY ==========
+	"workbench.settings.enableNaturalLanguageSearch": false,
+	// ========== RECOMMENDED EXTENSIONS ==========
+	// Add these to .vscode/extensions.json
+	/*
+  {
+    "recommendations": [
+      "biomejs.biome",
+      "bradlc.vscode-tailwindcss",
+      "prisma.prisma",
+      "ms-vscode.vscode-typescript-next",
+      "formulahendry.auto-rename-tag",
+      "aaron-bond.better-comments",
+      "christian-kohler.path-intellisense",
+      "streetsidesoftware.code-spell-checker",
+      "mikestead.dotenv",
+      "naumovs.color-highlight",
+      "clinyong.vscode-css-modules"
+    ]
+  }
+  */
+	"workbench.settings.useSplitJSON": true,
+	// ========== WORKBENCH ==========
+	"workbench.startupEditor": "none",
+	"workbench.tree.indent": 16,
+	"workbench.tree.renderIndentGuides": "always",
+	"kiroAgent.configureMCP": "Disabled"
+}

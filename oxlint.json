@@ -1,0 +1,16 @@
+{
+  "ignorePatterns": [
+    "node_modules/**",
+    ".next/**",
+    "dist/**",
+    "build/**",
+    "*.min.js",
+    "pnpm-lock.yaml",
+    "package-lock.json",
+    "yarn.lock"
+  ],
+  "rules": {
+    "typescript/no-explicit-any": "off",
+    "typescript/no-unused-vars": "off"
+  }
+}

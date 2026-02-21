@@ -1,0 +1,8 @@
+{
+	"recommendations": [
+		"bradlc.vscode-tailwindcss",
+		"biomejs.biome",
+		"yoavbls.pretty-ts-errors",
+		"prisma.prisma"
+	]
+}

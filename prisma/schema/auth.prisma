@@ -1,0 +1,276 @@
+model TwoFactor {
+  id          String @id
+  secret      String
+  backupCodes String
+  userId      String
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([secret])
+  @@index([userId])
+  @@map("twoFactor")
+}
+
+model User {
+  id                    String                @id @default(cuid())
+  email                 String                @unique
+  name                  String?
+  emailVerified         Boolean               @default(false)
+  image                 String?
+  bio                   String?
+  timezone              String?               @default("UTC")
+  language              String?               @default("en")
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  isAdmin               Boolean               @default(false)
+  banned                Boolean               @default(false)
+  betterAuthId          String?               @unique
+  sessions              Session[]
+  accounts              Account[]
+  clinics               ClinicMember[]
+  invitations           clinicInvitation[]
+  notifications         Notification[]
+  auditLogs             AuditLog[]
+  twoFactorAuth         TwoFactorAuth?
+  passkeys              Passkey[]
+  apiKeys               APIKey[]
+  twoFactors            TwoFactor[]
+  files                 File[]
+  folders               Folder[]
+  clinicId              String?
+  role                  UserRole?
+  doctor                Doctor?
+  staff                 Staff?
+  guardians             Guardian[]
+  medicalRecordAccesses MedicalRecordAccess[]
+  userQuotas            UserQuota[]
+  patientAsUser         Patient?              @relation("PatientUser")
+  patientsAsDoctor      Patient[]             @relation("UserAsDoctor")
+  patientsCreated       Patient[]             @relation("PatientCreatedBy")
+  fileStorages          FileStorage[]
+
+  @@index([email])
+  @@map("users")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token        String   @unique
+  expiresAt    DateTime
+  ipAddress    String?
+  userAgent    String?
+  deviceName   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  lastActiveAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+  @@map("sessions")
+}
+
+model Account {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId    String
+  providerId   String
+  accessToken  String?
+  refreshToken String?
+  idToken      String?
+  expiresAt    DateTime?
+  password     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, value])
+  @@index([identifier])
+  @@map("verifications")
+}
+
+model ClinicMember {
+  id       String   @id @default(cuid())
+  clinicId String
+  clinic   Clinic   @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roleId   String
+  role     Role     @relation(fields: [roleId], references: [id])
+  joinedAt DateTime @default(now())
+
+  @@unique([clinicId, userId])
+  @@index([clinicId])
+  @@index([userId])
+  @@map("clinic_members")
+}
+
+model Role {
+  id          String             @id @default(cuid())
+  clinicId    String
+  clinic      Clinic             @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  permissions Json
+  isSystem    Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  members     ClinicMember[]
+  invitations clinicInvitation[]
+
+  @@unique([clinicId, name])
+  @@index([clinicId])
+  @@map("roles")
+}
+
+model clinicInvitation {
+  id          String    @id @default(cuid())
+  clinicId    String
+  clinic      Clinic    @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  email       String?
+  invitedById String
+  invitedBy   User      @relation(fields: [invitedById], references: [id])
+  roleId      String
+  role        Role      @relation(fields: [roleId], references: [id])
+  token       String    @unique
+  type        String    @default("email")
+  maxUses     Int?
+  usedCount   Int       @default(0)
+  status      String    @default("pending")
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([token])
+  @@index([email])
+  @@index([clinicId])
+  @@map("invitations")
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String    @default("info")
+  read      Boolean   @default(false)
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, read])
+  @@map("notifications")
+}
+
+model TwoFactorAuth {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  secret      String
+  enabled     Boolean  @default(false)
+  backupCodes String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("two_factor_auth")
+}
+
+model Passkey {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  credentialId String    @unique
+  publicKey    String
+  counter      Int       @default(0)
+  deviceName   String?
+  lastUsedAt   DateTime?
+  createdAt    DateTime  @default(now())
+
+  @@index([userId])
+  @@map("passkeys")
+}
+
+model SystemSettings {
+  id                   String    @id @default("system")
+  clinicId             String?
+  clinic               Clinic?   @relation(fields: [clinicId], references: [id])
+  theme                String    @default("default")
+  maintenanceMode      Boolean   @default(false)
+  maintenanceMessage   String?
+  maintenanceStartedAt DateTime?
+  maintenanceEndTime   DateTime?
+  updatedAt            DateTime  @updatedAt
+  updatedBy            String?
+
+  @@index([clinicId])
+  @@map("system_settings")
+}
+
+model APIKey {
+  id          String    @id @default(cuid())
+  clinicId    String
+  clinic      Clinic    @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  name        String
+  key         String    @unique
+  hashedKey   String
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  createdById String
+  createdBy   User      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+
+  @@index([clinicId])
+  @@index([key])
+  @@index([createdById])
+  @@map("api_keys")
+}
+
+model Settings {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String
+  level      String
+  details    String?
+  resource   String?
+  resourceId String?
+  metadata   Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+  recordId   String?  @map("record_id")
+  model      String
+  clinic     Clinic?  @relation(fields: [clinicId], references: [id])
+  message    String?
+  timestamp  DateTime @default(now())
+  clinicId   String?
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([clinicId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
