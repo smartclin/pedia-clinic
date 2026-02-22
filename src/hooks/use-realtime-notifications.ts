@@ -1,51 +1,54 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 
-import { trpc } from '@/trpc/client'
+import { useTRPC } from '@/trpc/client'
 
-/**
- * Hook for realtime notifications
- * In production, this would connect to Supabase Realtime
- * For now, it polls for new notifications
- */
 export function useRealtimeNotifications() {
-	const [lastCheck, setLastCheck] = useState(new Date())
-	const utils = trpc.useUtils()
+	const trpc = useTRPC()
+	const queryClient = useQueryClient()
+	const lastCheckRef = useRef(new Date())
+	const shownNotifications = useRef(new Set<string>())
 
-	const { data: notifications } = trpc.notifications.list.useQuery(
-		{
-			limit: 10,
-			unreadOnly: true,
-		},
-		{
-			refetchInterval: 30000, // Poll every 30 seconds
-		}
+	const { data, isLoading } = useQuery(
+		trpc.notifications.list.queryOptions(
+			{ limit: 10, unreadOnly: true },
+			{ refetchInterval: 30000, staleTime: 25000, gcTime: 5 * 60 * 1000 }
+		)
 	)
 
-	// Check for new notifications
 	useEffect(() => {
+		const notifications = data?.notifications
 		if (!notifications) return
 
-		const newNotifications = notifications.notifications.filter(
-			n => new Date(n.createdAt) > lastCheck
-		)
-
-		newNotifications.forEach(notification => {
-			toast(notification.title || 'New notification', {
-				description: notification.message,
-			})
+		notifications.forEach(n => {
+			if (
+				new Date(n.createdAt) > lastCheckRef.current &&
+				!shownNotifications.current.has(n.id)
+			) {
+				toast(n.title || 'New notification', {
+					description: n.message,
+					duration: 5000,
+				})
+				shownNotifications.current.add(n.id)
+			}
 		})
 
-		if (newNotifications.length > 0) {
-			setLastCheck(new Date())
-		}
-	}, [notifications, lastCheck])
+		lastCheckRef.current = new Date()
+	}, [data?.notifications])
+
+	const refresh = () => {
+		queryClient.invalidateQueries(
+			trpc.notifications.list.queryFilter({ limit: 10, unreadOnly: true })
+		)
+	}
 
 	return {
-		notifications: notifications?.notifications || [],
-		unreadCount: notifications?.unreadCount || 0,
-		refresh: () => utils.notifications.list.invalidate(),
+		notifications: data?.notifications || [],
+		unreadCount: data?.unreadCount || 0,
+		refresh,
+		isLoading,
 	}
 }

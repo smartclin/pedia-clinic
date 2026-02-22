@@ -21,7 +21,7 @@ import {
 	type VisitUpdateInput,
 	VisitUpdateSchema,
 } from '@/schemas/visit.schema'
-import { visitService } from '@/server/services/visit.service'
+import * as visitService from '@/server/services/visit.service'
 import { getSession } from '@/server/utils'
 import type { AppointmentStatus } from '@/types'
 

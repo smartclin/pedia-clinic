@@ -186,7 +186,7 @@ export async function getUserWithClinics(prisma: PrismaClient, userId: string) {
 			createdAt: true,
 			updatedAt: true,
 			banned: true,
-			clinics: {
+			clinicMembers: {
 				include: {
 					clinic: {
 						select: {
@@ -301,7 +301,7 @@ export async function getUserWithWorkspace(
 		where: { id: userId },
 		select: {
 			...USER_PROFILE_FIELDS,
-			clinics: {
+			clinicMembers: {
 				where: { clinicId: workspaceId },
 				select: {
 					joinedAt: true,

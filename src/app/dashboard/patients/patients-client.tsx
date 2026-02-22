@@ -129,7 +129,7 @@ export default function PatientsClient({ clinicId }: PatientsClientProps) {
 								onValueChange={handleGenderChange}
 								value={gender}
 							>
-								<SelectTrigger className='w-full sm:w-[150px]'>
+								<SelectTrigger className='w-full sm:w-37.5'>
 									<SelectValue placeholder='Gender' />
 								</SelectTrigger>
 								<SelectContent>
@@ -142,7 +142,7 @@ export default function PatientsClient({ clinicId }: PatientsClientProps) {
 								onValueChange={handleStatusChange}
 								value={status}
 							>
-								<SelectTrigger className='w-full sm:w-[150px]'>
+								<SelectTrigger className='w-full sm:w-37.5'>
 									<SelectValue placeholder='Status' />
 								</SelectTrigger>
 								<SelectContent>

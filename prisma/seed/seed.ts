@@ -205,7 +205,6 @@ const clearAllData = async (prisma: PrismaSeedClient) => {
 		await safeDeleteMany(operation)
 	}
 }
-
 // Create realistic clinics
 async function createClinics(prisma: PrismaSeedClient) {
 	console.log('🏥 Creating clinics...')
@@ -351,7 +350,27 @@ async function associateUsersWithClinics(
 ) {
 	console.log('🔗 Associating users with clinics...')
 
+	// Ensure PATIENT role exists for each clinic (using upsert to avoid duplicates)
+	for (const clinic of clinics) {
+		await prisma.role.upsert({
+			where: { id: `PATIENT_${clinic.id}` },
+			update: {},
+			create: {
+				id: `PATIENT_${clinic.id}`,
+				name: 'Patient',
+				clinic: { connect: { id: clinic.id } },
+				permissions: {
+					create: {
+						name: 'view_appointments',
+					},
+				},
+			},
+		})
+	}
+
 	for (const user of users) {
+		if (!user) continue
+
 		const userClinics = getRandomSubset(
 			clinics,
 			faker.number.int({ min: 1, max: 3 })
@@ -361,7 +380,7 @@ async function associateUsersWithClinics(
 				data: {
 					userId: user.id,
 					clinicId: clinic.id,
-					roleId: 'PATIENT',
+					roleId: `PATIENT_${clinic.id}`,
 					joinedAt: faker.date.past({ years: 1 }),
 				},
 			})
@@ -1940,12 +1959,61 @@ async function runSeed(prisma: PrismaSeedClient) {
 	try {
 		console.log('🌱 Starting comprehensive seed process...')
 
-		// Clear existing data
+		// 1. Clear existing data
 		await clearAllData(prisma)
 
-		// Create basic entities
 		const clinics = await createClinics(prisma)
+
+		console.log('🛡️ Creating Roles for Clinics...')
+
+		// Create roles specifically for the first clinic (or loop through all)
+		await prisma.role.upsert({
+			where: { id: 'ADMIN' },
+			update: {},
+			create: {
+				id: 'ADMIN',
+				name: 'Admin',
+				clinic: { connect: { id: clinics[0].id } }, // Connect to a real clinic
+				permissions: { create: [] },
+			},
+		})
+
+		await prisma.role.upsert({
+			where: { id: 'DOCTOR' },
+			update: {},
+			create: {
+				id: 'DOCTOR',
+				name: 'Doctor',
+				clinic: { connect: { id: clinics[0].id } },
+				permissions: { create: [] },
+			},
+		})
+
+		await prisma.role.upsert({
+			where: { id: 'STAFF' },
+			update: {},
+			create: {
+				id: 'STAFF',
+				name: 'Staff',
+				clinic: { connect: { id: clinics[0].id } },
+				permissions: { create: [] },
+			},
+		})
+
+		await prisma.role.upsert({
+			where: { id: 'PATIENT' },
+			update: {},
+			create: {
+				id: 'PATIENT',
+				name: 'Patient',
+				clinic: { connect: { id: clinics[0].id } },
+				permissions: { create: [] },
+			},
+		})
+		// 3. Continue with other entities
 		const users = await createUsers(prisma)
+
+		// Now this will work because 'admin', 'doctor', and 'staff' exist in the DB
 		await associateUsersWithClinics(prisma, users, clinics)
 
 		const doctors = await createDoctors(prisma, users, clinics)

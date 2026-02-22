@@ -1,12 +1,17 @@
 'use client'
 
-import { trpc } from '@/trpc/client'
+import { useQuery } from '@tanstack/react-query'
+
+import { useTRPC } from '@/trpc/client'
 
 export function useNotifications() {
-	const { data, isLoading } = trpc.notifications.list.useQuery({
-		read: false,
-		limit: 50,
-	})
+	const trpc = useTRPC()
+	const { data, isLoading } = useQuery(
+		trpc.notifications.list.queryOptions({
+			read: false,
+			limit: 50,
+		})
+	)
 
 	return {
 		notifications: data?.notifications ?? [],

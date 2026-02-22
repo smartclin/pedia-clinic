@@ -9,7 +9,7 @@ import {
 	GrowthRecordUpdateSchema,
 	type UpdateGrowthRecordInput,
 } from '@/schemas/growth.schema'
-import { growthService } from '@/server/services/growth.service'
+import * as growthService from '@/server/services/growth.service'
 import { getSession } from '@/server/utils'
 
 /**

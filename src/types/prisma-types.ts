@@ -379,7 +379,6 @@ export type User = {
 	betterAuthId?: string | null
 	sessions?: Session[]
 	accounts?: Account[]
-	clinics?: ClinicMember[]
 	invitations?: clinicInvitation[]
 	notifications?: Notification[]
 	auditLogs?: AuditLog[]
@@ -400,10 +399,14 @@ export type User = {
 	patientsAsDoctor?: Patient[]
 	patientsCreated?: Patient[]
 	fileStorages?: FileStorage[]
+	banReason?: string | null
+	banExpires?: Date | null
+	phone?: string | null
+	clinicinvitations?: OrganizationInvitation[]
+	clinicMembers?: ClinicMember[]
 	_count?: {
 		sessions?: number
 		accounts?: number
-		clinics?: number
 		invitations?: number
 		notifications?: number
 		auditLogs?: number
@@ -418,6 +421,8 @@ export type User = {
 		patientsAsDoctor?: number
 		patientsCreated?: number
 		fileStorages?: number
+		clinicinvitations?: number
+		clinicMembers?: number
 	}
 }
 
@@ -448,6 +453,9 @@ export type Account = {
 	password?: string | null
 	createdAt?: Date
 	updatedAt: Date
+	accessTokenExpiresAt?: Date | null
+	refreshTokenExpiresAt?: Date | null
+	scope?: string | null
 }
 
 export type Verification = {
@@ -468,6 +476,12 @@ export type ClinicMember = {
 	roleId: string
 	role?: Role
 	joinedAt?: Date
+	createdAt?: Date
+	updatedAt: Date
+	organizations?: Organization[]
+	_count?: {
+		organizations?: number
+	}
 }
 
 export type Role = {
@@ -540,6 +554,12 @@ export type Passkey = {
 	deviceName?: string | null
 	lastUsedAt?: Date | null
 	createdAt?: Date
+	name?: string | null
+	credentialID: string
+	deviceType: string
+	backedUp: boolean
+	transports?: string | null
+	aaguid?: string | null
 }
 
 export type SystemSettings = {
@@ -597,6 +617,34 @@ export type AuditLog = {
 	timestamp?: Date
 	clinicId?: string | null
 	updatedAt: Date
+}
+
+export type Organization = {
+	id: string
+	name: string
+	slug: string
+	logo?: string | null
+	createdAt: Date
+	metadata?: string | null
+	clinicmembers?: ClinicMember[]
+	clinicinvitations?: OrganizationInvitation[]
+	_count?: {
+		clinicmembers?: number
+		clinicinvitations?: number
+	}
+}
+
+export type OrganizationInvitation = {
+	id: string
+	clinicId: string
+	organization?: Organization
+	email: string
+	role?: string | null
+	status?: string
+	expiresAt: Date
+	createdAt?: Date
+	inviterId: string
+	user?: User
 }
 
 export type Todo = {

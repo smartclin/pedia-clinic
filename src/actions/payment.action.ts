@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { AddNewBillInputSchema, PaymentSchema } from '@/schemas/index'
 import { getSession } from '@/server/utils'
 
-import { paymentService } from '../server/services/payment.service'
+import * as paymentService from '../server/services/payment.service'
 
 /**
  * 🟠 ACTION LAYER

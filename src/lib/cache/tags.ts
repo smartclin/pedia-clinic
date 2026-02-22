@@ -228,6 +228,11 @@ export const CACHE_TAGS = {
 	// ==================== PATIENT ====================
 	patient: {
 		all: 'patients:all',
+		paginated: (clinicId: string, page: number, limit: number) =>
+			`patients:paginated:${clinicId}:${page}:${limit}`,
+		stats: (clinicId: string) => `patients:stats:clinic:${clinicId}`,
+		list: (clinicId: string, search?: string) =>
+			`patients:list:${clinicId}${search ? `:search:${search}` : ''}`,
 		counts: (clinicId: string) => `patients:counts:clinic:${clinicId}`,
 		// Nested resources
 		fullData: (patientId: string) => `patient:${patientId}:full-date`,

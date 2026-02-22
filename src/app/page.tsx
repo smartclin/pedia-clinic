@@ -1,492 +1,349 @@
-// app/page.tsx (assuming this is your home page)
-'use client'
+// app/page.tsx
 
-import { useQuery } from '@tanstack/react-query'
 import {
-	Activity,
-	AlertCircle,
+	ArrowRight,
+	Award,
+	Baby,
 	Calendar,
-	CheckCircle,
-	ChevronDown,
-	ChevronUp,
 	Clock,
-	Database,
-	Download,
-	HardDrive,
 	Heart,
-	RefreshCw,
-	Server,
-	Syringe,
+	Mail,
+	MapPin,
+	Phone,
+	Shield,
+	Star,
 	Users,
-	Wifi,
-	XCircle,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { Suspense } from 'react'
 
-import { Badge } from '@/components/ui/badge'
+import { DevAsciiArt } from '@/components/home/dev-art'
+import { FeaturesGrid } from '@/components/home/features-grid'
+import { QuickActions } from '@/components/home/quick-actions'
+import { ServicesShowcase } from '@/components/home/services-showcase'
+import { StatsCards } from '@/components/home/stats-cards'
+import { SystemHealthBanner } from '@/components/home/system-health'
+import { Testimonials } from '@/components/home/testimonials'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/progress'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 
-import { logger } from '../lib/logger'
-import { useTRPC } from '../trpc/client'
-
-const TITLE_TEXT = `
- ██████╗ ███████╗██████╗ ██╗ █████╗  ██████╗ █████╗ ██████╗ ███████╗
- ██╔══██╗██╔════╝██╔══██╗██║██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔════╝
- ██████╔╝█████╗  ██║  ██╝██║███████║██║     ███████║██████╔╝█████╗
- ██╔═══╝ ██╔══╝  ██║  ██╗██║██╔══██║██║     ██╔══██║██╔══██╗██╔══╝
- ██║     ███████╗███████║██║██║  ██║╚██████╗██║  ██║██║  ██║███████╗
- ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
-
- ██╗  ██╗███████╗ █████╗ ██╗     ████████╗██╗  ██╗     ██████╗██╗  ██╗███████╗ ██████╗██╗  ██╗
- ██║  ██║██╔════╝██╔══██╗██║     ╚══██╔══╝██║  ██║    ██╔════╝██║  ██║██╔════╝██╔════╝██║ ██╔╝
- ███████║█████╗  ███████║██║        ██║   ███████║    ██║     ███████║█████╗  ██║     █████╔╝
- ██╔══██║██╔══╝  ██╔══██║██║        ██║   ██╔══██║    ██║     ██╔══██║██╔══╝  ██║     ██╔═██╗
- ██║  ██║███████╗██║  ██║███████╗   ██║   ██║  ██║    ╚██████╗██║  ██║███████╗╚██████╗██║  ██╗
- ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝     ╚═════╝╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝  ╚═╝
-`
-
-interface HealthMetrics {
-	uptime: number
-	responseTime: number
-	databaseConnections: number
-	activeUsers: number
-	memoryUsage: number
-	cpuUsage: number
-	diskSpace: number
-	lastBackup: string | null
-}
-
-interface ServiceStatus {
-	name: string
-	status: 'healthy' | 'degraded' | 'down'
-	latency: number
-	lastChecked: Date
-	message?: string
-}
-
-export default function Home() {
-	const [expanded, setExpanded] = useState(false)
-	const [metrics, setMetrics] = useState<HealthMetrics>({
-		uptime: 0,
-		responseTime: 0,
-		databaseConnections: 0,
-		activeUsers: 0,
-		memoryUsage: 0,
-		cpuUsage: 0,
-		diskSpace: 0,
-		lastBackup: null,
-	})
-	const [services, setServices] = useState<ServiceStatus[]>([
-		{
-			name: 'API Server',
-			status: 'healthy',
-			latency: 45,
-			lastChecked: new Date(),
-		},
-		{
-			name: 'Database',
-			status: 'healthy',
-			latency: 12,
-			lastChecked: new Date(),
-		},
-		{
-			name: 'Redis Cache',
-			status: 'healthy',
-			latency: 3,
-			lastChecked: new Date(),
-		},
-		{
-			name: 'Storage Service',
-			status: 'healthy',
-			latency: 87,
-			lastChecked: new Date(),
-		},
-		{
-			name: 'Email Service',
-			status: 'healthy',
-			latency: 156,
-			lastChecked: new Date(),
-		},
-		{
-			name: 'SMS Gateway',
-			status: 'healthy',
-			latency: 234,
-			lastChecked: new Date(),
-		},
-	])
-
-	const trpc = useTRPC()
-	// ✅ FIXED: Use queryOptions() pattern
-	const healthCheck = useQuery(
-		trpc.health.healthCheck.queryOptions(undefined, {
-			refetchInterval: 30_000, // Refresh every 30 seconds
-			refetchOnWindowFocus: true,
-		})
-	)
-
-	// ✅ FIXED: Use queryOptions() pattern with enabled flag
-	const detailedHealth = useQuery(
-		trpc.health.detailed.queryOptions(undefined, {
-			enabled: expanded,
-			refetchInterval: 60_000, // Refresh every minute when expanded
-		})
-	)
-
-	useEffect(() => {
-		if (healthCheck.data) {
-			// Update metrics based on health check data
-			logger.info('Health check completed', {
-				type: 'SYSTEM',
-				status: healthCheck.data.status,
-			})
-		}
-	}, [healthCheck.data])
-
-	useEffect(() => {
-		if (detailedHealth.data) {
-			setMetrics(detailedHealth.data.metrics)
-			setServices(detailedHealth.data.services as ServiceStatus[])
-		}
-	}, [detailedHealth.data])
-
-	const getStatusColor = (status: string) => {
-		switch (status) {
-			case 'healthy':
-				return 'bg-green-500'
-			case 'degraded':
-				return 'bg-yellow-500'
-			case 'down':
-				return 'bg-red-500'
-			default:
-				return 'bg-gray-500'
-		}
-	}
-
-	const getStatusIcon = (status: string) => {
-		switch (status) {
-			case 'healthy':
-				return <CheckCircle className='h-4 w-4 text-green-500' />
-			case 'degraded':
-				return <AlertCircle className='h-4 w-4 text-yellow-500' />
-			case 'down':
-				return <XCircle className='h-4 w-4 text-red-500' />
-			default:
-				return <Activity className='h-4 w-4 text-gray-500' />
-		}
-	}
-
-	const formatUptime = (seconds: number) => {
-		const days = Math.floor(seconds / 86_400)
-		const hours = Math.floor((seconds % 86_400) / 3600)
-		const minutes = Math.floor((seconds % 3600) / 60)
-		return `${days}d ${hours}h ${minutes}m`
-	}
-
-	const _formatBytes = (bytes: number) => {
-		if (bytes === 0) return '0 B'
-		const k = 1024
-		const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
-		const i = Math.floor(Math.log(bytes) / Math.log(k))
-		return `${Number.parseFloat((bytes / k ** i).toFixed(2))} ${sizes[i]}`
-	}
-
-	const handleRefresh = () => {
-		healthCheck.refetch()
-		if (expanded) {
-			detailedHealth.refetch()
-		}
-	}
-
+export default async function HomePage() {
 	return (
-		<div className='container mx-auto max-w-5xl px-4 py-8'>
-			{/* ASCII Art Header */}
-			<pre className='mb-8 overflow-x-auto font-mono text-primary text-xs md:text-sm'>
-				{TITLE_TEXT}
-			</pre>
+		<div className='flex min-h-screen flex-col'>
+			<DevAsciiArt />
+			{/* Hero Section */}
+			<section className='relative overflow-hidden bg-linear-to-b from-primary/5 to-background py-20 md:py-32'>
+				<div className='absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent' />
 
-			{/* Health Status Overview */}
-			<div className='mb-8 grid gap-6 md:grid-cols-3'>
-				{/* API Status Card */}
-				<Card>
-					<CardHeader className='pb-2'>
-						<CardTitle className='flex items-center gap-2 font-medium text-sm'>
-							<Server className='h-4 w-4' />
-							API Status
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<div className='flex items-center gap-2'>
-							<div
-								className={`h-3 w-3 rounded-full ${healthCheck.data?.status === 'healthy' ? 'bg-green-500' : 'bg-red-500'} animate-pulse`}
-							/>
-							<span className='font-medium text-lg'>
-								{healthCheck.isLoading
-									? 'Checking...'
-									: healthCheck.data
-										? 'Connected'
-										: 'Disconnected'}
-							</span>
-						</div>
-						{healthCheck.data && (
-							<p className='mt-2 text-muted-foreground text-xs'>
-								Version: {healthCheck.data.version} | Environment:{' '}
-								{healthCheck.data.environment}
+				<div className='container mx-auto px-4'>
+					<div className='grid items-center gap-12 lg:grid-cols-2'>
+						<div className='space-y-6'>
+							<div className='inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-primary'>
+								<Heart className='h-4 w-4' />
+								<span className='font-medium text-sm'>
+									Compassionate Care for Little Ones
+								</span>
+							</div>
+
+							<h1 className='font-bold text-4xl leading-tight tracking-tight md:text-5xl lg:text-6xl'>
+								Your Child's Health Is Our{' '}
+								<span className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent'>
+									Top Priority
+								</span>
+							</h1>
+
+							<p className='max-w-xl text-lg text-muted-foreground'>
+								Welcome to Pediatric Clinic – where we provide expert,
+								compassionate healthcare for children from birth through
+								adolescence. Our team of specialists is here to support your
+								family every step of the way.
 							</p>
-						)}
-					</CardContent>
-				</Card>
 
-				{/* Response Time Card */}
-				<Card>
-					<CardHeader className='pb-2'>
-						<CardTitle className='flex items-center gap-2 font-medium text-sm'>
-							<Clock className='h-4 w-4' />
-							Response Time
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<div className='flex items-baseline gap-1'>
-							<span className='font-medium text-2xl'>
-								{metrics.responseTime}
-							</span>
-							<span className='text-muted-foreground text-sm'>ms</span>
+							<div className='flex flex-wrap gap-4'>
+								<Button
+									asChild
+									className='gap-2'
+									size='lg'
+								>
+									<Link href='/dashboard'>
+										Access Portal <ArrowRight className='h-4 w-4' />
+									</Link>
+								</Button>
+								<Button
+									asChild
+									size='lg'
+									variant='outline'
+								>
+									<Link href='/services'>Our Services</Link>
+								</Button>
+							</div>
+
+							{/* Trust Indicators */}
+							<div className='flex flex-wrap items-center gap-6 pt-6'>
+								<div className='flex items-center gap-2'>
+									<Shield className='h-5 w-5 text-primary' />
+									<span className='font-medium text-sm'>HIPAA Compliant</span>
+								</div>
+								<div className='flex items-center gap-2'>
+									<Award className='h-5 w-5 text-primary' />
+									<span className='font-medium text-sm'>Board Certified</span>
+								</div>
+								<div className='flex items-center gap-2'>
+									<Star className='h-5 w-5 fill-primary text-primary' />
+									<span className='font-medium text-sm'>4.9/5 Rating</span>
+								</div>
+							</div>
 						</div>
-						<Progress
-							className='mt-2 h-1'
-							value={Math.min((metrics.responseTime / 200) * 100, 100)}
-						/>
-					</CardContent>
-				</Card>
 
-				{/* Uptime Card */}
-				<Card>
-					<CardHeader className='pb-2'>
-						<CardTitle className='flex items-center gap-2 font-medium text-sm'>
-							<Activity className='h-4 w-4' />
-							Uptime
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<span className='font-medium text-2xl'>
-							{formatUptime(metrics.uptime)}
-						</span>
-						<Badge
-							className='ml-2'
-							variant='outline'
-						>
-							99.9%
-						</Badge>
-					</CardContent>
-				</Card>
-			</div>
+						{/* Hero Image */}
+						<div className='relative hidden lg:block'>
+							<div className='relative aspect-square overflow-hidden rounded-2xl bg-linear-to-br from-primary/20 to-secondary/20'>
+								<div className="absolute inset-0 bg-[url('/hero-pattern.svg')] opacity-10" />
+								<div className='absolute inset-0 flex items-center justify-center'>
+									<Baby className='h-48 w-48 text-primary/40' />
+								</div>
+							</div>
 
-			{/* Services Status */}
-			<Card className='mb-6'>
-				<CardHeader>
-					<div className='flex items-center justify-between'>
-						<CardTitle className='flex items-center gap-2'>
-							<Wifi className='h-5 w-5' />
-							Service Health
-						</CardTitle>
-						<Button
-							className='gap-1'
-							onClick={() => setExpanded(!expanded)}
-							size='sm'
-							variant='ghost'
-						>
-							{expanded ? 'Show Less' : 'Show Details'}
-							{expanded ? (
-								<ChevronUp className='h-4 w-4' />
-							) : (
-								<ChevronDown className='h-4 w-4' />
-							)}
-						</Button>
-					</div>
-				</CardHeader>
-				<CardContent>
-					<div className='grid gap-3'>
-						{services.slice(0, expanded ? undefined : 3).map(service => (
-							<div
-								className='flex items-center justify-between rounded-lg border p-3'
-								key={service.name}
-							>
+							{/* Floating Stats Cards */}
+							<div className='absolute top-1/2 -left-8 animate-float rounded-lg bg-background p-4 shadow-lg'>
 								<div className='flex items-center gap-3'>
-									{getStatusIcon(service.status)}
+									<div className='rounded-full bg-green-100 p-2 dark:bg-green-900'>
+										<Users className='h-4 w-4 text-green-600 dark:text-green-300' />
+									</div>
 									<div>
-										<p className='font-medium'>{service.name}</p>
+										<p className='font-bold text-2xl'>5,000+</p>
 										<p className='text-muted-foreground text-xs'>
-											Last checked: {service.lastChecked.toLocaleTimeString()}
+											Happy Families
 										</p>
 									</div>
 								</div>
+							</div>
+
+							<div className='absolute -right-8 -bottom-8 animate-float-delayed rounded-lg bg-background p-4 shadow-lg'>
 								<div className='flex items-center gap-3'>
-									<span className='text-sm'>{service.latency}ms</span>
-									<div
-										className={`h-2 w-2 rounded-full ${getStatusColor(service.status)}`}
-									/>
+									<div className='rounded-full bg-blue-100 p-2 dark:bg-blue-900'>
+										<Calendar className='h-4 w-4 text-blue-600 dark:text-blue-300' />
+									</div>
+									<div>
+										<p className='font-bold text-2xl'>24/7</p>
+										<p className='text-muted-foreground text-xs'>
+											Appointments
+										</p>
+									</div>
 								</div>
 							</div>
-						))}
+						</div>
 					</div>
-				</CardContent>
-			</Card>
-
-			{/* Detailed Metrics (Conditional) */}
-			{expanded && (
-				<div className='grid gap-6 md:grid-cols-2'>
-					{/* Database Metrics */}
-					<Card>
-						<CardHeader>
-							<CardTitle className='flex items-center gap-2'>
-								<Database className='h-5 w-5' />
-								Database Metrics
-							</CardTitle>
-						</CardHeader>
-						<CardContent className='space-y-4'>
-							<div className='flex justify-between'>
-								<span className='text-muted-foreground'>Connections</span>
-								<span className='font-medium'>
-									{metrics.databaseConnections}
-								</span>
-							</div>
-							<div className='flex justify-between'>
-								<span className='text-muted-foreground'>Query Performance</span>
-								<span className='font-medium'>23ms avg</span>
-							</div>
-							<div className='flex justify-between'>
-								<span className='text-muted-foreground'>Active Users</span>
-								<span className='font-medium'>{metrics.activeUsers}</span>
-							</div>
-							<div className='flex justify-between'>
-								<span className='text-muted-foreground'>Last Backup</span>
-								<span className='font-medium'>
-									{metrics.lastBackup
-										? new Date(metrics.lastBackup).toLocaleString()
-										: 'Never'}
-								</span>
-							</div>
-						</CardContent>
-					</Card>
-
-					{/* System Resources */}
-					<Card>
-						<CardHeader>
-							<CardTitle className='flex items-center gap-2'>
-								<HardDrive className='h-5 w-5' />
-								System Resources
-							</CardTitle>
-						</CardHeader>
-						<CardContent className='space-y-4'>
-							<div>
-								<div className='mb-1 flex justify-between'>
-									<span className='text-muted-foreground'>Memory Usage</span>
-									<span className='font-medium'>{metrics.memoryUsage}%</span>
-								</div>
-								<Progress
-									className='h-2'
-									value={metrics.memoryUsage}
-								/>
-							</div>
-							<div>
-								<div className='mb-1 flex justify-between'>
-									<span className='text-muted-foreground'>CPU Usage</span>
-									<span className='font-medium'>{metrics.cpuUsage}%</span>
-								</div>
-								<Progress
-									className='h-2'
-									value={metrics.cpuUsage}
-								/>
-							</div>
-							<div>
-								<div className='mb-1 flex justify-between'>
-									<span className='text-muted-foreground'>Disk Space</span>
-									<span className='font-medium'>{metrics.diskSpace}%</span>
-								</div>
-								<Progress
-									className='h-2'
-									value={metrics.diskSpace}
-								/>
-							</div>
-						</CardContent>
-					</Card>
-
-					{/* Pediatric-Specific Metrics */}
-					<Card className='md:col-span-2'>
-						<CardHeader>
-							<CardTitle className='flex items-center gap-2'>
-								<Heart className='h-5 w-5' />
-								Clinic Operations
-							</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<div className='grid gap-4 sm:grid-cols-3'>
-								<div className='rounded-lg bg-blue-50 p-4 dark:bg-blue-950'>
-									<div className='mb-2 flex items-center gap-2'>
-										<Users className='h-4 w-4 text-blue-600' />
-										<span className='font-medium text-sm'>Active Patients</span>
-									</div>
-									<p className='font-bold text-2xl'>1,234</p>
-									<p className='text-muted-foreground text-xs'>
-										+12% this month
-									</p>
-								</div>
-								<div className='rounded-lg bg-green-50 p-4 dark:bg-green-950'>
-									<div className='mb-2 flex items-center gap-2'>
-										<Calendar className='h-4 w-4 text-green-600' />
-										<span className='font-medium text-sm'>
-											Today's Appointments
-										</span>
-									</div>
-									<p className='font-bold text-2xl'>42</p>
-									<p className='text-muted-foreground text-xs'>
-										18 completed, 24 scheduled
-									</p>
-								</div>
-								<div className='rounded-lg bg-purple-50 p-4 dark:bg-purple-950'>
-									<div className='mb-2 flex items-center gap-2'>
-										<Syringe className='h-4 w-4 text-purple-600' />
-										<span className='font-medium text-sm'>
-											Due Vaccinations
-										</span>
-									</div>
-									<p className='font-bold text-2xl'>156</p>
-									<p className='text-muted-foreground text-xs'>Next 7 days</p>
-								</div>
-							</div>
-						</CardContent>
-					</Card>
 				</div>
-			)}
+			</section>
 
-			{/* Actions Footer */}
-			<div className='mt-8 flex items-center justify-between border-t pt-6'>
-				<div className='flex items-center gap-2 text-muted-foreground text-sm'>
-					<Activity className='h-4 w-4' />
-					Last updated: {new Date().toLocaleTimeString()}
+			{/* Stats Section - Server Component with Suspense */}
+			<section className='border-y bg-muted/50 py-12'>
+				<div className='container mx-auto px-4'>
+					<Suspense fallback={<StatsCardsSkeleton />}>
+						<StatsCards />
+					</Suspense>
 				</div>
-				<div className='flex gap-2'>
-					<Button
-						disabled={healthCheck.isFetching}
-						onClick={handleRefresh}
-						size='sm'
-						variant='outline'
-					>
-						<RefreshCw
-							className={`mr-2 h-4 w-4 ${healthCheck.isFetching ? 'animate-spin' : ''}`}
-						/>
-						Refresh
-					</Button>
-					<Button
-						size='sm'
-						variant='outline'
-					>
-						<Download className='mr-2 h-4 w-4' />
-						Export Report
-					</Button>
+			</section>
+
+			{/* Features/Services Section */}
+			<section className='py-20'>
+				<div className='container mx-auto px-4'>
+					<div className='mb-12 text-center'>
+						<h2 className='mb-4 font-bold text-3xl'>
+							Comprehensive Pediatric Care
+						</h2>
+						<p className='mx-auto max-w-2xl text-muted-foreground'>
+							From routine checkups to specialized care, we offer a full range
+							of pediatric services in a warm, child-friendly environment.
+						</p>
+					</div>
+
+					<Suspense fallback={<ServicesGridSkeleton />}>
+						<ServicesShowcase />
+					</Suspense>
+				</div>
+			</section>
+
+			{/* Why Choose Us */}
+			<section className='bg-primary/5 py-20'>
+				<div className='container mx-auto px-4'>
+					<div className='mb-12 text-center'>
+						<h2 className='mb-4 font-bold text-3xl'>Why Families Trust Us</h2>
+						<p className='mx-auto max-w-2xl text-muted-foreground'>
+							We combine medical expertise with a compassionate approach to make
+							every visit positive for both children and parents.
+						</p>
+					</div>
+
+					<FeaturesGrid />
+				</div>
+			</section>
+
+			{/* Testimonials */}
+			<section className='py-20'>
+				<div className='container mx-auto px-4'>
+					<div className='mb-12 text-center'>
+						<h2 className='mb-4 font-bold text-3xl'>What Families Say</h2>
+						<p className='mx-auto max-w-2xl text-muted-foreground'>
+							Don't just take our word for it – hear from the families we've had
+							the privilege to care for.
+						</p>
+					</div>
+
+					<Suspense fallback={<TestimonialsSkeleton />}>
+						<Testimonials />
+					</Suspense>
+				</div>
+			</section>
+
+			{/* Quick Actions for Staff/Patients */}
+			<section className='border-y bg-muted/30 py-12'>
+				<div className='container mx-auto px-4'>
+					<div className='mb-8 flex items-center justify-between'>
+						<div>
+							<h2 className='font-bold text-2xl'>Quick Access</h2>
+							<p className='text-muted-foreground'>
+								Common tasks and resources
+							</p>
+						</div>
+						<Button
+							asChild
+							variant='ghost'
+						>
+							<Link
+								className='gap-2'
+								href='/dashboard'
+							>
+								View All <ArrowRight className='h-4 w-4' />
+							</Link>
+						</Button>
+					</div>
+
+					<QuickActions />
+				</div>
+			</section>
+
+			{/* System Health Banner - For staff/authenticated users */}
+			<Suspense fallback={null}>
+				<SystemHealthBanner />
+			</Suspense>
+
+			{/* CTA Section */}
+			<section className='bg-linear-to-r from-primary to-primary/80 py-16 text-primary-foreground'>
+				<div className='container mx-auto px-4 text-center'>
+					<h2 className='mb-4 font-bold text-3xl'>Ready to Get Started?</h2>
+					<p className='mx-auto mb-8 max-w-2xl text-primary-foreground/90'>
+						Join thousands of families who trust us with their children's
+						health. Schedule your first appointment today.
+					</p>
+					<div className='flex flex-wrap justify-center gap-4'>
+						<Button
+							asChild
+							size='lg'
+							variant='secondary'
+						>
+							<Link href='/appointments/new'>Book Appointment</Link>
+						</Button>
+						<Button
+							asChild
+							className='border-primary-foreground/20 bg-transparent text-primary-foreground hover:bg-primary-foreground/10'
+							size='lg'
+							variant='outline'
+						>
+							<Link href='/contact'>Contact Us</Link>
+						</Button>
+					</div>
+				</div>
+			</section>
+
+			{/* Contact Info Bar */}
+			<div className='border-t bg-background py-4'>
+				<div className='container mx-auto flex flex-wrap items-center justify-between gap-4 px-4 text-sm'>
+					<div className='flex items-center gap-2'>
+						<Phone className='h-4 w-4 text-muted-foreground' />
+						<span>Emergency: (555) 123-4567</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<Mail className='h-4 w-4 text-muted-foreground' />
+						<span>info@pediatricclinic.com</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<MapPin className='h-4 w-4 text-muted-foreground' />
+						<span>123 Healthcare Ave, Medical District</span>
+					</div>
+					<div className='flex items-center gap-2'>
+						<Clock className='h-4 w-4 text-muted-foreground' />
+						<span>Mon-Fri: 8am-6pm | Sat: 9am-2pm</span>
+					</div>
 				</div>
 			</div>
+		</div>
+	)
+}
+
+// Skeletons for Suspense boundaries
+function StatsCardsSkeleton() {
+	return (
+		<div className='grid gap-4 md:grid-cols-4'>
+			{[1, 2, 3, 4].map(i => (
+				<Card key={i}>
+					<CardHeader className='pb-2'>
+						<div className='h-4 w-24 animate-pulse rounded bg-muted' />
+					</CardHeader>
+					<CardContent>
+						<div className='h-8 w-16 animate-pulse rounded bg-muted' />
+					</CardContent>
+				</Card>
+			))}
+		</div>
+	)
+}
+
+function ServicesGridSkeleton() {
+	return (
+		<div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
+			{[1, 2, 3, 4, 5, 6].map(i => (
+				<Card
+					className='h-48 animate-pulse'
+					key={i}
+				>
+					<CardContent className='p-6'>
+						<div className='mb-4 h-12 w-12 rounded-full bg-muted' />
+						<div className='h-4 w-3/4 rounded bg-muted' />
+						<div className='mt-2 h-3 w-full rounded bg-muted' />
+					</CardContent>
+				</Card>
+			))}
+		</div>
+	)
+}
+
+function TestimonialsSkeleton() {
+	return (
+		<div className='grid gap-6 md:grid-cols-3'>
+			{[1, 2, 3].map(i => (
+				<Card
+					className='h-48 animate-pulse'
+					key={i}
+				>
+					<CardContent className='p-6'>
+						<div className='mb-4 flex gap-1'>
+							{[1, 2, 3, 4, 5].map(j => (
+								<div
+									className='h-4 w-4 rounded-full bg-muted'
+									key={j}
+								/>
+							))}
+						</div>
+						<div className='space-y-2'>
+							<div className='h-3 w-full rounded bg-muted' />
+							<div className='h-3 w-5/6 rounded bg-muted' />
+							<div className='h-3 w-4/6 rounded bg-muted' />
+						</div>
+					</CardContent>
+				</Card>
+			))}
 		</div>
 	)
 }

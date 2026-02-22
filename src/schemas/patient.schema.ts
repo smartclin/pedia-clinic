@@ -325,3 +325,29 @@ export const PatientFilterSchema = z.object({
 // Types
 export type Patient = z.infer<typeof PatientSchema>
 export type PatientFilterInput = z.infer<typeof PatientFilterSchema>
+
+export const getPatientListSchema = z.object({
+	clinicId: z.string().uuid(),
+	page: z.number().min(1).default(1),
+	limit: z.number().min(1).max(100).default(10),
+	search: z.string().optional(),
+	sortBy: z
+		.enum(['firstName', 'lastName', 'createdAt', 'dateOfBirth'])
+		.optional(),
+	sortOrder: z.enum(['asc', 'desc']).optional(),
+})
+export type GetPatientListInput = {
+	clinicId: string
+	page: number
+	limit: number
+	search?: string
+	sortBy?: 'firstName' | 'lastName' | 'createdAt' | 'dateOfBirth'
+	sortOrder?: 'asc' | 'desc'
+}
+
+export const infiniteListSchema = z.object({
+	clinicId: z.string().uuid(),
+	limit: z.number().min(1).max(50).default(20),
+	cursor: z.string().nullish(),
+	search: z.string().optional(),
+})

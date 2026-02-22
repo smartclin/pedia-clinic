@@ -249,7 +249,7 @@ export const auth = betterAuth({
 				defaultValue: 'PATIENT', // Should match one of the enum values
 				input: false,
 				required: false,
-				type: ['OWNER', 'DOCTOR', 'PATIENT', 'ADMIN', 'STAFF'], // This is the correct syntax
+				type: ['DOCTOR', 'PATIENT', 'ADMIN', 'STAFF'], // This is the correct syntax
 				validator: {
 					input: UserRoleSchema,
 				},
@@ -323,7 +323,7 @@ export const auth = betterAuth({
 
 			const dbUser = await prisma.user.findUnique({
 				select: {
-					clinics: {
+					clinicMembers: {
 						select: {
 							role: true,
 							user: {
@@ -339,7 +339,9 @@ export const auth = betterAuth({
 				where: { id: user.id },
 			})
 
-			const primaryClinic = dbUser?.clinics?.length ? dbUser.clinics[0] : null
+			const primaryClinic = dbUser?.clinicMembers?.length
+				? dbUser.clinicMembers[0]
+				: null
 
 			return {
 				...session,

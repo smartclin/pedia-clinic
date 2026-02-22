@@ -6,6 +6,23 @@ import type { Gender, Status } from '@/types'
 
 import { dedupeQuery } from '../../../lib/cache/dedupe'
 
+export type GetPatientsParams = {
+	clinicId: string
+	limit?: number
+	cursor?: string | null
+	search?: string
+	sortBy?: 'firstName' | 'lastName' | 'createdAt' | 'dateOfBirth'
+	sortOrder?: 'asc' | 'desc'
+}
+
+export type GetPatientsListParams = {
+	clinicId: string
+	page: number
+	limit: number
+	search?: string
+	sortBy?: 'firstName' | 'lastName' | 'createdAt' | 'dateOfBirth'
+	sortOrder?: 'asc' | 'desc'
+}
 /**
  * 🔵 PURE QUERY LAYER
  * - ONLY raw Prisma queries
@@ -18,22 +35,22 @@ export const patientQueries = {
 	// ==================== MUTATIONS (Internal - Called by Service) ====================
 	// These are NOT exported directly, only used via service layer
 
-	_create: dedupeQuery(async (data: Prisma.PatientUncheckedCreateInput) => {
+	create: dedupeQuery(async (data: Prisma.PatientUncheckedCreateInput) => {
 		return await db.patient.create({ data })
 	}),
 
-	_delete: dedupeQuery(async (id: string) => {
+	delete: dedupeQuery(async (id: string) => {
 		return await db.patient.update({
 			data: { deletedAt: new Date(), isDeleted: true },
 			where: { id },
 		})
 	}),
 
-	_hardDelete: dedupeQuery(async (id: string) => {
+	hardDelete: dedupeQuery(async (id: string) => {
 		return await db.patient.delete({ where: { id } })
 	}),
 
-	_update: dedupeQuery(
+	update: dedupeQuery(
 		async (id: string, data: Prisma.PatientUncheckedUpdateInput) => {
 			return await db.patient.update({
 				data,
@@ -103,6 +120,233 @@ export const patientQueries = {
 			},
 		})
 	}),
+	getTotalCount: dedupeQuery((clinicId: string) => {
+		return db.patient.count({
+			where: { clinicId, isDeleted: false },
+		})
+	}),
+
+	getActiveCount: dedupeQuery((clinicId: string) => {
+		return db.patient.count({
+			where: { clinicId, status: 'ACTIVE', isDeleted: false },
+		})
+	}),
+
+	getNewThisMonthCount: dedupeQuery((clinicId: string) => {
+		const startOfMonth = new Date()
+		startOfMonth.setDate(1)
+		startOfMonth.setHours(0, 0, 0, 0)
+
+		const endOfMonth = new Date(startOfMonth)
+		endOfMonth.setMonth(endOfMonth.getMonth() + 1)
+		endOfMonth.setMilliseconds(-1) // Last millisecond of current month
+
+		return db.patient.count({
+			where: {
+				clinicId,
+				createdAt: { gte: startOfMonth, lte: endOfMonth },
+				isDeleted: false,
+			},
+		})
+	}),
+
+	getGenderDistribution: dedupeQuery(async (clinicId: string) => {
+		const genders = await db.patient.groupBy({
+			by: ['gender'],
+			_count: { gender: true },
+			where: { clinicId, isDeleted: false },
+		})
+
+		// Convert to a more friendly object { male: 10, female: 5, other: 2 }
+		const distribution: Record<string, number> = {}
+		genders.forEach(g => {
+			distribution[g.gender || 'unknown'] = g._count.gender
+		})
+		return distribution
+	}),
+	getPatientsByClinic: dedupeQuery((clinicId: string) => {
+		return db.patient.findFirst({
+			where: {
+				clinicId,
+				isDeleted: false,
+			},
+			include: {
+				guardians: {
+					select: {
+						id: true,
+						relation: true,
+						isPrimary: true,
+						user: {
+							select: {
+								name: true,
+								email: true,
+							},
+						},
+					},
+				},
+				user: {
+					select: {
+						email: true,
+						image: true,
+					},
+				},
+				appointments: {
+					orderBy: { appointmentDate: 'desc' },
+					take: 5,
+					include: {
+						doctor: {
+							select: {
+								name: true,
+								specialty: true,
+							},
+						},
+					},
+				},
+				medicalRecords: {
+					orderBy: { createdAt: 'desc' },
+					take: 5,
+				},
+				prescriptions: {
+					where: { status: 'active' },
+					orderBy: { issuedDate: 'desc' },
+					take: 5,
+				},
+				immunizations: {
+					orderBy: { date: 'desc' },
+					take: 10,
+				},
+				growthRecords: {
+					orderBy: { date: 'desc' },
+					take: 20,
+				},
+			},
+		})
+	}),
+	async getPaginatedPatients({
+		clinicId,
+		page,
+		limit,
+		search,
+		sortBy = 'createdAt',
+		sortOrder = 'desc',
+	}: GetPatientsListParams) {
+		const skip = (page - 1) * limit
+
+		// Build where clause
+		const where: Prisma.PatientWhereInput = {
+			clinicId,
+			isDeleted: false,
+		}
+
+		if (search) {
+			where.OR = [
+				{ firstName: { contains: search, mode: 'insensitive' } },
+				{ lastName: { contains: search, mode: 'insensitive' } },
+				{ email: { contains: search, mode: 'insensitive' } },
+				{ phone: { contains: search, mode: 'insensitive' } },
+			]
+		}
+
+		// Get total count for pagination
+		const total = await db.patient.count({ where })
+
+		// Get paginated patients
+		const patients = await db.patient.findMany({
+			where,
+			skip,
+			take: limit,
+			orderBy: { [sortBy]: sortOrder },
+			include: {
+				guardians: {
+					select: {
+						id: true,
+						relation: true,
+						isPrimary: true,
+						user: {
+							select: {
+								name: true,
+								email: true,
+							},
+						},
+					},
+				},
+				user: {
+					select: {
+						email: true,
+						image: true,
+					},
+				},
+				_count: {
+					select: {
+						appointments: {
+							where: {
+								status: { in: ['SCHEDULED', 'PENDING'] },
+							},
+						},
+						medicalRecords: true,
+						prescriptions: true,
+					},
+				},
+			},
+		})
+
+		return {
+			patients,
+			total,
+			hasNextPage: skip + patients.length < total,
+			hasPreviousPage: page > 1,
+		}
+	},
+	getPatientsCursorByClinic: dedupeQuery(
+		async (clinicId: string, cursor?: string, limit = 20, search?: string) => {
+			const where: Prisma.PatientWhereInput = {
+				clinicId,
+				isDeleted: false,
+			}
+			if (search) {
+				where.OR = [
+					{ firstName: { contains: search, mode: 'insensitive' } },
+					{ lastName: { contains: search, mode: 'insensitive' } },
+					{ email: { contains: search, mode: 'insensitive' } },
+				]
+			}
+
+			const patients = await db.patient.findMany({
+				where,
+				take: (limit as number) + 1, // Get one extra to check for next page
+				cursor: cursor ? { id: cursor } : undefined,
+				orderBy: { createdAt: 'desc' },
+				select: {
+					id: true,
+					firstName: true,
+					lastName: true,
+					dateOfBirth: true,
+					gender: true,
+					email: true,
+					phone: true,
+					image: true,
+					colorCode: true,
+					createdAt: true,
+					_count: {
+						select: {
+							appointments: true,
+						},
+					},
+				},
+			})
+
+			let nextCursor: typeof cursor
+			if (patients.length > (limit as number)) {
+				const nextItem = patients.pop()
+				nextCursor = nextItem?.id ?? undefined
+			}
+
+			return {
+				patients,
+				nextCursor,
+			}
+		}
+	),
 
 	// ==================== LIST PATIENTS ====================
 	findByClinic: dedupeQuery(
@@ -312,7 +556,7 @@ export const patientQueries = {
 				image: true,
 				lastName: true,
 			},
-			take: limit as number,
+			take: (limit as number) || 5,
 			where: {
 				clinicId,
 				isDeleted: false,

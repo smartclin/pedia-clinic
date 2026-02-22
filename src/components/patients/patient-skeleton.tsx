@@ -1,7 +1,7 @@
 // src/components/patients/patient-skeleton.tsx
 'use client'
 
-import { useId } from 'react'
+import { useId, useMemo } from 'react'
 
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -14,7 +14,14 @@ import {
 } from '@/components/ui/table'
 
 export function PatientSkeleton() {
-	const Id = useId()
+	const baseId = useId()
+
+	// Generate 5 unique IDs to satisfy the linter and ensure unique keys
+	const skeletonRows = useMemo(
+		() => Array.from({ length: 5 }, (_, i) => `${baseId}-row-${i}`),
+		[baseId]
+	)
+
 	return (
 		<Table>
 			<TableHeader>
@@ -29,8 +36,8 @@ export function PatientSkeleton() {
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{Array.from({ length: 5 }).map(_ => (
-					<TableRow key={`skeleton-${Id}`}>
+				{skeletonRows.map(rowId => (
+					<TableRow key={rowId}>
 						<TableCell>
 							<div className='flex items-center gap-3'>
 								<Skeleton className='h-8 w-8 rounded-full' />

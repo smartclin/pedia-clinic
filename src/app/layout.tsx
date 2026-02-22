@@ -1,6 +1,4 @@
-// app/layout.tsx
 import type { Metadata, Viewport } from 'next'
-
 import '../styles/globals.css'
 
 import NextTopLoader from 'nextjs-toploader'
@@ -39,34 +37,14 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
 	children,
-}: Readonly<{
-	children: React.ReactNode
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html
-			className='scroll-smooth'
+			className={cn('scroll-smooth', geistSans.variable, geistMono.variable)}
 			lang='en'
 			suppressHydrationWarning
 		>
-			<head>
-				<link
-					href='https://fonts.googleapis.com'
-					rel='preconnect'
-				/>
-				<link
-					crossOrigin='anonymous'
-					href='https://fonts.gstatic.com'
-					rel='preconnect'
-				/>
-			</head>
-			<body
-				className={cn(
-					geistSans.variable,
-					geistMono.variable,
-					'min-h-screen bg-background font-sans antialiased',
-					'overflow-x-hidden'
-				)}
-			>
+			<body className='min-h-screen overflow-x-hidden bg-background font-sans antialiased'>
 				<RootProvider>
 					<div className='relative flex min-h-screen flex-col'>
 						<Header />

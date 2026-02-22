@@ -8,10 +8,17 @@ import {
 	StaffAuthSchema,
 } from '@/schemas/admin.schema'
 import { CreateDoctorSchema } from '@/schemas/doctor.schema'
-import { adminService } from '@/server/services/admin.service'
 import { toNumber } from '@/utils/decimal'
 
 import { cacheHelpers } from '../lib/cache/helpers'
+import {
+	createDoctor,
+	createService,
+	createStaff,
+	deleteData,
+	deleteService,
+	updateService,
+} from '../server/services/admin.service'
 import { getSession } from '../server/utils'
 
 /**
@@ -32,7 +39,7 @@ export async function createStaffAction(input: unknown) {
 	const validated = StaffAuthSchema.parse(input)
 
 	// 3. Delegate to service (pass userId, not full session)
-	const staff = await adminService.createStaff(validated, session.user.id)
+	const staff = await createStaff(validated, session.user.id)
 
 	// 4. Type-safe cache invalidation ✅
 	cacheHelpers.staff.invalidateClinic(validated.clinicId)
@@ -60,7 +67,7 @@ export async function createDoctorAction(input: unknown) {
 		throw new Error('clinicId must be a string')
 	}
 
-	const doctor = await adminService.createDoctor(
+	const doctor = await createDoctor(
 		{
 			...validated,
 			appointmentPrice: toNumber(validated.appointmentPrice),
@@ -86,7 +93,7 @@ export async function createServiceAction(input: unknown) {
 
 	const validated = ServicesSchema.parse(input)
 
-	const service = await adminService.createService(validated, session.user.id)
+	const service = await createService(validated, session.user.id)
 
 	// ✅ Type-safe cache invalidation
 	cacheHelpers.service.invalidateClinic(validated.clinicId ?? '')
@@ -105,7 +112,7 @@ export async function updateServiceAction(input: unknown) {
 	const validated = ServicesSchema.parse(input)
 	if (!validated.id) throw new Error('Service ID required for update')
 
-	const service = await adminService.updateService(validated, session.user.id)
+	const service = await updateService(validated, session.user.id)
 
 	// ✅ Type-safe cache invalidation
 	cacheHelpers.service.invalidate(validated.id, validated.clinicId ?? '')
@@ -121,7 +128,7 @@ export async function deleteServiceAction(id: string, clinicId: string) {
 	const session = await getSession()
 	if (!session?.user) throw new Error('Unauthorized')
 
-	await adminService.deleteService(id, clinicId, session.user.id)
+	await deleteService(id, clinicId, session.user.id)
 
 	// ✅ Type-safe cache invalidation
 	cacheHelpers.service.invalidate(id, clinicId)
@@ -137,7 +144,7 @@ export async function deleteDataAction(input: unknown) {
 
 	const validated = DeleteInputSchema.parse(input)
 
-	await adminService.deleteData(validated, session.user.id)
+	await deleteData(validated, session.user.id)
 
 	// ✅ Type-safe cache invalidation based on type
 	switch (validated.deleteType) {

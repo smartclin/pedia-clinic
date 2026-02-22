@@ -75,11 +75,6 @@ export const baseMetadata: Metadata = {
 		description: 'Healthcare Management System',
 		title: 'Smart Clinic',
 	},
-	viewport: {
-		initialScale: 1,
-		maximumScale: 5,
-		width: 'device-width',
-	},
 }
 
 export const OAUTH_PROVIDERS = {

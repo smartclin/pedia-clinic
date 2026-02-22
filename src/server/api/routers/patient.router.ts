@@ -8,25 +8,70 @@ import {
 	DeletePatientSchema,
 	GetAllPatientsSchema,
 	GetPatientByIdSchema,
+	getPatientListSchema,
+	infiniteListSchema,
 	UpdatePatientSchema,
 	UpsertPatientSchema,
 } from '@/schemas/patient.schema'
-import { patientService } from '@/server/services/patient.service'
+import * as patientService from '@/server/services/patient.service'
 
+import { validateClinicAccess } from '../../utils'
 import { createTRPCRouter, protectedProcedure } from '../trpc'
 
 export const patientRouter = createTRPCRouter({
 	// ==================== QUERIES (Direct to service with caching) ====================
+	getList: protectedProcedure
+		.input(getPatientListSchema)
+		.query(async ({ ctx, input }) => {
+			try {
+				// Verify clinic access
+				await validateClinicAccess(input.clinicId, ctx.user.id)
+
+				return await patientService.getPatientList(input)
+			} catch (error) {
+				console.error('Error in patient.getList:', error)
+				throw new TRPCError({
+					code: 'INTERNAL_SERVER_ERROR',
+					message:
+						error instanceof Error ? error.message : 'Failed to fetch patients',
+				})
+			}
+		}),
 
 	getById: protectedProcedure
 		.input(GetPatientByIdSchema)
 		.query(async ({ ctx, input }) => {
-			const clinicId = ctx.clinic?.id
-			if (!clinicId) {
-				throw new TRPCError({ code: 'UNAUTHORIZED' })
+			try {
+				const clinicId = ctx.clinic?.id ?? ''
+				await validateClinicAccess(clinicId, ctx.user.id)
+				return await patientService.getPatientById(input.id, clinicId)
+			} catch (error) {
+				console.error('Error in patient.getById:', error)
+				throw new TRPCError({
+					code: 'INTERNAL_SERVER_ERROR',
+					message:
+						error instanceof Error ? error.message : 'Failed to fetch patient',
+				})
 			}
-
-			return patientService.getPatientById(input.id, clinicId)
+		}),
+	getInfiniteList: protectedProcedure
+		.input(infiniteListSchema)
+		.query(async ({ ctx, input }) => {
+			try {
+				await validateClinicAccess(input.clinicId, ctx.user.id)
+				return await patientService.getPatientsInfinite(
+					input.clinicId,
+					input.limit,
+					input.cursor,
+					input.search
+				)
+			} catch (error) {
+				console.error('Error in patient.getInfiniteList:', error)
+				throw new TRPCError({
+					code: 'INTERNAL_SERVER_ERROR',
+					message: 'Failed to fetch patients',
+				})
+			}
 		}),
 
 	getFullDataById: protectedProcedure
@@ -75,6 +120,20 @@ export const patientRouter = createTRPCRouter({
 
 		return patientService.getPatientCount(clinicId)
 	}),
+	getStats: protectedProcedure
+		.input(z.object({ clinicId: z.string().uuid() }))
+		.query(async ({ ctx, input }) => {
+			try {
+				await validateClinicAccess(input.clinicId, ctx.user.id)
+				return await patientService.getPatientStats(input.clinicId)
+			} catch (error) {
+				console.error('Error in patient.getStats:', error)
+				throw new TRPCError({
+					code: 'INTERNAL_SERVER_ERROR',
+					message: 'Failed to fetch patient stats',
+				})
+			}
+		}),
 
 	getAllPatients: protectedProcedure
 		.input(GetAllPatientsSchema)

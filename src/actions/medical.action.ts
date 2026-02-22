@@ -17,7 +17,7 @@ import {
 	type VitalSignsUpdateInput,
 	VitalSignsUpdateSchema,
 } from '@/schemas'
-import { medicalService } from '@/server/services/medical.service'
+import * as medicalService from '@/server/services/medical.service'
 import { getSession } from '@/server/utils'
 
 /**

@@ -26,7 +26,6 @@ model User {
   betterAuthId          String?               @unique
   sessions              Session[]
   accounts              Account[]
-  clinics               ClinicMember[]
   invitations           clinicInvitation[]
   notifications         Notification[]
   auditLogs             AuditLog[]
@@ -47,6 +46,12 @@ model User {
   patientsAsDoctor      Patient[]             @relation("UserAsDoctor")
   patientsCreated       Patient[]             @relation("PatientCreatedBy")
   fileStorages          FileStorage[]
+
+  banReason         String?
+  banExpires        DateTime?
+  phone             String?
+  clinicinvitations OrganizationInvitation[]
+  clinicMembers     ClinicMember[]           @relation("UserClinics")
 
   @@index([email])
   @@map("users")
@@ -84,6 +89,10 @@ model Account {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+
   @@unique([providerId, accountId])
   @@index([userId])
   @@map("accounts")
@@ -107,10 +116,14 @@ model ClinicMember {
   clinicId String
   clinic   Clinic   @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   userId   String
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User     @relation("UserClinics", fields: [userId], references: [id], onDelete: Cascade)
   roleId   String
   role     Role     @relation(fields: [roleId], references: [id])
   joinedAt DateTime @default(now())
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  organizations Organization[]
 
   @@unique([clinicId, userId])
   @@index([clinicId])
@@ -199,7 +212,15 @@ model Passkey {
   lastUsedAt   DateTime?
   createdAt    DateTime  @default(now())
 
+  name         String?
+  credentialID String
+  deviceType   String
+  backedUp     Boolean
+  transports   String?
+  aaguid       String?
+
   @@index([userId])
+  @@index([credentialID])
   @@map("passkeys")
 }
 
@@ -273,4 +294,35 @@ model AuditLog {
   @@index([clinicId])
   @@index([createdAt])
   @@map("audit_logs")
+}
+
+model Organization {
+  id                String                   @id
+  name              String
+  slug              String
+  logo              String?
+  createdAt         DateTime
+  metadata          String?
+  clinicmembers     ClinicMember[]
+  clinicinvitations OrganizationInvitation[]
+
+  @@unique([slug])
+  @@map("organization")
+}
+
+model OrganizationInvitation {
+  id           String       @id
+  clinicId     String
+  organization Organization @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  email        String
+  role         String?
+  status       String       @default("pending")
+  expiresAt    DateTime
+  createdAt    DateTime     @default(now())
+  inviterId    String
+  user         User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@index([clinicId])
+  @@index([email])
+  @@map("clinicInvitation")
 }

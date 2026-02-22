@@ -7,7 +7,7 @@ import {
 	DiagnosisSchema,
 	PaymentSchema,
 } from '@/schemas/index'
-import { paymentService } from '@/server/services/payment.service'
+import * as paymentService from '@/server/services/payment.service'
 
 import { adminProcedure, createTRPCRouter, protectedProcedure } from '../trpc'
 

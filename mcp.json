@@ -1,0 +1,12 @@
+{
+  "better-auth": {
+    "url": "https://mcp.inkeep.com/better-auth/mcp"
+  },
+  "shadcn-ui-server": {
+    "args": [
+      "-y",
+      "shadcn-ui-mcp-server"
+    ],
+    "command": "bunx"
+  }
+}

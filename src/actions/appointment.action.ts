@@ -10,7 +10,12 @@ import {
 	AppointmentUpdateStatusSchema,
 	DeleteAppointmentSchema,
 } from '../schemas'
-import { appointmentService } from '../server/services/appointment.service'
+import {
+	createAppointment,
+	deleteAppointment,
+	updateAppointment,
+	updateAppointmentStatus,
+} from '../server/services/appointment.service'
 import { getSession } from '../server/utils'
 
 /**
@@ -43,8 +48,7 @@ export async function createAppointmentAction(input: unknown) {
 	}
 
 	// 4. Delegate to service (service handles cache invalidation)
-	const appointment =
-		await appointmentService.createAppointment(inputWithContext)
+	const appointment = await createAppointment(inputWithContext)
 
 	// 5. UI revalidation only
 	revalidatePath('/dashboard/appointments')
@@ -73,7 +77,7 @@ export async function updateAppointmentAction(id: string, input: unknown) {
 	const validated = AppointmentUpdateSchema.parse({ id, ...(input as object) })
 
 	// 3. Delegate to service
-	const appointment = await appointmentService.updateAppointment(
+	const appointment = await updateAppointment(
 		validated.id,
 		validated,
 		session.user.id
@@ -107,7 +111,7 @@ export async function updateAppointmentStatusAction(input: unknown) {
 	const validated = AppointmentUpdateStatusSchema.parse(input)
 
 	// 3. Delegate to service
-	const appointment = await appointmentService.updateAppointmentStatus(
+	const appointment = await updateAppointmentStatus(
 		validated.id,
 		validated.status,
 		session.user.id,
@@ -140,10 +144,7 @@ export async function deleteAppointmentAction(input: unknown) {
 
 	// 3. Delegate to service
 	// Service should return deleted item details so we know which tags to bust
-	const appointment = await appointmentService.deleteAppointment(
-		validated.id,
-		session.user.id
-	)
+	const appointment = await deleteAppointment(validated.id, session.user.id)
 
 	// 4. Type-safe Cache Invalidation ✅
 	// We use the helper to bust the "use cache" layers in the Service

@@ -50,6 +50,51 @@ export const healthRouter = createTRPCRouter({
 			}),
 		])
 
+		const services = [
+			{
+				lastChecked: new Date(),
+				latency: 45,
+				name: 'API Server',
+				status: 'healthy',
+			},
+			{
+				lastChecked: new Date(),
+				latency: 12,
+				name: 'Database',
+				status: 'healthy',
+			},
+			{
+				lastChecked: new Date(),
+				latency: 3,
+				name: 'Redis Cache',
+				status: 'healthy',
+			},
+			{
+				lastChecked: new Date(),
+				latency: 87,
+				name: 'Storage Service',
+				status: 'healthy',
+			},
+			{
+				lastChecked: new Date(),
+				latency: 156,
+				name: 'Email Service',
+				status: 'healthy',
+			},
+			{
+				lastChecked: new Date(),
+				latency: 234,
+				name: 'SMS Gateway',
+				status: 'healthy',
+			},
+		]
+
+		const affectedServices = services
+			.filter(s => s.status !== 'healthy')
+			.map(s => s.name)
+
+		const maintenanceScheduled = false // Replace with actual logic
+
 		return {
 			counts: {
 				activePatients: patientCounts[1],
@@ -105,6 +150,8 @@ export const healthRouter = createTRPCRouter({
 					status: 'healthy',
 				},
 			],
+			affectedServices,
+			maintenanceScheduled,
 		}
 	}),
 	healthCheck: publicProcedure.query(async () => {
@@ -118,6 +165,8 @@ export const healthRouter = createTRPCRouter({
 				await redis.ping()
 				redisStatus = 'connected'
 			}
+			const affectedServices: string[] = [] // collect failed services
+			const maintenanceScheduled = false // set from config / DB if any
 
 			return {
 				environment: process.env.NODE_ENV,
@@ -128,6 +177,8 @@ export const healthRouter = createTRPCRouter({
 				status: 'healthy',
 				timestamp: new Date().toISOString(),
 				version: process.env.npm_package_version || '1.0.0',
+				affectedServices,
+				maintenanceScheduled,
 			}
 		} catch (error) {
 			throw new TRPCError({

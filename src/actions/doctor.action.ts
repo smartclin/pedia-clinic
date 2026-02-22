@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 
 import { CreateDoctorSchema, DeleteDoctorSchema } from '@/schemas/doctor.schema'
-import { doctorService } from '@/server/services/doctor.service'
+import * as doctorService from '@/server/services/doctor.service'
 import { getSession } from '@/server/utils'
 
 /**

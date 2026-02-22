@@ -57,6 +57,7 @@ export const PERMISSIONS = {
 	},
 
 	IMMUNIZATION: {
+		CREATE: 'immunization:create',
 		VIEW: 'immunization:view',
 		ADMINISTER: 'immunization:administer',
 		UPDATE: 'immunization:update',
@@ -69,6 +70,7 @@ export const PERMISSIONS = {
 	},
 
 	GROWTH: {
+		CREATE: 'growth:create',
 		VIEW: 'growth:view',
 		RECORD: 'growth:record',
 		UPDATE: 'growth:update',

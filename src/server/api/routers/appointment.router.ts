@@ -11,7 +11,6 @@ import {
 	ListAppointmentsSchema,
 	UpcomingAppointmentsSchema,
 } from '@/schemas/appointment.schema'
-import { appointmentService } from '@/server/services/appointment.service'
 
 import {
 	createAppointmentAction,
@@ -19,6 +18,16 @@ import {
 	updateAppointmentAction,
 	updateAppointmentStatusAction,
 } from '../../../actions/appointment.action'
+import {
+	getAppointmentById,
+	getAppointmentsByClinic,
+	getAppointmentsByDateRange,
+	getAvailableTimes,
+	getDoctorAppointments,
+	getPatientAppointments,
+	getTodayAppointments,
+	getUpcomingAppointments,
+} from '../../services/appointment.service'
 import { clinicProcedure, createTRPCRouter, protectedProcedure } from '../trpc'
 
 export const appointmentRouter = createTRPCRouter({
@@ -35,7 +44,7 @@ export const appointmentRouter = createTRPCRouter({
 				throw new TRPCError({ code: 'UNAUTHORIZED' })
 			}
 
-			return appointmentService.getAppointmentById(input.id, clinicId)
+			return getAppointmentById(input.id, clinicId)
 		}),
 
 	/**
@@ -44,17 +53,14 @@ export const appointmentRouter = createTRPCRouter({
 	list: clinicProcedure
 		.input(ListAppointmentsSchema)
 		.query(async ({ ctx, input }) => {
-			return appointmentService.getAppointmentsByClinic(
-				ctx.clinic?.id ?? '',
-				input
-			)
+			return getAppointmentsByClinic(ctx.clinic?.id ?? '', input)
 		}),
 
 	/**
 	 * Get today's appointments
 	 */
 	getToday: clinicProcedure.query(async ({ ctx }) => {
-		return appointmentService.getTodayAppointments(ctx.clinic?.id ?? '')
+		return getTodayAppointments(ctx.clinic?.id ?? '')
 	}),
 
 	/**
@@ -63,7 +69,7 @@ export const appointmentRouter = createTRPCRouter({
 	getUpcoming: clinicProcedure
 		.input(UpcomingAppointmentsSchema)
 		.query(async ({ ctx, input }) => {
-			return appointmentService.getUpcomingAppointments({
+			return getUpcomingAppointments({
 				...input,
 				clinicId: ctx.clinic?.id ?? '',
 			})
@@ -75,7 +81,7 @@ export const appointmentRouter = createTRPCRouter({
 	getByDateRange: clinicProcedure
 		.input(AppointmentDateRangeSchema)
 		.query(async ({ ctx, input }) => {
-			return appointmentService.getAppointmentsByDateRange({
+			return getAppointmentsByDateRange({
 				...input,
 				clinicId: ctx.clinic?.id ?? '',
 			})
@@ -98,14 +104,10 @@ export const appointmentRouter = createTRPCRouter({
 				throw new TRPCError({ code: 'UNAUTHORIZED' })
 			}
 
-			return appointmentService.getPatientAppointments(
-				input.patientId,
-				clinicId,
-				{
-					limit: input.limit,
-					includePast: input.includePast,
-				}
-			)
+			return getPatientAppointments(input.patientId, clinicId, {
+				limit: input.limit,
+				includePast: input.includePast,
+			})
 		}),
 
 	/**
@@ -124,11 +126,7 @@ export const appointmentRouter = createTRPCRouter({
 				throw new TRPCError({ code: 'UNAUTHORIZED' })
 			}
 
-			return appointmentService.getDoctorAppointments(
-				input.doctorId,
-				clinicId,
-				input.date
-			)
+			return getDoctorAppointments(input.doctorId, clinicId, input.date)
 		}),
 
 	/**
@@ -147,11 +145,7 @@ export const appointmentRouter = createTRPCRouter({
 				throw new TRPCError({ code: 'UNAUTHORIZED' })
 			}
 
-			return appointmentService.getAvailableTimes(
-				input.doctorId,
-				clinicId,
-				input.date
-			)
+			return getAvailableTimes(input.doctorId, clinicId, input.date)
 		}),
 
 	// ==================== MUTATIONS (Delegates to actions) ====================

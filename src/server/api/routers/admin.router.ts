@@ -17,8 +17,26 @@ import { validateClinicAccess } from '@/server/utils'
 
 import { isUserAdmin } from '../../../lib/auth/admin-helpers'
 import {
-	adminService,
+	createDoctor,
+	createService,
+	createStaff,
+	deleteData,
+	deleteService,
 	getCachedClinicCounts,
+	getDashboardStats,
+	getDashboardStatsByDateRange,
+	getDataList,
+	getDoctorById,
+	getDoctorList,
+	getPatientById,
+	getRecentActivity,
+	getServiceById,
+	getServices,
+	getServicesWithUsage,
+	getStaffById,
+	getStaffList,
+	getTodaySchedule,
+	updateService,
 } from '../../services/admin.service'
 import { adminProcedure, createTRPCRouter, protectedProcedure } from '../trpc'
 
@@ -70,10 +88,10 @@ export const adminRouter = createTRPCRouter({
 						updatedAt: true,
 						_count: {
 							select: {
-								clinics: true,
+								clinicMembers: true,
 							},
 						},
-						clinics: {
+						clinicMembers: {
 							include: {
 								clinic: {
 									select: {
@@ -339,7 +357,7 @@ export const adminRouter = createTRPCRouter({
 					})
 				}
 
-				const service = await adminService.createService(
+				const service = await createService(
 					{ ...input, clinicId },
 					userId ?? ''
 				)
@@ -368,7 +386,7 @@ export const adminRouter = createTRPCRouter({
 	//     )
 	//     .mutation(async ({ input, ctx }) => {
 	//       // Get the record first to know its clinicId
-	//       const record = await adminService.getRecordById(
+	//       const record = await getRecordById(
 	//         input.id,
 	//         input.deleteType,
 	//       );
@@ -386,7 +404,7 @@ export const adminRouter = createTRPCRouter({
 	//         throw new Error("Unauthorized");
 	//       }
 
-	//       return adminService.deleteDataById({
+	//       return deleteDataById({
 	//         ...input,
 	//         clinicId,
 	//         userId,
@@ -402,7 +420,7 @@ export const adminRouter = createTRPCRouter({
 			try {
 				const userId = ctx.user?.id
 
-				const doctor = await adminService.createDoctor(
+				const doctor = await createDoctor(
 					{
 						...input,
 						isActive: true,
@@ -439,7 +457,7 @@ export const adminRouter = createTRPCRouter({
 				const userId = ctx.user?.id
 
 				// Delegate to service with userId
-				const result = await adminService.createStaff(input, userId ?? '')
+				const result = await createStaff(input, userId ?? '')
 
 				return {
 					message: 'Staff member added successfully',
@@ -465,7 +483,7 @@ export const adminRouter = createTRPCRouter({
 			try {
 				const userId = ctx.user?.id
 
-				await adminService.deleteData(input, userId ?? '')
+				await deleteData(input, userId ?? '')
 
 				return {
 					message: `${input.deleteType} deleted successfully`,
@@ -490,7 +508,7 @@ export const adminRouter = createTRPCRouter({
 			try {
 				const userId = ctx.user?.id
 
-				await adminService.deleteService(input.id, input.clinicId, userId ?? '')
+				await deleteService(input.id, input.clinicId, userId ?? '')
 
 				return {
 					message: 'Service deleted successfully',
@@ -545,7 +563,7 @@ export const adminRouter = createTRPCRouter({
 			}
 
 			// ✅ Use cached version - no session passed, validation skipped in cache path
-			return await adminService.getDashboardStats(clinicId, ctx.user?.id ?? '')
+			return await getDashboardStats(clinicId, ctx.user?.id ?? '')
 		} catch (error) {
 			console.error('Error in getDashboardStats:', error)
 			throw new TRPCError({
@@ -573,7 +591,7 @@ export const adminRouter = createTRPCRouter({
 
 				// This is analytics data - not typically cached
 				// Could implement a separate cache with longer TTL
-				return await adminService.getDashboardStatsByDateRange(
+				return await getDashboardStatsByDateRange(
 					clinicId,
 					input.from,
 					input.to
@@ -594,7 +612,7 @@ export const adminRouter = createTRPCRouter({
 
 			await validateClinicAccess(clinicId, userId) // ← just await
 
-			return adminService.getDataList({
+			return getDataList({
 				...input,
 				clinicId,
 				userId,
@@ -609,7 +627,7 @@ export const adminRouter = createTRPCRouter({
 		.query(async ({ input }) => {
 			try {
 				const { id, clinicId } = input
-				return await adminService.getDoctorById(id, clinicId)
+				return await getDoctorById(id, clinicId)
 			} catch (error) {
 				console.error('Error in getDoctorById:', error)
 				throw new TRPCError({
@@ -632,7 +650,7 @@ export const adminRouter = createTRPCRouter({
 				})
 			}
 
-			return await adminService.getDoctorList(clinicId, ctx.user?.id ?? '')
+			return await getDoctorList(clinicId, ctx.user?.id ?? '')
 		} catch (error) {
 			console.error('Error in getDoctorList:', error)
 			throw new TRPCError({
@@ -650,7 +668,7 @@ export const adminRouter = createTRPCRouter({
 		.query(async ({ input }) => {
 			try {
 				const { id, clinicId } = input
-				return await adminService.getPatientById(id, clinicId)
+				return await getPatientById(id, clinicId)
 			} catch (error) {
 				console.error('Error in getPatientById:', error)
 				throw new TRPCError({
@@ -675,7 +693,7 @@ export const adminRouter = createTRPCRouter({
 				const userId = ctx.user?.id ?? ''
 				const { clinicId, limit } = input
 
-				return await adminService.getRecentActivity(userId, clinicId, limit)
+				return await getRecentActivity(userId, clinicId, limit)
 			} catch (error) {
 				console.error('Error in getRecentActivity:', error)
 				throw new TRPCError({
@@ -693,7 +711,7 @@ export const adminRouter = createTRPCRouter({
 		.query(async ({ input }) => {
 			try {
 				const { id, clinicId } = input
-				return await adminService.getServiceById(id, clinicId)
+				return await getServiceById(id, clinicId)
 			} catch (error) {
 				console.error('Error in getServiceById:', error)
 				throw new TRPCError({
@@ -716,7 +734,7 @@ export const adminRouter = createTRPCRouter({
 				})
 			}
 
-			return await adminService.getServices(clinicId, ctx.user?.id ?? '')
+			return await getServices(clinicId, ctx.user?.id ?? '')
 		} catch (error) {
 			console.error('Error in getServices:', error)
 			throw new TRPCError({
@@ -739,7 +757,7 @@ export const adminRouter = createTRPCRouter({
 				})
 			}
 
-			return await adminService.getServicesWithUsage(clinicId)
+			return await getServicesWithUsage(clinicId)
 		} catch (error) {
 			console.error('Error in getServicesWithUsage:', error)
 			throw new TRPCError({
@@ -757,7 +775,7 @@ export const adminRouter = createTRPCRouter({
 		.query(async ({ input }) => {
 			try {
 				const { id, clinicId } = input
-				return await adminService.getStaffById(id, clinicId)
+				return await getStaffById(id, clinicId)
 			} catch (error) {
 				console.error('Error in getStaffById:', error)
 				throw new TRPCError({
@@ -780,7 +798,7 @@ export const adminRouter = createTRPCRouter({
 				})
 			}
 
-			return await adminService.getStaffList(clinicId, ctx.user?.id ?? '')
+			return await getStaffList(clinicId, ctx.user?.id ?? '')
 		} catch (error) {
 			console.error('Error in getStaffList:', error)
 			throw new TRPCError({
@@ -803,7 +821,7 @@ export const adminRouter = createTRPCRouter({
 				})
 			}
 
-			return await adminService.getTodaySchedule(clinicId)
+			return await getTodaySchedule(clinicId)
 		} catch (error) {
 			console.error('Error in getTodaySchedule:', error)
 			throw new TRPCError({
@@ -837,10 +855,7 @@ export const adminRouter = createTRPCRouter({
 					})
 				}
 
-				const service = await adminService.updateService(
-					{ ...input, clinicId },
-					userId
-				)
+				const service = await updateService({ ...input, clinicId }, userId)
 
 				return {
 					message: 'Service updated successfully',

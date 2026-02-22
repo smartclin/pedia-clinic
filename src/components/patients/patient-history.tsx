@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { Calendar, ChevronRight, FileText, Pill } from 'lucide-react'
 import Link from 'next/link'
-import { useId } from 'react'
+import { useId, useMemo } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -40,7 +40,17 @@ export function PatientHistory({
 	const { data: stats, isLoading } = useQuery(
 		trpc.patient.getDashboardStats.queryOptions({ id: patientId })
 	)
-	const Id = useId()
+	const baseId = useId()
+
+	// 1. Generate stable IDs for the skeletons
+	const skeletonIds = useMemo(
+		() =>
+			Array.from(
+				{ length: 3 },
+				(_, i) => `${baseId}-appointment-skeleton-${i}`
+			),
+		[baseId]
+	)
 
 	if (isLoading) {
 		return (
@@ -51,9 +61,11 @@ export function PatientHistory({
 						Recent Visits
 					</CardTitle>
 				</CardHeader>
-				<CardContent>
-					{Array.from({ length: 3 }).map(_ => (
-						<AppointmentSkeleton key={Id} />
+				<CardContent className='space-y-4'>
+					{' '}
+					{/* Added spacing for better look */}
+					{skeletonIds.map(id => (
+						<AppointmentSkeleton key={id} />
 					))}
 				</CardContent>
 			</Card>

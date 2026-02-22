@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 
 import { cacheHelpers } from '@/cache/helpers'
 import { clinicCreateSchema, reviewSchema } from '@/schemas/clinic.schema'
-import { clinicService } from '@/server/services/clinic.service'
+import * as clinicService from '@/server/services/clinic.service'
 import { getSession } from '@/server/utils'
 
 /**

@@ -33,7 +33,7 @@ import {
 	ZScoreCalculationSchema,
 	ZScoreChartSchema,
 } from '@/schemas/growth.schema'
-import { growthService } from '@/server/services/growth.service'
+import * as growthService from '@/server/services/growth.service'
 
 import { createTRPCRouter, protectedProcedure } from '../trpc'
 

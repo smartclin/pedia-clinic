@@ -30,7 +30,7 @@ import {
 	serviceIdSchema,
 	updateServiceSchema,
 } from '@/schemas/service.schema'
-import { serviceService } from '@/server/services/service.service'
+import * as serviceService from '@/server/services/service.service'
 
 import { createTRPCRouter, protectedProcedure } from '../trpc'
 

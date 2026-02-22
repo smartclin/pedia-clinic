@@ -25,7 +25,7 @@ import {
 	ScheduleVaccinationSchema,
 	VaccinationByIdSchema,
 } from '@/schemas/vac.schema'
-import { vaccinationService } from '@/server/services/vac.service'
+import * as vaccinationService from '@/server/services/vac.service'
 import { getSession } from '@/server/utils'
 
 import type { ImmunizationStatus } from '../types/prisma-types'

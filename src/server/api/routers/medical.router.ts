@@ -45,7 +45,7 @@ import {
 	VitalSignsByMedicalRecordSchema,
 	VitalSignsByPatientSchema,
 } from '@/schemas/encounter.schema'
-import { medicalService } from '@/server/services/medical.service'
+import * as medicalService from '@/server/services/medical.service'
 
 import { createTRPCRouter, protectedProcedure } from '../trpc'
 

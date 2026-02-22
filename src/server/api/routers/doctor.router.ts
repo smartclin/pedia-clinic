@@ -8,7 +8,7 @@ import {
 	DoctorByIdSchema,
 	DoctorListSchema,
 } from '@/schemas/doctor.schema'
-import { doctorService } from '@/server/services/doctor.service'
+import * as doctorService from '@/server/services/doctor.service'
 
 import { createTRPCRouter, protectedProcedure } from '../trpc'
 

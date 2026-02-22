@@ -3,8 +3,21 @@ import { z } from 'zod'
 
 import { clinicCreateSchema, reviewSchema } from '@/schemas/clinic.schema'
 import {
-	clinicService,
-	dashboardService,
+	countUserClinics,
+	createClinic,
+	createReview,
+	getClinicById,
+	getClinicStats,
+	getClinicWithUserAccess,
+	getClinicWorkingHours,
+	getDashboardStats,
+	getFeatures,
+	getGeneralStats,
+	getMedicalRecordsSummary,
+	getMonthlyPerformance,
+	getRecentAppointments,
+	getTodaySchedule,
+	getUpcomingImmunizations,
 } from '@/server/services/clinic.service'
 import { validateClinicAccess } from '@/server/utils'
 
@@ -17,7 +30,7 @@ export const clinicRouter = createTRPCRouter({
 		.input(z.object({ id: z.string() }))
 		.query(async ({ input }) => {
 			try {
-				return await clinicService.getClinicById(input.id)
+				return await getClinicById(input.id)
 			} catch (error) {
 				console.error('Error in getById:', error)
 				throw new TRPCError({
@@ -35,10 +48,7 @@ export const clinicRouter = createTRPCRouter({
 				const userId = ctx.user?.id
 				if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' })
 
-				return await clinicService.getClinicWithUserAccess(
-					input.clinicId,
-					userId
-				)
+				return await getClinicWithUserAccess(input.clinicId, userId)
 			} catch (error) {
 				console.error('Error in getWithAccess:', error)
 				throw new TRPCError({
@@ -52,7 +62,7 @@ export const clinicRouter = createTRPCRouter({
 		.input(z.object({ clinicId: z.string() }))
 		.query(async ({ input }) => {
 			try {
-				return await clinicService.getClinicWorkingHours(input.clinicId)
+				return await getClinicWorkingHours(input.clinicId)
 			} catch (error) {
 				console.error('Error in getWorkingHours:', error)
 				throw new TRPCError({
@@ -64,7 +74,7 @@ export const clinicRouter = createTRPCRouter({
 
 	getFeatures: protectedProcedure.query(async () => {
 		try {
-			return await clinicService.getFeatures()
+			return await getFeatures()
 		} catch (error) {
 			console.error('Error in getFeatures:', error)
 			throw new TRPCError({
@@ -76,7 +86,7 @@ export const clinicRouter = createTRPCRouter({
 
 	getClinicStats: protectedProcedure.query(async () => {
 		try {
-			return await clinicService.getClinicStats()
+			return await getClinicStats()
 		} catch (error) {
 			console.error('Error in getClinicStats:', error)
 			throw new TRPCError({
@@ -91,7 +101,7 @@ export const clinicRouter = createTRPCRouter({
 			const userId = ctx.user?.id
 			if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' })
 
-			return await clinicService.countUserClinics(userId)
+			return await countUserClinics(userId)
 		} catch (error) {
 			console.error('Error in countUserClinics:', error)
 			throw new TRPCError({
@@ -118,11 +128,7 @@ export const clinicRouter = createTRPCRouter({
 				if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' })
 				await validateClinicAccess(input.clinicId, userId)
 
-				return await dashboardService.getDashboardStats(
-					input.clinicId,
-					input.from,
-					input.to
-				)
+				return await getDashboardStats(input.clinicId, input.from, input.to)
 			} catch (error) {
 				console.error('Error in getDashboardStats:', error)
 				throw new TRPCError({
@@ -134,7 +140,7 @@ export const clinicRouter = createTRPCRouter({
 
 	getGeneralStats: protectedProcedure.query(async () => {
 		try {
-			return await dashboardService.getGeneralStats()
+			return await getGeneralStats()
 		} catch (error) {
 			console.error('Error in getGeneralStats:', error)
 			throw new TRPCError({
@@ -152,7 +158,7 @@ export const clinicRouter = createTRPCRouter({
 				if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' })
 				await validateClinicAccess(input.clinicId, userId)
 
-				return await dashboardService.getMedicalRecordsSummary(input.clinicId)
+				return await getMedicalRecordsSummary(input.clinicId)
 			} catch (error) {
 				console.error('Error in getMedicalRecordsSummary:', error)
 				throw new TRPCError({
@@ -170,7 +176,7 @@ export const clinicRouter = createTRPCRouter({
 				if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' })
 				await validateClinicAccess(input.clinicId, userId)
 
-				return await dashboardService.getRecentAppointments(input.clinicId)
+				return await getRecentAppointments(input.clinicId)
 			} catch (error) {
 				console.error('Error in getRecentAppointments:', error)
 				throw new TRPCError({
@@ -188,7 +194,7 @@ export const clinicRouter = createTRPCRouter({
 				if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' })
 				await validateClinicAccess(input.clinicId, userId)
 
-				return await dashboardService.getTodaySchedule(input.clinicId)
+				return await getTodaySchedule(input.clinicId)
 			} catch (error) {
 				console.error('Error in getTodaySchedule:', error)
 				throw new TRPCError({
@@ -206,7 +212,7 @@ export const clinicRouter = createTRPCRouter({
 				if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' })
 				await validateClinicAccess(input.clinicId, userId)
 
-				return await dashboardService.getUpcomingImmunizations(input.clinicId)
+				return await getUpcomingImmunizations(input.clinicId)
 			} catch (error) {
 				console.error('Error in getUpcomingImmunizations:', error)
 				throw new TRPCError({
@@ -224,7 +230,7 @@ export const clinicRouter = createTRPCRouter({
 				if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' })
 				await validateClinicAccess(input.clinicId, userId)
 
-				return await dashboardService.getMonthlyPerformance(input.clinicId)
+				return await getMonthlyPerformance(input.clinicId)
 			} catch (error) {
 				console.error('Error in getMonthlyPerformance:', error)
 				throw new TRPCError({
@@ -243,7 +249,7 @@ export const clinicRouter = createTRPCRouter({
 				const userId = ctx.user?.id
 				if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' })
 
-				return await clinicService.createClinic(input, userId)
+				return await createClinic(input, userId)
 			} catch (error) {
 				console.error('Error in create clinic:', error)
 				throw new TRPCError({
@@ -268,7 +274,7 @@ export const clinicRouter = createTRPCRouter({
 					})
 				}
 
-				return await clinicService.createReview({
+				return await createReview({
 					...input,
 					clinicId: input.clinicId,
 				})

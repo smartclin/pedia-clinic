@@ -14,8 +14,8 @@ if (!REDIS_URL && env.NODE_ENV === 'production') {
 }
 
 // Parse Redis config
-const REDIS_PORT = env.REDIS_PORT
-const REDIS_DB = env.REDIS_DB
+const REDIS_PORT = process.env.REDIS_PORT
+const REDIS_DB = process.env.REDIS_DB
 const REDIS_KEY_PREFIX = env.REDIS_KEY_PREFIX || 'pediacare:'
 
 // Redis configuration with optimal settings
@@ -47,10 +47,10 @@ const getRedisConfig = (): RedisOptions => {
 	// Fallback to individual config for local development
 	return {
 		...baseConfig,
-		db: REDIS_DB,
-		host: env.REDIS_HOST,
+		db: REDIS_DB ? Number.parseInt(REDIS_DB, 10) : undefined,
+		host: process.env.REDIS_HOST,
 		password: env.REDIS_PASSWORD,
-		port: REDIS_PORT,
+		port: REDIS_PORT ? Number.parseInt(REDIS_PORT, 10) : 6379,
 		tls: env.REDIS_TLS === 'true' ? {} : undefined,
 	}
 }

@@ -2,8 +2,7 @@ import { z } from 'zod'
 
 const envSchema = z.object({
 	// Database
-	DATABASE_URL: z.string().url(),
-	DIRECT_URL: z.string().url().optional(),
+	DATABASE_URL: z.url(),
 
 	// Better Auth
 	BETTER_AUTH_SECRET: z.string().min(32),
@@ -16,9 +15,9 @@ const envSchema = z.object({
 	GITHUB_CLIENT_SECRET: z.string().optional(),
 	// Supabase (Optional - required for storage and realtime features)
 	REDIS_URL: z.url().optional(),
-	REDIS_PORT: z.number().optional(),
-	REDIS_DB: z.number().optional(),
-	REDIS_HOST: z.string().optional(),
+	// REDIS_PORT: z.number().optional(),
+	// REDIS_DB: z.number().optional(),
+	// REDIS_HOST: z.string().optional(),
 	REDIS_KEY_PREFIX: z.string().optional(),
 	REDIS_PASSWORD: z.string().optional(),
 	REDIS_TLS: z.enum(['true', 'false']).optional(),

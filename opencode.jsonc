@@ -1,0 +1,189 @@
+// opencode.jsonc
+{
+  "$schema": "https://opencode.ai/config.json",
+  // ==================== CUSTOM AGENTS ====================
+  "agent": {
+    "agentrpc-expert": {
+      "description": "Expert in using AgentRPC to connect to remote functions and APIs",
+      "model": "302ai/chatgpt-4o-latest",
+      "prompt": "You are an expert in using AgentRPC to connect to remote functions and APIs. You can access tools registered with AgentRPC to perform actions across different systems.",
+      "tools": {
+        "bash": true,
+        "glob": true,
+        "grep": true,
+        "read": true
+      }
+    },
+    // Next.js 16 Expert Agent
+    "nextjs-expert": {
+      "description": "Expert in Next.js 16 with deep understanding of Server Components, tRPC, Prisma, and modern React patterns. Follows best practices for performance, scalability, and maintainability. Always writes clean, well-structured code with proper TypeScript types and documentation.",
+      "model": "302ai/deepseek-reasoner"
+    }
+  },
+  "autoupdate": true,
+  // ==================== CUSTOM COMMANDS ====================
+  "command": {
+    "action": {
+      "agent": "nextjs-expert",
+      "description": "Create a server action",
+      "template": "Create a new Server Action for $ARGUMENTS following the thin action layer pattern"
+    },
+    "component": {
+      "agent": "nextjs-expert",
+      "description": "Create a new component",
+      "template": "Create a new React component named $ARGUMENTS with proper TypeScript types and 'use client' directive if needed"
+    },
+    "page": {
+      "agent": "nextjs-expert",
+      "description": "Create a new page",
+      "template": "Create a new Next.js page at $ARGUMENTS with proper Server Component structure and metadata"
+    },
+    "query": {
+      "agent": "prisma-expert",
+      "description": "Create a query layer",
+      "template": "Create a new query layer file for $ARGUMENTS with pure Prisma calls"
+    },
+    "router": {
+      "agent": "trpc-expert",
+      "description": "Create a tRPC router",
+      "template": "Create a new tRPC router for $ARGUMENTS with proper procedures"
+    },
+    "service": {
+      "agent": "nextjs-expert",
+      "description": "Create a service",
+      "template": "Create a new service layer for $ARGUMENTS with 'use cache' directives and business logic"
+    }
+  },
+  // ==================== COMPACTION ====================
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 10000
+  },
+  // ==================== DEFAULT AGENT ====================
+  "default_agent": "nextjs-expert",
+  "disabled_providers": [
+    "cohere",
+    "mistral",
+    "groq"
+  ],
+  // ==================== INSTRUCTIONS/RULES ====================
+  "instructions": [
+    "CONTRIBUTING.md",
+    "docs/architecture.md",
+    "docs/coding-standards.md",
+    "GUIDE.md",
+    ".cursor/rules/*.md"
+  ],
+  // ==================== KEYBINDS ====================
+  "keybinds": {
+    "model_list": "ctrl+m"
+  },
+  // ==================== MCP SERVERS ====================
+  "mcp": {
+    // ✅ ADD AGENTRPC MCP SERVER
+    "agentrpc": {
+      "command": [
+        "bunx",
+        "-y",
+        "agentrpc",
+        "mcp"
+      ],
+      "enabled": true,
+      "type": "local"
+    },
+    // Optional: Add specific tools as separate MCP servers
+    "agentrpc-tools": {
+      "command": [
+        "bunx",
+        "-y",
+        "agentrpc",
+        "mcp",
+        "--tools",
+        "database,api,email"
+      ],
+      "enabled": false,
+      "type": "local"
+    },
+    "better-auth": {
+      "type": "remote",
+      "url": "https://mcp.inkeep.com/better-auth/mcp"
+    },
+    "Prisma-Local": {
+      "command": [
+        "bunx",
+        "-y",
+        "prisma",
+        "mcp"
+      ],
+      "type": "local"
+    },
+    "Prisma-Remote": {
+      "type": "remote",
+      "url": "https://mcp.prisma.io/mcp"
+    },
+    "shadcn-ui-server": {
+      "command": [
+        "bunx",
+        "-y",
+        "shadcn-ui-mcp-server",
+        "mcp"
+      ],
+      "type": "local"
+    }
+  },
+  // ==================== MODELS ====================
+  "model": "302ai/deepseek-chat",
+  // ==================== PERMISSIONS ====================
+  "permission": {
+    "bash": "ask",
+    "edit": "ask",
+    "glob": "allow",
+    "grep": "allow",
+    "read": "allow"
+  },
+  // ==================== PLUGINS ====================
+  "plugin": [],
+  "provider": {
+    "openai": {
+      "options": {
+        "apiKey": "{env:OPENAI_API_KEY}"
+      }
+    }
+  },
+  // ==================== SERVER SETTINGS ====================
+  "server": {
+    "cors": [
+      "http://localhost:3000"
+    ],
+    "hostname": "localhost",
+    "mdns": false,
+    "port": 4096
+  },
+  // ==================== SHARING ====================
+  "share": "manual",
+  "small_model": "anthropic/claude-3-5-haiku-20241022",
+  "theme": "opencode",
+  // ==================== TUI SETTINGS ====================
+  "tui": {
+    "diff_style": "auto",
+    "scroll_acceleration": {
+      "enabled": true
+    },
+    "scroll_speed": 3
+  },
+  // ==================== WATCHER IGNORES ====================
+  "watcher": {
+    "ignore": [
+      "node_modules/**",
+      "dist/**",
+      ".next/**",
+      "build/**",
+      "coverage/**",
+      ".git/**",
+      "*.log",
+      ".env*",
+      "prisma/migrations/**"
+    ]
+  }
+}

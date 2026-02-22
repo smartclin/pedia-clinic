@@ -46,7 +46,7 @@ export const userRouter = createTRPCRouter({
 				createdAt: true,
 				updatedAt: true,
 				banned: true,
-				clinics: {
+				clinicMembers: {
 					select: {
 						joinedAt: true,
 						clinic: {
