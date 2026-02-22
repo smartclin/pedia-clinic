@@ -48,7 +48,7 @@ export const invitationsRouter = createTRPCRouter({
 		.input(
 			z.object({
 				clinicId: z.string(),
-				email: z.string().email(),
+				email: z.email(),
 				roleId: z.string(),
 			})
 		)
@@ -585,7 +585,7 @@ export const invitationsRouter = createTRPCRouter({
 		.input(
 			z.object({
 				clinicId: z.string(),
-				emails: z.array(z.string().email()),
+				emails: z.array(z.email()),
 				roleId: z.string(),
 			})
 		)

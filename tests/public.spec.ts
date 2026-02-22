@@ -1,5 +1,5 @@
-import { expect, test } from '../fixtures/global'
-import { HomePage } from '../pages/home.page'
+import { expect, test } from './fixtures/global'
+import { HomePage } from './pages/home.page'
 
 test.describe('Public Pages', () => {
 	test.describe('Home Page', () => {

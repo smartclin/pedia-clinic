@@ -310,6 +310,7 @@ export type UserWhereInput = {
   fileStorages?: Prisma.FileStorageListRelationFilter
   clinicinvitations?: Prisma.OrganizationInvitationListRelationFilter
   clinicMembers?: Prisma.ClinicMemberListRelationFilter
+  growthRecords?: Prisma.GrowthRecordListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -353,6 +354,7 @@ export type UserOrderByWithRelationInput = {
   fileStorages?: Prisma.FileStorageOrderByRelationAggregateInput
   clinicinvitations?: Prisma.OrganizationInvitationOrderByRelationAggregateInput
   clinicMembers?: Prisma.ClinicMemberOrderByRelationAggregateInput
+  growthRecords?: Prisma.GrowthRecordOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -399,6 +401,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   fileStorages?: Prisma.FileStorageListRelationFilter
   clinicinvitations?: Prisma.OrganizationInvitationListRelationFilter
   clinicMembers?: Prisma.ClinicMemberListRelationFilter
+  growthRecords?: Prisma.GrowthRecordListRelationFilter
 }, "id" | "email" | "betterAuthId">
 
 export type UserOrderByWithAggregationInput = {
@@ -490,6 +493,7 @@ export type UserCreateInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -533,6 +537,7 @@ export type UserUncheckedCreateInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUpdateInput = {
@@ -576,6 +581,7 @@ export type UserUpdateInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -619,6 +625,7 @@ export type UserUncheckedUpdateInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1067,6 +1074,22 @@ export type UserUpdateOneRequiredWithoutMedicalRecordAccessesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMedicalRecordAccessesInput, Prisma.UserUpdateWithoutMedicalRecordAccessesInput>, Prisma.UserUncheckedUpdateWithoutMedicalRecordAccessesInput>
 }
 
+export type UserCreateNestedOneWithoutGrowthRecordsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGrowthRecordsInput, Prisma.UserUncheckedCreateWithoutGrowthRecordsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGrowthRecordsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutGrowthRecordsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGrowthRecordsInput, Prisma.UserUncheckedCreateWithoutGrowthRecordsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGrowthRecordsInput
+  upsert?: Prisma.UserUpsertWithoutGrowthRecordsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGrowthRecordsInput, Prisma.UserUpdateWithoutGrowthRecordsInput>, Prisma.UserUncheckedUpdateWithoutGrowthRecordsInput>
+}
+
 export type UserCreateNestedOneWithoutUserQuotasInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutUserQuotasInput, Prisma.UserUncheckedCreateWithoutUserQuotasInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserQuotasInput
@@ -1137,6 +1160,7 @@ export type UserCreateWithoutTwoFactorsInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutTwoFactorsInput = {
@@ -1179,6 +1203,7 @@ export type UserUncheckedCreateWithoutTwoFactorsInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutTwoFactorsInput = {
@@ -1237,6 +1262,7 @@ export type UserUpdateWithoutTwoFactorsInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTwoFactorsInput = {
@@ -1279,6 +1305,7 @@ export type UserUncheckedUpdateWithoutTwoFactorsInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1321,6 +1348,7 @@ export type UserCreateWithoutSessionsInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1363,6 +1391,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1421,6 +1450,7 @@ export type UserUpdateWithoutSessionsInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1463,6 +1493,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -1505,6 +1536,7 @@ export type UserCreateWithoutAccountsInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1547,6 +1579,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1605,6 +1638,7 @@ export type UserUpdateWithoutAccountsInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1647,6 +1681,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutClinicMembersInput = {
@@ -1689,6 +1724,7 @@ export type UserCreateWithoutClinicMembersInput = {
   patientsCreated?: Prisma.PatientCreateNestedManyWithoutCreatedByInput
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutClinicMembersInput = {
@@ -1731,6 +1767,7 @@ export type UserUncheckedCreateWithoutClinicMembersInput = {
   patientsCreated?: Prisma.PatientUncheckedCreateNestedManyWithoutCreatedByInput
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutClinicMembersInput = {
@@ -1789,6 +1826,7 @@ export type UserUpdateWithoutClinicMembersInput = {
   patientsCreated?: Prisma.PatientUpdateManyWithoutCreatedByNestedInput
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicMembersInput = {
@@ -1831,6 +1869,7 @@ export type UserUncheckedUpdateWithoutClinicMembersInput = {
   patientsCreated?: Prisma.PatientUncheckedUpdateManyWithoutCreatedByNestedInput
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutInvitationsInput = {
@@ -1873,6 +1912,7 @@ export type UserCreateWithoutInvitationsInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutInvitationsInput = {
@@ -1915,6 +1955,7 @@ export type UserUncheckedCreateWithoutInvitationsInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutInvitationsInput = {
@@ -1973,6 +2014,7 @@ export type UserUpdateWithoutInvitationsInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInvitationsInput = {
@@ -2015,6 +2057,7 @@ export type UserUncheckedUpdateWithoutInvitationsInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -2057,6 +2100,7 @@ export type UserCreateWithoutNotificationsInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -2099,6 +2143,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -2157,6 +2202,7 @@ export type UserUpdateWithoutNotificationsInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -2199,6 +2245,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutTwoFactorAuthInput = {
@@ -2241,6 +2288,7 @@ export type UserCreateWithoutTwoFactorAuthInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutTwoFactorAuthInput = {
@@ -2283,6 +2331,7 @@ export type UserUncheckedCreateWithoutTwoFactorAuthInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutTwoFactorAuthInput = {
@@ -2341,6 +2390,7 @@ export type UserUpdateWithoutTwoFactorAuthInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTwoFactorAuthInput = {
@@ -2383,6 +2433,7 @@ export type UserUncheckedUpdateWithoutTwoFactorAuthInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutPasskeysInput = {
@@ -2425,6 +2476,7 @@ export type UserCreateWithoutPasskeysInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutPasskeysInput = {
@@ -2467,6 +2519,7 @@ export type UserUncheckedCreateWithoutPasskeysInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutPasskeysInput = {
@@ -2525,6 +2578,7 @@ export type UserUpdateWithoutPasskeysInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasskeysInput = {
@@ -2567,6 +2621,7 @@ export type UserUncheckedUpdateWithoutPasskeysInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutApiKeysInput = {
@@ -2609,6 +2664,7 @@ export type UserCreateWithoutApiKeysInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutApiKeysInput = {
@@ -2651,6 +2707,7 @@ export type UserUncheckedCreateWithoutApiKeysInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutApiKeysInput = {
@@ -2709,6 +2766,7 @@ export type UserUpdateWithoutApiKeysInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApiKeysInput = {
@@ -2751,6 +2809,7 @@ export type UserUncheckedUpdateWithoutApiKeysInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -2793,6 +2852,7 @@ export type UserCreateWithoutAuditLogsInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -2835,6 +2895,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -2893,6 +2954,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -2935,6 +2997,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutClinicinvitationsInput = {
@@ -2977,6 +3040,7 @@ export type UserCreateWithoutClinicinvitationsInput = {
   patientsCreated?: Prisma.PatientCreateNestedManyWithoutCreatedByInput
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutClinicinvitationsInput = {
@@ -3019,6 +3083,7 @@ export type UserUncheckedCreateWithoutClinicinvitationsInput = {
   patientsCreated?: Prisma.PatientUncheckedCreateNestedManyWithoutCreatedByInput
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutClinicinvitationsInput = {
@@ -3077,6 +3142,7 @@ export type UserUpdateWithoutClinicinvitationsInput = {
   patientsCreated?: Prisma.PatientUpdateManyWithoutCreatedByNestedInput
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicinvitationsInput = {
@@ -3119,6 +3185,7 @@ export type UserUncheckedUpdateWithoutClinicinvitationsInput = {
   patientsCreated?: Prisma.PatientUncheckedUpdateManyWithoutCreatedByNestedInput
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutFilesInput = {
@@ -3161,6 +3228,7 @@ export type UserCreateWithoutFilesInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutFilesInput = {
@@ -3203,6 +3271,7 @@ export type UserUncheckedCreateWithoutFilesInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutFilesInput = {
@@ -3261,6 +3330,7 @@ export type UserUpdateWithoutFilesInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFilesInput = {
@@ -3303,6 +3373,7 @@ export type UserUncheckedUpdateWithoutFilesInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutFoldersInput = {
@@ -3345,6 +3416,7 @@ export type UserCreateWithoutFoldersInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutFoldersInput = {
@@ -3387,6 +3459,7 @@ export type UserUncheckedCreateWithoutFoldersInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutFoldersInput = {
@@ -3445,6 +3518,7 @@ export type UserUpdateWithoutFoldersInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFoldersInput = {
@@ -3487,6 +3561,7 @@ export type UserUncheckedUpdateWithoutFoldersInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutDoctorInput = {
@@ -3529,6 +3604,7 @@ export type UserCreateWithoutDoctorInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutDoctorInput = {
@@ -3571,6 +3647,7 @@ export type UserUncheckedCreateWithoutDoctorInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutDoctorInput = {
@@ -3629,6 +3706,7 @@ export type UserUpdateWithoutDoctorInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDoctorInput = {
@@ -3671,6 +3749,7 @@ export type UserUncheckedUpdateWithoutDoctorInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutStaffInput = {
@@ -3713,6 +3792,7 @@ export type UserCreateWithoutStaffInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutStaffInput = {
@@ -3755,6 +3835,7 @@ export type UserUncheckedCreateWithoutStaffInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutStaffInput = {
@@ -3813,6 +3894,7 @@ export type UserUpdateWithoutStaffInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStaffInput = {
@@ -3855,6 +3937,7 @@ export type UserUncheckedUpdateWithoutStaffInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutGuardiansInput = {
@@ -3897,6 +3980,7 @@ export type UserCreateWithoutGuardiansInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutGuardiansInput = {
@@ -3939,6 +4023,7 @@ export type UserUncheckedCreateWithoutGuardiansInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutGuardiansInput = {
@@ -3997,6 +4082,7 @@ export type UserUpdateWithoutGuardiansInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGuardiansInput = {
@@ -4039,6 +4125,7 @@ export type UserUncheckedUpdateWithoutGuardiansInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutPatientAsUserInput = {
@@ -4081,6 +4168,7 @@ export type UserCreateWithoutPatientAsUserInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutPatientAsUserInput = {
@@ -4123,6 +4211,7 @@ export type UserUncheckedCreateWithoutPatientAsUserInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutPatientAsUserInput = {
@@ -4170,6 +4259,7 @@ export type UserCreateWithoutPatientsCreatedInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutPatientsCreatedInput = {
@@ -4212,6 +4302,7 @@ export type UserUncheckedCreateWithoutPatientsCreatedInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutPatientsCreatedInput = {
@@ -4259,6 +4350,7 @@ export type UserCreateWithoutPatientsAsDoctorInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutPatientsAsDoctorInput = {
@@ -4301,6 +4393,7 @@ export type UserUncheckedCreateWithoutPatientsAsDoctorInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutPatientsAsDoctorInput = {
@@ -4359,6 +4452,7 @@ export type UserUpdateWithoutPatientAsUserInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPatientAsUserInput = {
@@ -4401,6 +4495,7 @@ export type UserUncheckedUpdateWithoutPatientAsUserInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUpsertWithoutPatientsCreatedInput = {
@@ -4454,6 +4549,7 @@ export type UserUpdateWithoutPatientsCreatedInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPatientsCreatedInput = {
@@ -4496,6 +4592,7 @@ export type UserUncheckedUpdateWithoutPatientsCreatedInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUpsertWithoutPatientsAsDoctorInput = {
@@ -4549,6 +4646,7 @@ export type UserUpdateWithoutPatientsAsDoctorInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPatientsAsDoctorInput = {
@@ -4591,6 +4689,7 @@ export type UserUncheckedUpdateWithoutPatientsAsDoctorInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutMedicalRecordAccessesInput = {
@@ -4633,6 +4732,7 @@ export type UserCreateWithoutMedicalRecordAccessesInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutMedicalRecordAccessesInput = {
@@ -4675,6 +4775,7 @@ export type UserUncheckedCreateWithoutMedicalRecordAccessesInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutMedicalRecordAccessesInput = {
@@ -4733,6 +4834,7 @@ export type UserUpdateWithoutMedicalRecordAccessesInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMedicalRecordAccessesInput = {
@@ -4768,6 +4870,195 @@ export type UserUncheckedUpdateWithoutMedicalRecordAccessesInput = {
   doctor?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   guardians?: Prisma.GuardianUncheckedUpdateManyWithoutUserNestedInput
+  userQuotas?: Prisma.UserQuotaUncheckedUpdateManyWithoutUserNestedInput
+  patientAsUser?: Prisma.PatientUncheckedUpdateOneWithoutUserNestedInput
+  patientsAsDoctor?: Prisma.PatientUncheckedUpdateManyWithoutDoctorNestedInput
+  patientsCreated?: Prisma.PatientUncheckedUpdateManyWithoutCreatedByNestedInput
+  fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
+  clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
+  clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
+}
+
+export type UserCreateWithoutGrowthRecordsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  emailVerified?: boolean
+  image?: string | null
+  bio?: string | null
+  timezone?: string | null
+  language?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isAdmin?: boolean
+  banned?: boolean
+  betterAuthId?: string | null
+  clinicId?: string | null
+  role?: $Enums.UserRole | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  phone?: string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  invitations?: Prisma.clinicInvitationCreateNestedManyWithoutInvitedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  twoFactorAuth?: Prisma.TwoFactorAuthCreateNestedOneWithoutUserInput
+  passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
+  apiKeys?: Prisma.APIKeyCreateNestedManyWithoutCreatedByInput
+  twoFactors?: Prisma.TwoFactorCreateNestedManyWithoutUserInput
+  files?: Prisma.FileCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderCreateNestedManyWithoutUserInput
+  doctor?: Prisma.DoctorCreateNestedOneWithoutUserInput
+  staff?: Prisma.StaffCreateNestedOneWithoutUserInput
+  guardians?: Prisma.GuardianCreateNestedManyWithoutUserInput
+  medicalRecordAccesses?: Prisma.MedicalRecordAccessCreateNestedManyWithoutUserInput
+  userQuotas?: Prisma.UserQuotaCreateNestedManyWithoutUserInput
+  patientAsUser?: Prisma.PatientCreateNestedOneWithoutUserInput
+  patientsAsDoctor?: Prisma.PatientCreateNestedManyWithoutDoctorInput
+  patientsCreated?: Prisma.PatientCreateNestedManyWithoutCreatedByInput
+  fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
+  clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
+  clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutGrowthRecordsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  emailVerified?: boolean
+  image?: string | null
+  bio?: string | null
+  timezone?: string | null
+  language?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isAdmin?: boolean
+  banned?: boolean
+  betterAuthId?: string | null
+  clinicId?: string | null
+  role?: $Enums.UserRole | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  phone?: string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.clinicInvitationUncheckedCreateNestedManyWithoutInvitedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  twoFactorAuth?: Prisma.TwoFactorAuthUncheckedCreateNestedOneWithoutUserInput
+  passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
+  apiKeys?: Prisma.APIKeyUncheckedCreateNestedManyWithoutCreatedByInput
+  twoFactors?: Prisma.TwoFactorUncheckedCreateNestedManyWithoutUserInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
+  folders?: Prisma.FolderUncheckedCreateNestedManyWithoutUserInput
+  doctor?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
+  staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
+  guardians?: Prisma.GuardianUncheckedCreateNestedManyWithoutUserInput
+  medicalRecordAccesses?: Prisma.MedicalRecordAccessUncheckedCreateNestedManyWithoutUserInput
+  userQuotas?: Prisma.UserQuotaUncheckedCreateNestedManyWithoutUserInput
+  patientAsUser?: Prisma.PatientUncheckedCreateNestedOneWithoutUserInput
+  patientsAsDoctor?: Prisma.PatientUncheckedCreateNestedManyWithoutDoctorInput
+  patientsCreated?: Prisma.PatientUncheckedCreateNestedManyWithoutCreatedByInput
+  fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
+  clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
+  clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutGrowthRecordsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutGrowthRecordsInput, Prisma.UserUncheckedCreateWithoutGrowthRecordsInput>
+}
+
+export type UserUpsertWithoutGrowthRecordsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutGrowthRecordsInput, Prisma.UserUncheckedUpdateWithoutGrowthRecordsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutGrowthRecordsInput, Prisma.UserUncheckedCreateWithoutGrowthRecordsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutGrowthRecordsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutGrowthRecordsInput, Prisma.UserUncheckedUpdateWithoutGrowthRecordsInput>
+}
+
+export type UserUpdateWithoutGrowthRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  betterAuthId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.clinicInvitationUpdateManyWithoutInvitedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  twoFactorAuth?: Prisma.TwoFactorAuthUpdateOneWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
+  apiKeys?: Prisma.APIKeyUpdateManyWithoutCreatedByNestedInput
+  twoFactors?: Prisma.TwoFactorUpdateManyWithoutUserNestedInput
+  files?: Prisma.FileUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUpdateManyWithoutUserNestedInput
+  doctor?: Prisma.DoctorUpdateOneWithoutUserNestedInput
+  staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
+  guardians?: Prisma.GuardianUpdateManyWithoutUserNestedInput
+  medicalRecordAccesses?: Prisma.MedicalRecordAccessUpdateManyWithoutUserNestedInput
+  userQuotas?: Prisma.UserQuotaUpdateManyWithoutUserNestedInput
+  patientAsUser?: Prisma.PatientUpdateOneWithoutUserNestedInput
+  patientsAsDoctor?: Prisma.PatientUpdateManyWithoutDoctorNestedInput
+  patientsCreated?: Prisma.PatientUpdateManyWithoutCreatedByNestedInput
+  fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
+  clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
+  clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutGrowthRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  betterAuthId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.clinicInvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  twoFactorAuth?: Prisma.TwoFactorAuthUncheckedUpdateOneWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
+  apiKeys?: Prisma.APIKeyUncheckedUpdateManyWithoutCreatedByNestedInput
+  twoFactors?: Prisma.TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
+  folders?: Prisma.FolderUncheckedUpdateManyWithoutUserNestedInput
+  doctor?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
+  staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
+  guardians?: Prisma.GuardianUncheckedUpdateManyWithoutUserNestedInput
+  medicalRecordAccesses?: Prisma.MedicalRecordAccessUncheckedUpdateManyWithoutUserNestedInput
   userQuotas?: Prisma.UserQuotaUncheckedUpdateManyWithoutUserNestedInput
   patientAsUser?: Prisma.PatientUncheckedUpdateOneWithoutUserNestedInput
   patientsAsDoctor?: Prisma.PatientUncheckedUpdateManyWithoutDoctorNestedInput
@@ -4817,6 +5108,7 @@ export type UserCreateWithoutUserQuotasInput = {
   fileStorages?: Prisma.FileStorageCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutUserQuotasInput = {
@@ -4859,6 +5151,7 @@ export type UserUncheckedCreateWithoutUserQuotasInput = {
   fileStorages?: Prisma.FileStorageUncheckedCreateNestedManyWithoutUserInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutUserQuotasInput = {
@@ -4917,6 +5210,7 @@ export type UserUpdateWithoutUserQuotasInput = {
   fileStorages?: Prisma.FileStorageUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserQuotasInput = {
@@ -4959,6 +5253,7 @@ export type UserUncheckedUpdateWithoutUserQuotasInput = {
   fileStorages?: Prisma.FileStorageUncheckedUpdateManyWithoutUserNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserCreateWithoutFileStoragesInput = {
@@ -5001,6 +5296,7 @@ export type UserCreateWithoutFileStoragesInput = {
   patientsCreated?: Prisma.PatientCreateNestedManyWithoutCreatedByInput
   clinicinvitations?: Prisma.OrganizationInvitationCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserUncheckedCreateWithoutFileStoragesInput = {
@@ -5043,6 +5339,7 @@ export type UserUncheckedCreateWithoutFileStoragesInput = {
   patientsCreated?: Prisma.PatientUncheckedCreateNestedManyWithoutCreatedByInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedCreateNestedManyWithoutUserInput
   clinicMembers?: Prisma.ClinicMemberUncheckedCreateNestedManyWithoutUserInput
+  growthRecords?: Prisma.GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput
 }
 
 export type UserCreateOrConnectWithoutFileStoragesInput = {
@@ -5101,6 +5398,7 @@ export type UserUpdateWithoutFileStoragesInput = {
   patientsCreated?: Prisma.PatientUpdateManyWithoutCreatedByNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUpdateManyWithoutRecordedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFileStoragesInput = {
@@ -5143,6 +5441,7 @@ export type UserUncheckedUpdateWithoutFileStoragesInput = {
   patientsCreated?: Prisma.PatientUncheckedUpdateManyWithoutCreatedByNestedInput
   clinicinvitations?: Prisma.OrganizationInvitationUncheckedUpdateManyWithoutUserNestedInput
   clinicMembers?: Prisma.ClinicMemberUncheckedUpdateManyWithoutUserNestedInput
+  growthRecords?: Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput
 }
 
 
@@ -5169,6 +5468,7 @@ export type UserCountOutputType = {
   fileStorages: number
   clinicinvitations: number
   clinicMembers: number
+  growthRecords: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5190,6 +5490,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   fileStorages?: boolean | UserCountOutputTypeCountFileStoragesArgs
   clinicinvitations?: boolean | UserCountOutputTypeCountClinicinvitationsArgs
   clinicMembers?: boolean | UserCountOutputTypeCountClinicMembersArgs
+  growthRecords?: boolean | UserCountOutputTypeCountGrowthRecordsArgs
 }
 
 /**
@@ -5328,6 +5629,13 @@ export type UserCountOutputTypeCountClinicMembersArgs<ExtArgs extends runtime.Ty
   where?: Prisma.ClinicMemberWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountGrowthRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GrowthRecordWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -5370,6 +5678,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   fileStorages?: boolean | Prisma.User$fileStoragesArgs<ExtArgs>
   clinicinvitations?: boolean | Prisma.User$clinicinvitationsArgs<ExtArgs>
   clinicMembers?: boolean | Prisma.User$clinicMembersArgs<ExtArgs>
+  growthRecords?: boolean | Prisma.User$growthRecordsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -5460,6 +5769,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   fileStorages?: boolean | Prisma.User$fileStoragesArgs<ExtArgs>
   clinicinvitations?: boolean | Prisma.User$clinicinvitationsArgs<ExtArgs>
   clinicMembers?: boolean | Prisma.User$clinicMembersArgs<ExtArgs>
+  growthRecords?: boolean | Prisma.User$growthRecordsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -5490,6 +5800,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     fileStorages: Prisma.$FileStoragePayload<ExtArgs>[]
     clinicinvitations: Prisma.$OrganizationInvitationPayload<ExtArgs>[]
     clinicMembers: Prisma.$ClinicMemberPayload<ExtArgs>[]
+    growthRecords: Prisma.$GrowthRecordPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -5926,6 +6237,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   fileStorages<T extends Prisma.User$fileStoragesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fileStoragesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FileStoragePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   clinicinvitations<T extends Prisma.User$clinicinvitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$clinicinvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrganizationInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   clinicMembers<T extends Prisma.User$clinicMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$clinicMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClinicMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  growthRecords<T extends Prisma.User$growthRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$growthRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GrowthRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6875,6 +7187,30 @@ export type User$clinicMembersArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.ClinicMemberScalarFieldEnum | Prisma.ClinicMemberScalarFieldEnum[]
+}
+
+/**
+ * User.growthRecords
+ */
+export type User$growthRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GrowthRecord
+   */
+  select?: Prisma.GrowthRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GrowthRecord
+   */
+  omit?: Prisma.GrowthRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GrowthRecordInclude<ExtArgs> | null
+  where?: Prisma.GrowthRecordWhereInput
+  orderBy?: Prisma.GrowthRecordOrderByWithRelationInput | Prisma.GrowthRecordOrderByWithRelationInput[]
+  cursor?: Prisma.GrowthRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GrowthRecordScalarFieldEnum | Prisma.GrowthRecordScalarFieldEnum[]
 }
 
 /**

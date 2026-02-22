@@ -21,7 +21,7 @@ const nameSchema = z
 	)
 
 // ==================== BASE SCHEMAS ====================
-export const patientBaseSchema = z
+export const PatientShape = z
 	.object({
 		address: z
 			.string()
@@ -73,6 +73,9 @@ export const patientBaseSchema = z
 		status: statusSchema.default('ACTIVE'),
 		userId: z.uuid(),
 	})
+
+
+export const patientBaseSchema = PatientShape
 	.refine(
 		data => {
 			// If emergency contact name is provided, phone should also be provided

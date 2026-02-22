@@ -1,6 +1,6 @@
-export * from './age'
 export * from './buildQuery'
 export * from './currency'
+export * from './date/calculate-age'
 export * from './decimal'
 export * from './dose'
 export * from './getScore'

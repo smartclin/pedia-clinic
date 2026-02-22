@@ -55,6 +55,8 @@
 		"ignoreUnknown": true,
 		"includes": [
 			"**",
+			"!**/tests",
+			"!**/*.test.*",
 			"!**/generated",
 			"!*.json",
 			"!**/*.css",

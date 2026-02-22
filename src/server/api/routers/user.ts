@@ -79,7 +79,7 @@ export const userRouter = createTRPCRouter({
 					.string()
 					.optional()
 					.transform(val => (val === '' ? undefined : val))
-					.pipe(z.string().url().optional()),
+					.pipe(z.url().optional()),
 				bio: z.string().max(500).optional(),
 				timezone: z.string().optional(),
 				language: z.string().optional(),
@@ -190,7 +190,7 @@ export const userRouter = createTRPCRouter({
 	 */
 
 	requestEmailChange: protectedProcedure
-		.input(z.object({ newEmail: z.string().email() }))
+		.input(z.object({ newEmail: z.email() }))
 		.mutation(async ({ ctx, input }) => {
 			if (!ctx.user) {
 				throw new Error('Unauthorized')

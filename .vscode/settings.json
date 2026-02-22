@@ -3,6 +3,8 @@
 		"editor.defaultFormatter": "Prisma.prisma",
 		"editor.formatOnSave": true
 	},
+  "tailwindcss-intellisense.trace.server":"verbose",
+  "workbench.colorTheme":"Default Dark+",
 	// Biome specific settings
 	"[javascript]": {
 		"editor.defaultFormatter": "biomejs.biome"

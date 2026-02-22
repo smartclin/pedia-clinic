@@ -55,6 +55,7 @@ model User {
 
   @@index([email])
   @@map("users")
+  growthRecords GrowthRecord[]
 }
 
 model Session {

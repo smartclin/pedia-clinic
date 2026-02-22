@@ -503,6 +503,11 @@ export const cacheHelpers = {
 		invalidateAll() {
 			revalidateWithProfile(CACHE_TAGS.patient.all, 'hours')
 		},
+		invalidateGrowth: (patientId: string, clinicId: string) => {
+			revalidateWithProfile(CACHE_TAGS.growth.byPatient(patientId), 'minutes')
+			revalidateWithProfile(CACHE_TAGS.patient.growth(patientId), 'minutes')
+			revalidateWithProfile(CACHE_TAGS.clinic.dashboard(clinicId), 'minutes')
+		},
 		invalidateLabTests(patientId: string, clinicId: string) {
 			revalidateWithProfile(
 				CACHE_TAGS.medical.lab.byPatient(patientId),

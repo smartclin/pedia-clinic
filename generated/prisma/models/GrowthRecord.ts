@@ -89,6 +89,7 @@ export type GrowthRecordMinAggregateOutputType = {
   classification: string | null
   deletedAt: Date | null
   measurementType: $Enums.MeasurementType | null
+  recordedById: string | null
 }
 
 export type GrowthRecordMaxAggregateOutputType = {
@@ -120,6 +121,7 @@ export type GrowthRecordMaxAggregateOutputType = {
   classification: string | null
   deletedAt: Date | null
   measurementType: $Enums.MeasurementType | null
+  recordedById: string | null
 }
 
 export type GrowthRecordCountAggregateOutputType = {
@@ -151,6 +153,7 @@ export type GrowthRecordCountAggregateOutputType = {
   classification: number
   deletedAt: number
   measurementType: number
+  recordedById: number
   _all: number
 }
 
@@ -216,6 +219,7 @@ export type GrowthRecordMinAggregateInputType = {
   classification?: true
   deletedAt?: true
   measurementType?: true
+  recordedById?: true
 }
 
 export type GrowthRecordMaxAggregateInputType = {
@@ -247,6 +251,7 @@ export type GrowthRecordMaxAggregateInputType = {
   classification?: true
   deletedAt?: true
   measurementType?: true
+  recordedById?: true
 }
 
 export type GrowthRecordCountAggregateInputType = {
@@ -278,6 +283,7 @@ export type GrowthRecordCountAggregateInputType = {
   classification?: true
   deletedAt?: true
   measurementType?: true
+  recordedById?: true
   _all?: true
 }
 
@@ -396,6 +402,7 @@ export type GrowthRecordGroupByOutputType = {
   classification: string | null
   deletedAt: Date | null
   measurementType: $Enums.MeasurementType | null
+  recordedById: string | null
   _count: GrowthRecordCountAggregateOutputType | null
   _avg: GrowthRecordAvgAggregateOutputType | null
   _sum: GrowthRecordSumAggregateOutputType | null
@@ -450,10 +457,12 @@ export type GrowthRecordWhereInput = {
   classification?: Prisma.StringNullableFilter<"GrowthRecord"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"GrowthRecord"> | Date | string | null
   measurementType?: Prisma.EnumMeasurementTypeNullableFilter<"GrowthRecord"> | $Enums.MeasurementType | null
+  recordedById?: Prisma.StringNullableFilter<"GrowthRecord"> | string | null
   clinic?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
   patient?: Prisma.XOR<Prisma.PatientScalarRelationFilter, Prisma.PatientWhereInput>
   vitalSigns?: Prisma.XOR<Prisma.VitalSignsNullableScalarRelationFilter, Prisma.VitalSignsWhereInput> | null
   medical?: Prisma.XOR<Prisma.MedicalRecordsNullableScalarRelationFilter, Prisma.MedicalRecordsWhereInput> | null
+  recordedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type GrowthRecordOrderByWithRelationInput = {
@@ -485,10 +494,12 @@ export type GrowthRecordOrderByWithRelationInput = {
   classification?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   measurementType?: Prisma.SortOrderInput | Prisma.SortOrder
+  recordedById?: Prisma.SortOrderInput | Prisma.SortOrder
   clinic?: Prisma.ClinicOrderByWithRelationInput
   patient?: Prisma.PatientOrderByWithRelationInput
   vitalSigns?: Prisma.VitalSignsOrderByWithRelationInput
   medical?: Prisma.MedicalRecordsOrderByWithRelationInput
+  recordedBy?: Prisma.UserOrderByWithRelationInput
 }
 
 export type GrowthRecordWhereUniqueInput = Prisma.AtLeast<{
@@ -523,10 +534,12 @@ export type GrowthRecordWhereUniqueInput = Prisma.AtLeast<{
   classification?: Prisma.StringNullableFilter<"GrowthRecord"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"GrowthRecord"> | Date | string | null
   measurementType?: Prisma.EnumMeasurementTypeNullableFilter<"GrowthRecord"> | $Enums.MeasurementType | null
+  recordedById?: Prisma.StringNullableFilter<"GrowthRecord"> | string | null
   clinic?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
   patient?: Prisma.XOR<Prisma.PatientScalarRelationFilter, Prisma.PatientWhereInput>
   vitalSigns?: Prisma.XOR<Prisma.VitalSignsNullableScalarRelationFilter, Prisma.VitalSignsWhereInput> | null
   medical?: Prisma.XOR<Prisma.MedicalRecordsNullableScalarRelationFilter, Prisma.MedicalRecordsWhereInput> | null
+  recordedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id" | "medicalId" | "vitalSignsId">
 
 export type GrowthRecordOrderByWithAggregationInput = {
@@ -558,6 +571,7 @@ export type GrowthRecordOrderByWithAggregationInput = {
   classification?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   measurementType?: Prisma.SortOrderInput | Prisma.SortOrder
+  recordedById?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.GrowthRecordCountOrderByAggregateInput
   _avg?: Prisma.GrowthRecordAvgOrderByAggregateInput
   _max?: Prisma.GrowthRecordMaxOrderByAggregateInput
@@ -597,6 +611,7 @@ export type GrowthRecordScalarWhereWithAggregatesInput = {
   classification?: Prisma.StringNullableWithAggregatesFilter<"GrowthRecord"> | string | null
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"GrowthRecord"> | Date | string | null
   measurementType?: Prisma.EnumMeasurementTypeNullableWithAggregatesFilter<"GrowthRecord"> | $Enums.MeasurementType | null
+  recordedById?: Prisma.StringNullableWithAggregatesFilter<"GrowthRecord"> | string | null
 }
 
 export type GrowthRecordCreateInput = {
@@ -628,6 +643,7 @@ export type GrowthRecordCreateInput = {
   patient: Prisma.PatientCreateNestedOneWithoutGrowthRecordsInput
   vitalSigns?: Prisma.VitalSignsCreateNestedOneWithoutGrowthRecordsInput
   medical?: Prisma.MedicalRecordsCreateNestedOneWithoutGrowthRecordsInput
+  recordedBy?: Prisma.UserCreateNestedOneWithoutGrowthRecordsInput
 }
 
 export type GrowthRecordUncheckedCreateInput = {
@@ -659,6 +675,7 @@ export type GrowthRecordUncheckedCreateInput = {
   classification?: string | null
   deletedAt?: Date | string | null
   measurementType?: $Enums.MeasurementType | null
+  recordedById?: string | null
 }
 
 export type GrowthRecordUpdateInput = {
@@ -690,6 +707,7 @@ export type GrowthRecordUpdateInput = {
   patient?: Prisma.PatientUpdateOneRequiredWithoutGrowthRecordsNestedInput
   vitalSigns?: Prisma.VitalSignsUpdateOneWithoutGrowthRecordsNestedInput
   medical?: Prisma.MedicalRecordsUpdateOneWithoutGrowthRecordsNestedInput
+  recordedBy?: Prisma.UserUpdateOneWithoutGrowthRecordsNestedInput
 }
 
 export type GrowthRecordUncheckedUpdateInput = {
@@ -721,6 +739,7 @@ export type GrowthRecordUncheckedUpdateInput = {
   classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  recordedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GrowthRecordCreateManyInput = {
@@ -752,6 +771,7 @@ export type GrowthRecordCreateManyInput = {
   classification?: string | null
   deletedAt?: Date | string | null
   measurementType?: $Enums.MeasurementType | null
+  recordedById?: string | null
 }
 
 export type GrowthRecordUpdateManyMutationInput = {
@@ -810,6 +830,7 @@ export type GrowthRecordUncheckedUpdateManyInput = {
   classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  recordedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GrowthRecordListRelationFilter = {
@@ -851,6 +872,7 @@ export type GrowthRecordCountOrderByAggregateInput = {
   classification?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   measurementType?: Prisma.SortOrder
+  recordedById?: Prisma.SortOrder
 }
 
 export type GrowthRecordAvgOrderByAggregateInput = {
@@ -898,6 +920,7 @@ export type GrowthRecordMaxOrderByAggregateInput = {
   classification?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   measurementType?: Prisma.SortOrder
+  recordedById?: Prisma.SortOrder
 }
 
 export type GrowthRecordMinOrderByAggregateInput = {
@@ -929,6 +952,7 @@ export type GrowthRecordMinOrderByAggregateInput = {
   classification?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   measurementType?: Prisma.SortOrder
+  recordedById?: Prisma.SortOrder
 }
 
 export type GrowthRecordSumOrderByAggregateInput = {
@@ -945,6 +969,48 @@ export type GrowthRecordSumOrderByAggregateInput = {
   hcForAgeZ?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   height?: Prisma.SortOrder
+}
+
+export type GrowthRecordCreateNestedManyWithoutRecordedByInput = {
+  create?: Prisma.XOR<Prisma.GrowthRecordCreateWithoutRecordedByInput, Prisma.GrowthRecordUncheckedCreateWithoutRecordedByInput> | Prisma.GrowthRecordCreateWithoutRecordedByInput[] | Prisma.GrowthRecordUncheckedCreateWithoutRecordedByInput[]
+  connectOrCreate?: Prisma.GrowthRecordCreateOrConnectWithoutRecordedByInput | Prisma.GrowthRecordCreateOrConnectWithoutRecordedByInput[]
+  createMany?: Prisma.GrowthRecordCreateManyRecordedByInputEnvelope
+  connect?: Prisma.GrowthRecordWhereUniqueInput | Prisma.GrowthRecordWhereUniqueInput[]
+}
+
+export type GrowthRecordUncheckedCreateNestedManyWithoutRecordedByInput = {
+  create?: Prisma.XOR<Prisma.GrowthRecordCreateWithoutRecordedByInput, Prisma.GrowthRecordUncheckedCreateWithoutRecordedByInput> | Prisma.GrowthRecordCreateWithoutRecordedByInput[] | Prisma.GrowthRecordUncheckedCreateWithoutRecordedByInput[]
+  connectOrCreate?: Prisma.GrowthRecordCreateOrConnectWithoutRecordedByInput | Prisma.GrowthRecordCreateOrConnectWithoutRecordedByInput[]
+  createMany?: Prisma.GrowthRecordCreateManyRecordedByInputEnvelope
+  connect?: Prisma.GrowthRecordWhereUniqueInput | Prisma.GrowthRecordWhereUniqueInput[]
+}
+
+export type GrowthRecordUpdateManyWithoutRecordedByNestedInput = {
+  create?: Prisma.XOR<Prisma.GrowthRecordCreateWithoutRecordedByInput, Prisma.GrowthRecordUncheckedCreateWithoutRecordedByInput> | Prisma.GrowthRecordCreateWithoutRecordedByInput[] | Prisma.GrowthRecordUncheckedCreateWithoutRecordedByInput[]
+  connectOrCreate?: Prisma.GrowthRecordCreateOrConnectWithoutRecordedByInput | Prisma.GrowthRecordCreateOrConnectWithoutRecordedByInput[]
+  upsert?: Prisma.GrowthRecordUpsertWithWhereUniqueWithoutRecordedByInput | Prisma.GrowthRecordUpsertWithWhereUniqueWithoutRecordedByInput[]
+  createMany?: Prisma.GrowthRecordCreateManyRecordedByInputEnvelope
+  set?: Prisma.GrowthRecordWhereUniqueInput | Prisma.GrowthRecordWhereUniqueInput[]
+  disconnect?: Prisma.GrowthRecordWhereUniqueInput | Prisma.GrowthRecordWhereUniqueInput[]
+  delete?: Prisma.GrowthRecordWhereUniqueInput | Prisma.GrowthRecordWhereUniqueInput[]
+  connect?: Prisma.GrowthRecordWhereUniqueInput | Prisma.GrowthRecordWhereUniqueInput[]
+  update?: Prisma.GrowthRecordUpdateWithWhereUniqueWithoutRecordedByInput | Prisma.GrowthRecordUpdateWithWhereUniqueWithoutRecordedByInput[]
+  updateMany?: Prisma.GrowthRecordUpdateManyWithWhereWithoutRecordedByInput | Prisma.GrowthRecordUpdateManyWithWhereWithoutRecordedByInput[]
+  deleteMany?: Prisma.GrowthRecordScalarWhereInput | Prisma.GrowthRecordScalarWhereInput[]
+}
+
+export type GrowthRecordUncheckedUpdateManyWithoutRecordedByNestedInput = {
+  create?: Prisma.XOR<Prisma.GrowthRecordCreateWithoutRecordedByInput, Prisma.GrowthRecordUncheckedCreateWithoutRecordedByInput> | Prisma.GrowthRecordCreateWithoutRecordedByInput[] | Prisma.GrowthRecordUncheckedCreateWithoutRecordedByInput[]
+  connectOrCreate?: Prisma.GrowthRecordCreateOrConnectWithoutRecordedByInput | Prisma.GrowthRecordCreateOrConnectWithoutRecordedByInput[]
+  upsert?: Prisma.GrowthRecordUpsertWithWhereUniqueWithoutRecordedByInput | Prisma.GrowthRecordUpsertWithWhereUniqueWithoutRecordedByInput[]
+  createMany?: Prisma.GrowthRecordCreateManyRecordedByInputEnvelope
+  set?: Prisma.GrowthRecordWhereUniqueInput | Prisma.GrowthRecordWhereUniqueInput[]
+  disconnect?: Prisma.GrowthRecordWhereUniqueInput | Prisma.GrowthRecordWhereUniqueInput[]
+  delete?: Prisma.GrowthRecordWhereUniqueInput | Prisma.GrowthRecordWhereUniqueInput[]
+  connect?: Prisma.GrowthRecordWhereUniqueInput | Prisma.GrowthRecordWhereUniqueInput[]
+  update?: Prisma.GrowthRecordUpdateWithWhereUniqueWithoutRecordedByInput | Prisma.GrowthRecordUpdateWithWhereUniqueWithoutRecordedByInput[]
+  updateMany?: Prisma.GrowthRecordUpdateManyWithWhereWithoutRecordedByInput | Prisma.GrowthRecordUpdateManyWithWhereWithoutRecordedByInput[]
+  deleteMany?: Prisma.GrowthRecordScalarWhereInput | Prisma.GrowthRecordScalarWhereInput[]
 }
 
 export type GrowthRecordCreateNestedManyWithoutClinicInput = {
@@ -1119,7 +1185,7 @@ export type NullableEnumGrowthStatusFieldUpdateOperationsInput = {
   set?: $Enums.GrowthStatus | null
 }
 
-export type GrowthRecordCreateWithoutClinicInput = {
+export type GrowthRecordCreateWithoutRecordedByInput = {
   id?: string
   gender?: $Enums.Gender | null
   ageDays?: number | null
@@ -1144,14 +1210,16 @@ export type GrowthRecordCreateWithoutClinicInput = {
   classification?: string | null
   deletedAt?: Date | string | null
   measurementType?: $Enums.MeasurementType | null
+  clinic?: Prisma.ClinicCreateNestedOneWithoutGrowthRecordsInput
   patient: Prisma.PatientCreateNestedOneWithoutGrowthRecordsInput
   vitalSigns?: Prisma.VitalSignsCreateNestedOneWithoutGrowthRecordsInput
   medical?: Prisma.MedicalRecordsCreateNestedOneWithoutGrowthRecordsInput
 }
 
-export type GrowthRecordUncheckedCreateWithoutClinicInput = {
+export type GrowthRecordUncheckedCreateWithoutRecordedByInput = {
   id?: string
   patientId: string
+  clinicId?: string | null
   gender?: $Enums.Gender | null
   medicalId?: string | null
   vitalSignsId?: string | null
@@ -1179,30 +1247,30 @@ export type GrowthRecordUncheckedCreateWithoutClinicInput = {
   measurementType?: $Enums.MeasurementType | null
 }
 
-export type GrowthRecordCreateOrConnectWithoutClinicInput = {
+export type GrowthRecordCreateOrConnectWithoutRecordedByInput = {
   where: Prisma.GrowthRecordWhereUniqueInput
-  create: Prisma.XOR<Prisma.GrowthRecordCreateWithoutClinicInput, Prisma.GrowthRecordUncheckedCreateWithoutClinicInput>
+  create: Prisma.XOR<Prisma.GrowthRecordCreateWithoutRecordedByInput, Prisma.GrowthRecordUncheckedCreateWithoutRecordedByInput>
 }
 
-export type GrowthRecordCreateManyClinicInputEnvelope = {
-  data: Prisma.GrowthRecordCreateManyClinicInput | Prisma.GrowthRecordCreateManyClinicInput[]
+export type GrowthRecordCreateManyRecordedByInputEnvelope = {
+  data: Prisma.GrowthRecordCreateManyRecordedByInput | Prisma.GrowthRecordCreateManyRecordedByInput[]
   skipDuplicates?: boolean
 }
 
-export type GrowthRecordUpsertWithWhereUniqueWithoutClinicInput = {
+export type GrowthRecordUpsertWithWhereUniqueWithoutRecordedByInput = {
   where: Prisma.GrowthRecordWhereUniqueInput
-  update: Prisma.XOR<Prisma.GrowthRecordUpdateWithoutClinicInput, Prisma.GrowthRecordUncheckedUpdateWithoutClinicInput>
-  create: Prisma.XOR<Prisma.GrowthRecordCreateWithoutClinicInput, Prisma.GrowthRecordUncheckedCreateWithoutClinicInput>
+  update: Prisma.XOR<Prisma.GrowthRecordUpdateWithoutRecordedByInput, Prisma.GrowthRecordUncheckedUpdateWithoutRecordedByInput>
+  create: Prisma.XOR<Prisma.GrowthRecordCreateWithoutRecordedByInput, Prisma.GrowthRecordUncheckedCreateWithoutRecordedByInput>
 }
 
-export type GrowthRecordUpdateWithWhereUniqueWithoutClinicInput = {
+export type GrowthRecordUpdateWithWhereUniqueWithoutRecordedByInput = {
   where: Prisma.GrowthRecordWhereUniqueInput
-  data: Prisma.XOR<Prisma.GrowthRecordUpdateWithoutClinicInput, Prisma.GrowthRecordUncheckedUpdateWithoutClinicInput>
+  data: Prisma.XOR<Prisma.GrowthRecordUpdateWithoutRecordedByInput, Prisma.GrowthRecordUncheckedUpdateWithoutRecordedByInput>
 }
 
-export type GrowthRecordUpdateManyWithWhereWithoutClinicInput = {
+export type GrowthRecordUpdateManyWithWhereWithoutRecordedByInput = {
   where: Prisma.GrowthRecordScalarWhereInput
-  data: Prisma.XOR<Prisma.GrowthRecordUpdateManyMutationInput, Prisma.GrowthRecordUncheckedUpdateManyWithoutClinicInput>
+  data: Prisma.XOR<Prisma.GrowthRecordUpdateManyMutationInput, Prisma.GrowthRecordUncheckedUpdateManyWithoutRecordedByInput>
 }
 
 export type GrowthRecordScalarWhereInput = {
@@ -1237,6 +1305,95 @@ export type GrowthRecordScalarWhereInput = {
   classification?: Prisma.StringNullableFilter<"GrowthRecord"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"GrowthRecord"> | Date | string | null
   measurementType?: Prisma.EnumMeasurementTypeNullableFilter<"GrowthRecord"> | $Enums.MeasurementType | null
+  recordedById?: Prisma.StringNullableFilter<"GrowthRecord"> | string | null
+}
+
+export type GrowthRecordCreateWithoutClinicInput = {
+  id?: string
+  gender?: $Enums.Gender | null
+  ageDays?: number | null
+  ageMonths?: number | null
+  ageYears?: number | null
+  percentile?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  zScore?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  headCircumference?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmi?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weightForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  heightForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmiForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  hcForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weight?: number | null
+  height?: number | null
+  notes?: string | null
+  growthStatus?: $Enums.GrowthStatus | null
+  date: Date | string
+  recordedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  classification?: string | null
+  deletedAt?: Date | string | null
+  measurementType?: $Enums.MeasurementType | null
+  patient: Prisma.PatientCreateNestedOneWithoutGrowthRecordsInput
+  vitalSigns?: Prisma.VitalSignsCreateNestedOneWithoutGrowthRecordsInput
+  medical?: Prisma.MedicalRecordsCreateNestedOneWithoutGrowthRecordsInput
+  recordedBy?: Prisma.UserCreateNestedOneWithoutGrowthRecordsInput
+}
+
+export type GrowthRecordUncheckedCreateWithoutClinicInput = {
+  id?: string
+  patientId: string
+  gender?: $Enums.Gender | null
+  medicalId?: string | null
+  vitalSignsId?: string | null
+  ageDays?: number | null
+  ageMonths?: number | null
+  ageYears?: number | null
+  percentile?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  zScore?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  headCircumference?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmi?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weightForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  heightForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmiForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  hcForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weight?: number | null
+  height?: number | null
+  notes?: string | null
+  growthStatus?: $Enums.GrowthStatus | null
+  date: Date | string
+  recordedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  classification?: string | null
+  deletedAt?: Date | string | null
+  measurementType?: $Enums.MeasurementType | null
+  recordedById?: string | null
+}
+
+export type GrowthRecordCreateOrConnectWithoutClinicInput = {
+  where: Prisma.GrowthRecordWhereUniqueInput
+  create: Prisma.XOR<Prisma.GrowthRecordCreateWithoutClinicInput, Prisma.GrowthRecordUncheckedCreateWithoutClinicInput>
+}
+
+export type GrowthRecordCreateManyClinicInputEnvelope = {
+  data: Prisma.GrowthRecordCreateManyClinicInput | Prisma.GrowthRecordCreateManyClinicInput[]
+  skipDuplicates?: boolean
+}
+
+export type GrowthRecordUpsertWithWhereUniqueWithoutClinicInput = {
+  where: Prisma.GrowthRecordWhereUniqueInput
+  update: Prisma.XOR<Prisma.GrowthRecordUpdateWithoutClinicInput, Prisma.GrowthRecordUncheckedUpdateWithoutClinicInput>
+  create: Prisma.XOR<Prisma.GrowthRecordCreateWithoutClinicInput, Prisma.GrowthRecordUncheckedCreateWithoutClinicInput>
+}
+
+export type GrowthRecordUpdateWithWhereUniqueWithoutClinicInput = {
+  where: Prisma.GrowthRecordWhereUniqueInput
+  data: Prisma.XOR<Prisma.GrowthRecordUpdateWithoutClinicInput, Prisma.GrowthRecordUncheckedUpdateWithoutClinicInput>
+}
+
+export type GrowthRecordUpdateManyWithWhereWithoutClinicInput = {
+  where: Prisma.GrowthRecordScalarWhereInput
+  data: Prisma.XOR<Prisma.GrowthRecordUpdateManyMutationInput, Prisma.GrowthRecordUncheckedUpdateManyWithoutClinicInput>
 }
 
 export type GrowthRecordCreateWithoutPatientInput = {
@@ -1267,6 +1424,7 @@ export type GrowthRecordCreateWithoutPatientInput = {
   clinic?: Prisma.ClinicCreateNestedOneWithoutGrowthRecordsInput
   vitalSigns?: Prisma.VitalSignsCreateNestedOneWithoutGrowthRecordsInput
   medical?: Prisma.MedicalRecordsCreateNestedOneWithoutGrowthRecordsInput
+  recordedBy?: Prisma.UserCreateNestedOneWithoutGrowthRecordsInput
 }
 
 export type GrowthRecordUncheckedCreateWithoutPatientInput = {
@@ -1297,6 +1455,7 @@ export type GrowthRecordUncheckedCreateWithoutPatientInput = {
   classification?: string | null
   deletedAt?: Date | string | null
   measurementType?: $Enums.MeasurementType | null
+  recordedById?: string | null
 }
 
 export type GrowthRecordCreateOrConnectWithoutPatientInput = {
@@ -1353,6 +1512,7 @@ export type GrowthRecordCreateWithoutMedicalInput = {
   clinic?: Prisma.ClinicCreateNestedOneWithoutGrowthRecordsInput
   patient: Prisma.PatientCreateNestedOneWithoutGrowthRecordsInput
   vitalSigns?: Prisma.VitalSignsCreateNestedOneWithoutGrowthRecordsInput
+  recordedBy?: Prisma.UserCreateNestedOneWithoutGrowthRecordsInput
 }
 
 export type GrowthRecordUncheckedCreateWithoutMedicalInput = {
@@ -1383,6 +1543,7 @@ export type GrowthRecordUncheckedCreateWithoutMedicalInput = {
   classification?: string | null
   deletedAt?: Date | string | null
   measurementType?: $Enums.MeasurementType | null
+  recordedById?: string | null
 }
 
 export type GrowthRecordCreateOrConnectWithoutMedicalInput = {
@@ -1439,6 +1600,7 @@ export type GrowthRecordCreateWithoutVitalSignsInput = {
   clinic?: Prisma.ClinicCreateNestedOneWithoutGrowthRecordsInput
   patient: Prisma.PatientCreateNestedOneWithoutGrowthRecordsInput
   medical?: Prisma.MedicalRecordsCreateNestedOneWithoutGrowthRecordsInput
+  recordedBy?: Prisma.UserCreateNestedOneWithoutGrowthRecordsInput
 }
 
 export type GrowthRecordUncheckedCreateWithoutVitalSignsInput = {
@@ -1469,6 +1631,7 @@ export type GrowthRecordUncheckedCreateWithoutVitalSignsInput = {
   classification?: string | null
   deletedAt?: Date | string | null
   measurementType?: $Enums.MeasurementType | null
+  recordedById?: string | null
 }
 
 export type GrowthRecordCreateOrConnectWithoutVitalSignsInput = {
@@ -1495,6 +1658,130 @@ export type GrowthRecordUpdateWithWhereUniqueWithoutVitalSignsInput = {
 export type GrowthRecordUpdateManyWithWhereWithoutVitalSignsInput = {
   where: Prisma.GrowthRecordScalarWhereInput
   data: Prisma.XOR<Prisma.GrowthRecordUpdateManyMutationInput, Prisma.GrowthRecordUncheckedUpdateManyWithoutVitalSignsInput>
+}
+
+export type GrowthRecordCreateManyRecordedByInput = {
+  id?: string
+  patientId: string
+  clinicId?: string | null
+  gender?: $Enums.Gender | null
+  medicalId?: string | null
+  vitalSignsId?: string | null
+  ageDays?: number | null
+  ageMonths?: number | null
+  ageYears?: number | null
+  percentile?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  zScore?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  headCircumference?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmi?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weightForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  heightForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmiForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  hcForAgeZ?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weight?: number | null
+  height?: number | null
+  notes?: string | null
+  growthStatus?: $Enums.GrowthStatus | null
+  date: Date | string
+  recordedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  classification?: string | null
+  deletedAt?: Date | string | null
+  measurementType?: $Enums.MeasurementType | null
+}
+
+export type GrowthRecordUpdateWithoutRecordedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  ageDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ageMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ageYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  percentile?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  zScore?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  headCircumference?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmi?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weightForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  heightForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmiForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  hcForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthStatus?: Prisma.NullableEnumGrowthStatusFieldUpdateOperationsInput | $Enums.GrowthStatus | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recordedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  clinic?: Prisma.ClinicUpdateOneWithoutGrowthRecordsNestedInput
+  patient?: Prisma.PatientUpdateOneRequiredWithoutGrowthRecordsNestedInput
+  vitalSigns?: Prisma.VitalSignsUpdateOneWithoutGrowthRecordsNestedInput
+  medical?: Prisma.MedicalRecordsUpdateOneWithoutGrowthRecordsNestedInput
+}
+
+export type GrowthRecordUncheckedUpdateWithoutRecordedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  patientId?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  medicalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vitalSignsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ageMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ageYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  percentile?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  zScore?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  headCircumference?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmi?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weightForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  heightForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmiForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  hcForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthStatus?: Prisma.NullableEnumGrowthStatusFieldUpdateOperationsInput | $Enums.GrowthStatus | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recordedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+}
+
+export type GrowthRecordUncheckedUpdateManyWithoutRecordedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  patientId?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  medicalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vitalSignsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ageDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ageMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ageYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  percentile?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  zScore?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  headCircumference?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmi?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weightForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  heightForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  bmiForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  hcForAgeZ?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthStatus?: Prisma.NullableEnumGrowthStatusFieldUpdateOperationsInput | $Enums.GrowthStatus | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recordedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
 }
 
 export type GrowthRecordCreateManyClinicInput = {
@@ -1525,6 +1812,7 @@ export type GrowthRecordCreateManyClinicInput = {
   classification?: string | null
   deletedAt?: Date | string | null
   measurementType?: $Enums.MeasurementType | null
+  recordedById?: string | null
 }
 
 export type GrowthRecordUpdateWithoutClinicInput = {
@@ -1555,6 +1843,7 @@ export type GrowthRecordUpdateWithoutClinicInput = {
   patient?: Prisma.PatientUpdateOneRequiredWithoutGrowthRecordsNestedInput
   vitalSigns?: Prisma.VitalSignsUpdateOneWithoutGrowthRecordsNestedInput
   medical?: Prisma.MedicalRecordsUpdateOneWithoutGrowthRecordsNestedInput
+  recordedBy?: Prisma.UserUpdateOneWithoutGrowthRecordsNestedInput
 }
 
 export type GrowthRecordUncheckedUpdateWithoutClinicInput = {
@@ -1585,6 +1874,7 @@ export type GrowthRecordUncheckedUpdateWithoutClinicInput = {
   classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  recordedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GrowthRecordUncheckedUpdateManyWithoutClinicInput = {
@@ -1615,6 +1905,7 @@ export type GrowthRecordUncheckedUpdateManyWithoutClinicInput = {
   classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  recordedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GrowthRecordCreateManyPatientInput = {
@@ -1645,6 +1936,7 @@ export type GrowthRecordCreateManyPatientInput = {
   classification?: string | null
   deletedAt?: Date | string | null
   measurementType?: $Enums.MeasurementType | null
+  recordedById?: string | null
 }
 
 export type GrowthRecordUpdateWithoutPatientInput = {
@@ -1675,6 +1967,7 @@ export type GrowthRecordUpdateWithoutPatientInput = {
   clinic?: Prisma.ClinicUpdateOneWithoutGrowthRecordsNestedInput
   vitalSigns?: Prisma.VitalSignsUpdateOneWithoutGrowthRecordsNestedInput
   medical?: Prisma.MedicalRecordsUpdateOneWithoutGrowthRecordsNestedInput
+  recordedBy?: Prisma.UserUpdateOneWithoutGrowthRecordsNestedInput
 }
 
 export type GrowthRecordUncheckedUpdateWithoutPatientInput = {
@@ -1705,6 +1998,7 @@ export type GrowthRecordUncheckedUpdateWithoutPatientInput = {
   classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  recordedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GrowthRecordUncheckedUpdateManyWithoutPatientInput = {
@@ -1735,6 +2029,7 @@ export type GrowthRecordUncheckedUpdateManyWithoutPatientInput = {
   classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  recordedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GrowthRecordCreateManyMedicalInput = {
@@ -1765,6 +2060,7 @@ export type GrowthRecordCreateManyMedicalInput = {
   classification?: string | null
   deletedAt?: Date | string | null
   measurementType?: $Enums.MeasurementType | null
+  recordedById?: string | null
 }
 
 export type GrowthRecordUpdateWithoutMedicalInput = {
@@ -1795,6 +2091,7 @@ export type GrowthRecordUpdateWithoutMedicalInput = {
   clinic?: Prisma.ClinicUpdateOneWithoutGrowthRecordsNestedInput
   patient?: Prisma.PatientUpdateOneRequiredWithoutGrowthRecordsNestedInput
   vitalSigns?: Prisma.VitalSignsUpdateOneWithoutGrowthRecordsNestedInput
+  recordedBy?: Prisma.UserUpdateOneWithoutGrowthRecordsNestedInput
 }
 
 export type GrowthRecordUncheckedUpdateWithoutMedicalInput = {
@@ -1825,6 +2122,7 @@ export type GrowthRecordUncheckedUpdateWithoutMedicalInput = {
   classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  recordedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GrowthRecordUncheckedUpdateManyWithoutMedicalInput = {
@@ -1855,6 +2153,7 @@ export type GrowthRecordUncheckedUpdateManyWithoutMedicalInput = {
   classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  recordedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GrowthRecordCreateManyVitalSignsInput = {
@@ -1885,6 +2184,7 @@ export type GrowthRecordCreateManyVitalSignsInput = {
   classification?: string | null
   deletedAt?: Date | string | null
   measurementType?: $Enums.MeasurementType | null
+  recordedById?: string | null
 }
 
 export type GrowthRecordUpdateWithoutVitalSignsInput = {
@@ -1915,6 +2215,7 @@ export type GrowthRecordUpdateWithoutVitalSignsInput = {
   clinic?: Prisma.ClinicUpdateOneWithoutGrowthRecordsNestedInput
   patient?: Prisma.PatientUpdateOneRequiredWithoutGrowthRecordsNestedInput
   medical?: Prisma.MedicalRecordsUpdateOneWithoutGrowthRecordsNestedInput
+  recordedBy?: Prisma.UserUpdateOneWithoutGrowthRecordsNestedInput
 }
 
 export type GrowthRecordUncheckedUpdateWithoutVitalSignsInput = {
@@ -1945,6 +2246,7 @@ export type GrowthRecordUncheckedUpdateWithoutVitalSignsInput = {
   classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  recordedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GrowthRecordUncheckedUpdateManyWithoutVitalSignsInput = {
@@ -1975,6 +2277,7 @@ export type GrowthRecordUncheckedUpdateManyWithoutVitalSignsInput = {
   classification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   measurementType?: Prisma.NullableEnumMeasurementTypeFieldUpdateOperationsInput | $Enums.MeasurementType | null
+  recordedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -2008,10 +2311,12 @@ export type GrowthRecordSelect<ExtArgs extends runtime.Types.Extensions.Internal
   classification?: boolean
   deletedAt?: boolean
   measurementType?: boolean
+  recordedById?: boolean
   clinic?: boolean | Prisma.GrowthRecord$clinicArgs<ExtArgs>
   patient?: boolean | Prisma.PatientDefaultArgs<ExtArgs>
   vitalSigns?: boolean | Prisma.GrowthRecord$vitalSignsArgs<ExtArgs>
   medical?: boolean | Prisma.GrowthRecord$medicalArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.GrowthRecord$recordedByArgs<ExtArgs>
 }, ExtArgs["result"]["growthRecord"]>
 
 export type GrowthRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2043,10 +2348,12 @@ export type GrowthRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   classification?: boolean
   deletedAt?: boolean
   measurementType?: boolean
+  recordedById?: boolean
   clinic?: boolean | Prisma.GrowthRecord$clinicArgs<ExtArgs>
   patient?: boolean | Prisma.PatientDefaultArgs<ExtArgs>
   vitalSigns?: boolean | Prisma.GrowthRecord$vitalSignsArgs<ExtArgs>
   medical?: boolean | Prisma.GrowthRecord$medicalArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.GrowthRecord$recordedByArgs<ExtArgs>
 }, ExtArgs["result"]["growthRecord"]>
 
 export type GrowthRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2078,10 +2385,12 @@ export type GrowthRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   classification?: boolean
   deletedAt?: boolean
   measurementType?: boolean
+  recordedById?: boolean
   clinic?: boolean | Prisma.GrowthRecord$clinicArgs<ExtArgs>
   patient?: boolean | Prisma.PatientDefaultArgs<ExtArgs>
   vitalSigns?: boolean | Prisma.GrowthRecord$vitalSignsArgs<ExtArgs>
   medical?: boolean | Prisma.GrowthRecord$medicalArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.GrowthRecord$recordedByArgs<ExtArgs>
 }, ExtArgs["result"]["growthRecord"]>
 
 export type GrowthRecordSelectScalar = {
@@ -2113,26 +2422,30 @@ export type GrowthRecordSelectScalar = {
   classification?: boolean
   deletedAt?: boolean
   measurementType?: boolean
+  recordedById?: boolean
 }
 
-export type GrowthRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "patientId" | "clinicId" | "gender" | "medicalId" | "vitalSignsId" | "ageDays" | "ageMonths" | "ageYears" | "percentile" | "zScore" | "headCircumference" | "bmi" | "weightForAgeZ" | "heightForAgeZ" | "bmiForAgeZ" | "hcForAgeZ" | "weight" | "height" | "notes" | "growthStatus" | "date" | "recordedAt" | "createdAt" | "updatedAt" | "classification" | "deletedAt" | "measurementType", ExtArgs["result"]["growthRecord"]>
+export type GrowthRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "patientId" | "clinicId" | "gender" | "medicalId" | "vitalSignsId" | "ageDays" | "ageMonths" | "ageYears" | "percentile" | "zScore" | "headCircumference" | "bmi" | "weightForAgeZ" | "heightForAgeZ" | "bmiForAgeZ" | "hcForAgeZ" | "weight" | "height" | "notes" | "growthStatus" | "date" | "recordedAt" | "createdAt" | "updatedAt" | "classification" | "deletedAt" | "measurementType" | "recordedById", ExtArgs["result"]["growthRecord"]>
 export type GrowthRecordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   clinic?: boolean | Prisma.GrowthRecord$clinicArgs<ExtArgs>
   patient?: boolean | Prisma.PatientDefaultArgs<ExtArgs>
   vitalSigns?: boolean | Prisma.GrowthRecord$vitalSignsArgs<ExtArgs>
   medical?: boolean | Prisma.GrowthRecord$medicalArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.GrowthRecord$recordedByArgs<ExtArgs>
 }
 export type GrowthRecordIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   clinic?: boolean | Prisma.GrowthRecord$clinicArgs<ExtArgs>
   patient?: boolean | Prisma.PatientDefaultArgs<ExtArgs>
   vitalSigns?: boolean | Prisma.GrowthRecord$vitalSignsArgs<ExtArgs>
   medical?: boolean | Prisma.GrowthRecord$medicalArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.GrowthRecord$recordedByArgs<ExtArgs>
 }
 export type GrowthRecordIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   clinic?: boolean | Prisma.GrowthRecord$clinicArgs<ExtArgs>
   patient?: boolean | Prisma.PatientDefaultArgs<ExtArgs>
   vitalSigns?: boolean | Prisma.GrowthRecord$vitalSignsArgs<ExtArgs>
   medical?: boolean | Prisma.GrowthRecord$medicalArgs<ExtArgs>
+  recordedBy?: boolean | Prisma.GrowthRecord$recordedByArgs<ExtArgs>
 }
 
 export type $GrowthRecordPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2142,6 +2455,7 @@ export type $GrowthRecordPayload<ExtArgs extends runtime.Types.Extensions.Intern
     patient: Prisma.$PatientPayload<ExtArgs>
     vitalSigns: Prisma.$VitalSignsPayload<ExtArgs> | null
     medical: Prisma.$MedicalRecordsPayload<ExtArgs> | null
+    recordedBy: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2172,6 +2486,7 @@ export type $GrowthRecordPayload<ExtArgs extends runtime.Types.Extensions.Intern
     classification: string | null
     deletedAt: Date | null
     measurementType: $Enums.MeasurementType | null
+    recordedById: string | null
   }, ExtArgs["result"]["growthRecord"]>
   composites: {}
 }
@@ -2570,6 +2885,7 @@ export interface Prisma__GrowthRecordClient<T, Null = never, ExtArgs extends run
   patient<T extends Prisma.PatientDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PatientDefaultArgs<ExtArgs>>): Prisma.Prisma__PatientClient<runtime.Types.Result.GetResult<Prisma.$PatientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   vitalSigns<T extends Prisma.GrowthRecord$vitalSignsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GrowthRecord$vitalSignsArgs<ExtArgs>>): Prisma.Prisma__VitalSignsClient<runtime.Types.Result.GetResult<Prisma.$VitalSignsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   medical<T extends Prisma.GrowthRecord$medicalArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GrowthRecord$medicalArgs<ExtArgs>>): Prisma.Prisma__MedicalRecordsClient<runtime.Types.Result.GetResult<Prisma.$MedicalRecordsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  recordedBy<T extends Prisma.GrowthRecord$recordedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GrowthRecord$recordedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2627,6 +2943,7 @@ export interface GrowthRecordFieldRefs {
   readonly classification: Prisma.FieldRef<"GrowthRecord", 'String'>
   readonly deletedAt: Prisma.FieldRef<"GrowthRecord", 'DateTime'>
   readonly measurementType: Prisma.FieldRef<"GrowthRecord", 'MeasurementType'>
+  readonly recordedById: Prisma.FieldRef<"GrowthRecord", 'String'>
 }
     
 
@@ -3086,6 +3403,25 @@ export type GrowthRecord$medicalArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   include?: Prisma.MedicalRecordsInclude<ExtArgs> | null
   where?: Prisma.MedicalRecordsWhereInput
+}
+
+/**
+ * GrowthRecord.recordedBy
+ */
+export type GrowthRecord$recordedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

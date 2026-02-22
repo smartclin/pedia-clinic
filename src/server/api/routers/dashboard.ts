@@ -8,7 +8,7 @@ import {
 	calculateMonthlyRevenue,
 } from '@/utils/vaccine'
 
-import { calculateAge, calculateAgeInMonths } from '../../../utils'
+import { calculateAgeInMonths, calculateFullAge } from '../../../utils'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
 
 const getStatsSchema = z.object({
@@ -180,7 +180,7 @@ export const dashboardRouter = createTRPCRouter({
 				id: patient.id,
 				name: `${patient.firstName} ${patient.lastName}`,
 				image: patient.image,
-				age: calculateAge(patient.dateOfBirth),
+				age: calculateFullAge(patient.dateOfBirth),
 				gender: patient.gender,
 				lastVisit: patient.appointments[0]?.appointmentDate,
 				registeredAt: patient.createdAt,

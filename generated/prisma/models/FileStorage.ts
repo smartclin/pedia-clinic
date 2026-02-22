@@ -47,6 +47,7 @@ export type FileStorageMinAggregateOutputType = {
   accessToken: string | null
   tokenExpiry: Date | null
   description: string | null
+  url: string | null
   clinicId: string | null
   userId: string | null
   createdAt: Date | null
@@ -68,6 +69,7 @@ export type FileStorageMaxAggregateOutputType = {
   accessToken: string | null
   tokenExpiry: Date | null
   description: string | null
+  url: string | null
   clinicId: string | null
   userId: string | null
   createdAt: Date | null
@@ -90,6 +92,7 @@ export type FileStorageCountAggregateOutputType = {
   tokenExpiry: number
   description: number
   metadata: number
+  url: number
   clinicId: number
   userId: number
   createdAt: number
@@ -121,6 +124,7 @@ export type FileStorageMinAggregateInputType = {
   accessToken?: true
   tokenExpiry?: true
   description?: true
+  url?: true
   clinicId?: true
   userId?: true
   createdAt?: true
@@ -142,6 +146,7 @@ export type FileStorageMaxAggregateInputType = {
   accessToken?: true
   tokenExpiry?: true
   description?: true
+  url?: true
   clinicId?: true
   userId?: true
   createdAt?: true
@@ -164,6 +169,7 @@ export type FileStorageCountAggregateInputType = {
   tokenExpiry?: true
   description?: true
   metadata?: true
+  url?: true
   clinicId?: true
   userId?: true
   createdAt?: true
@@ -273,6 +279,7 @@ export type FileStorageGroupByOutputType = {
   tokenExpiry: Date | null
   description: string | null
   metadata:unknown | null
+  url: string | null
   clinicId: string | null
   userId: string | null
   createdAt: Date
@@ -318,6 +325,7 @@ export type FileStorageWhereInput = {
   tokenExpiry?: Prisma.DateTimeNullableFilter<"FileStorage"> | Date | string | null
   description?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   metadata?: Prisma.JsonNullableFilter<"FileStorage">
+  url?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   clinicId?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   userId?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   createdAt?: Prisma.DateTimeFilter<"FileStorage"> | Date | string
@@ -345,6 +353,7 @@ export type FileStorageOrderByWithRelationInput = {
   tokenExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  url?: Prisma.SortOrderInput | Prisma.SortOrder
   clinicId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -375,6 +384,7 @@ export type FileStorageWhereUniqueInput = Prisma.AtLeast<{
   tokenExpiry?: Prisma.DateTimeNullableFilter<"FileStorage"> | Date | string | null
   description?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   metadata?: Prisma.JsonNullableFilter<"FileStorage">
+  url?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   clinicId?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   userId?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   createdAt?: Prisma.DateTimeFilter<"FileStorage"> | Date | string
@@ -402,6 +412,7 @@ export type FileStorageOrderByWithAggregationInput = {
   tokenExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  url?: Prisma.SortOrderInput | Prisma.SortOrder
   clinicId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -432,6 +443,7 @@ export type FileStorageScalarWhereWithAggregatesInput = {
   tokenExpiry?: Prisma.DateTimeNullableWithAggregatesFilter<"FileStorage"> | Date | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"FileStorage"> | string | null
   metadata?: Prisma.JsonNullableWithAggregatesFilter<"FileStorage">
+  url?: Prisma.StringNullableWithAggregatesFilter<"FileStorage"> | string | null
   clinicId?: Prisma.StringNullableWithAggregatesFilter<"FileStorage"> | string | null
   userId?: Prisma.StringNullableWithAggregatesFilter<"FileStorage"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FileStorage"> | Date | string
@@ -454,6 +466,7 @@ export type FileStorageCreateInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: string | null
@@ -477,6 +490,7 @@ export type FileStorageUncheckedCreateInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   clinicId?: string | null
   userId?: string | null
   createdAt?: Date | string
@@ -500,6 +514,7 @@ export type FileStorageUpdateInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -523,6 +538,7 @@ export type FileStorageUncheckedUpdateInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -546,6 +562,7 @@ export type FileStorageCreateManyInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   clinicId?: string | null
   userId?: string | null
   createdAt?: Date | string
@@ -568,6 +585,7 @@ export type FileStorageUpdateManyMutationInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -586,6 +604,7 @@ export type FileStorageUncheckedUpdateManyInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -618,6 +637,7 @@ export type FileStorageCountOrderByAggregateInput = {
   tokenExpiry?: Prisma.SortOrder
   description?: Prisma.SortOrder
   metadata?: Prisma.SortOrder
+  url?: Prisma.SortOrder
   clinicId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -643,6 +663,7 @@ export type FileStorageMaxOrderByAggregateInput = {
   accessToken?: Prisma.SortOrder
   tokenExpiry?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  url?: Prisma.SortOrder
   clinicId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -664,6 +685,7 @@ export type FileStorageMinOrderByAggregateInput = {
   accessToken?: Prisma.SortOrder
   tokenExpiry?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  url?: Prisma.SortOrder
   clinicId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -877,6 +899,7 @@ export type FileStorageCreateWithoutUserInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: string | null
@@ -899,6 +922,7 @@ export type FileStorageUncheckedCreateWithoutUserInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   clinicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -950,6 +974,7 @@ export type FileStorageScalarWhereInput = {
   tokenExpiry?: Prisma.DateTimeNullableFilter<"FileStorage"> | Date | string | null
   description?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   metadata?: Prisma.JsonNullableFilter<"FileStorage">
+  url?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   clinicId?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   userId?: Prisma.StringNullableFilter<"FileStorage"> | string | null
   createdAt?: Prisma.DateTimeFilter<"FileStorage"> | Date | string
@@ -972,6 +997,7 @@ export type FileStorageCreateWithoutClinicInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: string | null
@@ -994,6 +1020,7 @@ export type FileStorageUncheckedCreateWithoutClinicInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   userId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1042,6 +1069,7 @@ export type FileStorageCreateWithoutDoctorInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: string | null
@@ -1064,6 +1092,7 @@ export type FileStorageUncheckedCreateWithoutDoctorInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   clinicId?: string | null
   userId?: string | null
   createdAt?: Date | string
@@ -1112,6 +1141,7 @@ export type FileStorageCreateWithoutPatientInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: string | null
@@ -1134,6 +1164,7 @@ export type FileStorageUncheckedCreateWithoutPatientInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   clinicId?: string | null
   userId?: string | null
   createdAt?: Date | string
@@ -1182,6 +1213,7 @@ export type FileStorageCreateWithoutTrainingFilesInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: string | null
@@ -1204,6 +1236,7 @@ export type FileStorageUncheckedCreateWithoutTrainingFilesInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   clinicId?: string | null
   userId?: string | null
   createdAt?: Date | string
@@ -1242,6 +1275,7 @@ export type FileStorageUpdateWithoutTrainingFilesInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1264,6 +1298,7 @@ export type FileStorageUncheckedUpdateWithoutTrainingFilesInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1286,6 +1321,7 @@ export type FileStorageCreateManyUserInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   clinicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1307,6 +1343,7 @@ export type FileStorageUpdateWithoutUserInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1329,6 +1366,7 @@ export type FileStorageUncheckedUpdateWithoutUserInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1351,6 +1389,7 @@ export type FileStorageUncheckedUpdateManyWithoutUserInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1372,6 +1411,7 @@ export type FileStorageCreateManyClinicInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   userId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1393,6 +1433,7 @@ export type FileStorageUpdateWithoutClinicInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1415,6 +1456,7 @@ export type FileStorageUncheckedUpdateWithoutClinicInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1437,6 +1479,7 @@ export type FileStorageUncheckedUpdateManyWithoutClinicInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1458,6 +1501,7 @@ export type FileStorageCreateManyDoctorInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   clinicId?: string | null
   userId?: string | null
   createdAt?: Date | string
@@ -1479,6 +1523,7 @@ export type FileStorageUpdateWithoutDoctorInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1501,6 +1546,7 @@ export type FileStorageUncheckedUpdateWithoutDoctorInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1523,6 +1569,7 @@ export type FileStorageUncheckedUpdateManyWithoutDoctorInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1544,6 +1591,7 @@ export type FileStorageCreateManyPatientInput = {
   tokenExpiry?: Date | string | null
   description?: string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: string | null
   clinicId?: string | null
   userId?: string | null
   createdAt?: Date | string
@@ -1565,6 +1613,7 @@ export type FileStorageUpdateWithoutPatientInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1587,6 +1636,7 @@ export type FileStorageUncheckedUpdateWithoutPatientInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1609,6 +1659,7 @@ export type FileStorageUncheckedUpdateManyWithoutPatientInput = {
   tokenExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?:unknown | Prisma.NullableJsonNullValueInput
+  url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clinicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1661,6 +1712,7 @@ export type FileStorageSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   tokenExpiry?: boolean
   description?: boolean
   metadata?: boolean
+  url?: boolean
   clinicId?: boolean
   userId?: boolean
   createdAt?: boolean
@@ -1689,6 +1741,7 @@ export type FileStorageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   tokenExpiry?: boolean
   description?: boolean
   metadata?: boolean
+  url?: boolean
   clinicId?: boolean
   userId?: boolean
   createdAt?: boolean
@@ -1715,6 +1768,7 @@ export type FileStorageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   tokenExpiry?: boolean
   description?: boolean
   metadata?: boolean
+  url?: boolean
   clinicId?: boolean
   userId?: boolean
   createdAt?: boolean
@@ -1741,6 +1795,7 @@ export type FileStorageSelectScalar = {
   tokenExpiry?: boolean
   description?: boolean
   metadata?: boolean
+  url?: boolean
   clinicId?: boolean
   userId?: boolean
   createdAt?: boolean
@@ -1751,7 +1806,7 @@ export type FileStorageSelectScalar = {
   patientId?: boolean
 }
 
-export type FileStorageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fileName" | "filePath" | "fileType" | "fileSize" | "mimeType" | "isSecure" | "accessToken" | "tokenExpiry" | "description" | "metadata" | "clinicId" | "userId" | "createdAt" | "updatedAt" | "status" | "uploadExpiresAt" | "doctorId" | "patientId", ExtArgs["result"]["fileStorage"]>
+export type FileStorageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fileName" | "filePath" | "fileType" | "fileSize" | "mimeType" | "isSecure" | "accessToken" | "tokenExpiry" | "description" | "metadata" | "url" | "clinicId" | "userId" | "createdAt" | "updatedAt" | "status" | "uploadExpiresAt" | "doctorId" | "patientId", ExtArgs["result"]["fileStorage"]>
 export type FileStorageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   clinic?: boolean | Prisma.FileStorage$clinicArgs<ExtArgs>
   user?: boolean | Prisma.FileStorage$userArgs<ExtArgs>
@@ -1794,6 +1849,7 @@ export type $FileStoragePayload<ExtArgs extends runtime.Types.Extensions.Interna
     tokenExpiry: Date | null
     description: string | null
     metadata:unknown | null
+    url: string | null
     clinicId: string | null
     userId: string | null
     createdAt: Date
@@ -2241,6 +2297,7 @@ export interface FileStorageFieldRefs {
   readonly tokenExpiry: Prisma.FieldRef<"FileStorage", 'DateTime'>
   readonly description: Prisma.FieldRef<"FileStorage", 'String'>
   readonly metadata: Prisma.FieldRef<"FileStorage", 'Json'>
+  readonly url: Prisma.FieldRef<"FileStorage", 'String'>
   readonly clinicId: Prisma.FieldRef<"FileStorage", 'String'>
   readonly userId: Prisma.FieldRef<"FileStorage", 'String'>
   readonly createdAt: Prisma.FieldRef<"FileStorage", 'DateTime'>

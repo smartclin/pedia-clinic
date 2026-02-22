@@ -1,5 +1,3 @@
-'use cache'
-
 import { TRPCError } from '@trpc/server'
 import { cacheLife, cacheTag } from 'next/cache'
 

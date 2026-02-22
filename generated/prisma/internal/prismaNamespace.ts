@@ -6072,7 +6072,8 @@ export const GrowthRecordScalarFieldEnum = {
   updatedAt: 'updatedAt',
   classification: 'classification',
   deletedAt: 'deletedAt',
-  measurementType: 'measurementType'
+  measurementType: 'measurementType',
+  recordedById: 'recordedById'
 } as const
 
 export type GrowthRecordScalarFieldEnum = (typeof GrowthRecordScalarFieldEnum)[keyof typeof GrowthRecordScalarFieldEnum]
@@ -6248,6 +6249,7 @@ export const FileStorageScalarFieldEnum = {
   tokenExpiry: 'tokenExpiry',
   description: 'description',
   metadata: 'metadata',
+  url: 'url',
   clinicId: 'clinicId',
   userId: 'userId',
   createdAt: 'createdAt',

@@ -55,5 +55,5 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ]
+, "src/utils/date/calculate-age.ts"  ]
 }

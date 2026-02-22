@@ -14,9 +14,9 @@ if (!REDIS_URL && env.NODE_ENV === 'production') {
 }
 
 // Parse Redis config
-const REDIS_PORT = process.env.REDIS_PORT
-const REDIS_DB = process.env.REDIS_DB
-const REDIS_KEY_PREFIX = env.REDIS_KEY_PREFIX || 'pediacare:'
+// const REDIS_PORT = process.env.REDIS_PORT
+// const REDIS_DB = process.env.REDIS_DB
+// const REDIS_KEY_PREFIX = env.REDIS_KEY_PREFIX || 'pediacare:'
 
 // Redis configuration with optimal settings
 const getRedisConfig = (): RedisOptions => {
@@ -27,10 +27,10 @@ const getRedisConfig = (): RedisOptions => {
 		keepAlive: 30000,
 		lazyConnect: true,
 		maxRetriesPerRequest: 3,
-		keyPrefix: REDIS_KEY_PREFIX,
-		retryStrategy: (times: number) => {
+		keyPrefix: env.REDIS_KEY_PREFIX || 'pediacare:',
+		retryStrategy: times => {
 			if (times > 3) {
-				logger.error('[Redis] Max retries reached, stopping retry')
+				logger.error('[Redis] Max retries reached')
 				return null
 			}
 			const delay = Math.min(times * 200, 2000)
@@ -40,34 +40,36 @@ const getRedisConfig = (): RedisOptions => {
 	}
 
 	// If REDIS_URL is provided, use it (preferred for production)
-	if (REDIS_URL) {
-		return baseConfig
+	if (!env.REDIS_URL) {
+		return {
+			...baseConfig,
+			host: process.env.REDIS_HOST || '127.0.0.1',
+			port: Number(process.env.REDIS_PORT) || 6379,
+			password: env.REDIS_PASSWORD,
+			db: Number(process.env.REDIS_DB) || 0,
+			tls: env.REDIS_TLS === 'true' ? {} : undefined,
+		}
 	}
 
-	// Fallback to individual config for local development
-	return {
-		...baseConfig,
-		db: REDIS_DB ? Number.parseInt(REDIS_DB, 10) : undefined,
-		host: process.env.REDIS_HOST,
-		password: env.REDIS_PASSWORD,
-		port: REDIS_PORT ? Number.parseInt(REDIS_PORT, 10) : 6379,
-		tls: env.REDIS_TLS === 'true' ? {} : undefined,
-	}
+	return baseConfig
 }
 
 // Simple in-memory store for development hot-reloading
-const instances: {
+const globalForRedis = global as unknown as {
 	main?: Redis
 	subscriber?: Redis
 	publisher?: Redis
-} = {}
+}
 
 // Create Redis client instances
 const createRedisClient = (name = 'default'): Redis => {
 	const config = getRedisConfig()
 
 	// Create client with URL if available, otherwise with config
-	const client = REDIS_URL ? new Redis(REDIS_URL, config) : new Redis(config)
+	const client =
+		env.REDIS_URL && !process.env.REDIS_HOST
+			? new Redis(env.REDIS_URL, config)
+			: new Redis(config)
 
 	client.on('connect', () => {
 		logger.info(`✅ [Redis:${name}] Connected`)
@@ -93,27 +95,17 @@ const createRedisClient = (name = 'default'): Redis => {
 }
 
 // Initialize Redis instances
-export const redis = (() => {
-	if (!instances.main) {
-		instances.main = createRedisClient('main')
-	}
-	return instances.main
-})()
+export const redis = globalForRedis.main || createRedisClient('main')
 
-export const redisSubscriber = (() => {
-	if (!instances.subscriber) {
-		instances.subscriber = createRedisClient('subscriber')
-	}
-	return instances.subscriber
-})()
-
-export const redisPublisher = (() => {
-	if (!instances.publisher) {
-		instances.publisher = createRedisClient('publisher')
-	}
-	return instances.publisher
-})()
-
+export const redisSubscriber =
+	globalForRedis.subscriber || createRedisClient('subscriber')
+export const redisPublisher =
+	globalForRedis.publisher || createRedisClient('publisher')
+if (process.env.NODE_ENV !== 'production') {
+	globalForRedis.main = redis
+	globalForRedis.subscriber = redisSubscriber
+	globalForRedis.publisher = redisPublisher
+}
 // Graceful shutdown
 const gracefulShutdown = async (): Promise<void> => {
 	logger.info('\n🔄 Graceful shutdown initiated...')

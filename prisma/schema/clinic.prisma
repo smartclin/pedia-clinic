@@ -875,6 +875,8 @@ model GrowthRecord {
   patient           Patient          @relation(fields: [patientId], references: [id], onDelete: Cascade)
   vitalSigns        VitalSigns?      @relation(fields: [vitalSignsId], references: [id])
   medical           MedicalRecords?  @relation(fields: [medicalId], references: [id])
+  recordedBy        User?            @relation(fields: [recordedById], references: [id])
+  recordedById      String?
 
   @@index([patientId, date])
 }

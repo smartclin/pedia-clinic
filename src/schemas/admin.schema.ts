@@ -129,7 +129,7 @@ export const staffCreateSchema = z.object({
 	email: emailSchema,
 	hireDate: pastDateSchema.optional(),
 	id: idSchema.optional(),
-	img: z.string().url().optional(),
+	img: z.url().optional(),
 	isDeleted: z.boolean().default(false),
 	licenseNumber: z.string().optional(),
 	name: z.string().min(1, 'Name is required'),

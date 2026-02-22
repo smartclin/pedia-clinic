@@ -6,8 +6,10 @@ const envSchema = z.object({
 
 	// Better Auth
 	BETTER_AUTH_SECRET: z.string().min(32),
-	BETTER_AUTH_URL: z.string().url(),
-
+	BETTER_AUTH_URL: z.url(),
+	LOG_LEVEL: z
+		.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal'])
+		.default('info'),
 	// OAuth Providers (Optional)
 	GOOGLE_CLIENT_ID: z.string().optional(),
 	GOOGLE_CLIENT_SECRET: z.string().optional(),
@@ -15,9 +17,9 @@ const envSchema = z.object({
 	GITHUB_CLIENT_SECRET: z.string().optional(),
 	// Supabase (Optional - required for storage and realtime features)
 	REDIS_URL: z.url().optional(),
-	// REDIS_PORT: z.number().optional(),
-	// REDIS_DB: z.number().optional(),
-	// REDIS_HOST: z.string().optional(),
+	REDIS_PORT: z.string().optional(),
+	REDIS_DB: z.string().optional(),
+	REDIS_HOST: z.string().optional(),
 	REDIS_KEY_PREFIX: z.string().optional(),
 	REDIS_PASSWORD: z.string().optional(),
 	REDIS_TLS: z.enum(['true', 'false']).optional(),
@@ -28,7 +30,7 @@ const envSchema = z.object({
 	S3_BUCKET: z.string().optional(),
 	// Email (Resend)
 	RESEND_API_KEY: z.string().optional(),
-	EMAIL_FROM_ADDRESS: z.string().email().optional(),
+	EMAIL_FROM_ADDRESS: z.email().optional(),
 	EMAIL_FROM_NAME: z.string().optional(),
 
 	// Marketing Email (Optional)
@@ -46,7 +48,7 @@ const envSchema = z.object({
 		} catch {
 			return undefined
 		}
-	}, z.string().url().optional()),
+	}, z.url().optional()),
 	OKTA_CLIENT_ID: z.string().optional(),
 	OKTA_CLIENT_SECRET: z.string().optional(),
 
@@ -54,7 +56,7 @@ const envSchema = z.object({
 	ADMIN_EMAILS: z.string().optional(),
 
 	// App
-	NEXT_PUBLIC_APP_URL: z.string().url(),
+	NEXT_PUBLIC_APP_URL: z.url(),
 	NODE_ENV: z
 		.enum(['development', 'production', 'test'])
 		.default('development'),

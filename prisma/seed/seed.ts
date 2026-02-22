@@ -350,42 +350,45 @@ async function associateUsersWithClinics(
 ) {
 	console.log('🔗 Associating users with clinics...')
 
-	// Ensure PATIENT role exists for each clinic (using upsert to avoid duplicates)
-	for (const clinic of clinics) {
-		await prisma.role.upsert({
-			where: { id: `PATIENT_${clinic.id}` },
-			update: {},
-			create: {
-				id: `PATIENT_${clinic.id}`,
-				name: 'Patient',
-				clinic: { connect: { id: clinic.id } },
-				permissions: {
-					create: {
-						name: 'view_appointments',
-					},
-				},
-			},
-		})
-	}
+	// Loop through all users to assign them to at least one clinic
+  for (const user of users) {
+    // Pick 1 to 2 random clinics for each user
+    const userClinics = faker.helpers.arrayElements(clinics, { min: 1, max: 2 });
 
-	for (const user of users) {
-		if (!user) continue
+    for (const clinic of userClinics) {
+      // 1. Ensure the role exists for this clinic based on the User's global role
+      // For example, if user.role is 'DOCTOR', we need a 'DOCTOR' role in THIS clinic.
+      const roleName = user.role || 'PATIENT';
 
-		const userClinics = getRandomSubset(
-			clinics,
-			faker.number.int({ min: 1, max: 3 })
-		)
-		for (const clinic of userClinics) {
-			await prisma.clinicMember.create({
-				data: {
-					userId: user.id,
-					clinicId: clinic.id,
-					roleId: `PATIENT_${clinic.id}`,
-					joinedAt: faker.date.past({ years: 1 }),
-				},
-			})
-		}
-	}
+      const role = await prisma.role.upsert({
+        where: {
+          clinicId_name: {
+            clinicId: clinic.id,
+            name: roleName,
+          },
+        },
+        update: {},
+        create: {
+          name: roleName,
+          clinicId: clinic.id,
+          permissions: roleName === 'ADMIN'
+            ? ['ALL']
+            : roleName === 'DOCTOR'
+              ? ['READ_PATIENT', 'WRITE_ENCOUNTER']
+              : ['READ_PATIENT'],
+        },
+      });
+
+      // 2. Create the membership using the Role ID we just ensured exists
+      await prisma.clinicMember.create({
+        data: {
+          userId: user.id,
+          clinicId: clinic.id,
+          roleId: role.id, // This is now guaranteed to exist and belong to this clinic
+        },
+      });
+    }
+  }
 }
 
 // Create doctors with realistic data

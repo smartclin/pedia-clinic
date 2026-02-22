@@ -14,7 +14,7 @@ export const MedicalRecordBaseSchema = z.object({
 		.default('STANDARD'),
 	appointmentId: idSchema,
 	assessment: z.string().max(2000).optional(),
-	attachments: z.string().url().optional(),
+	attachments: z.url().optional(),
 	clinicId: clinicIdSchema,
 	diagnosis: z.string().min(1, 'Diagnosis is required').max(2000),
 	doctorId: idSchema,

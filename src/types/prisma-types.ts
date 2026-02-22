@@ -404,6 +404,7 @@ export type User = {
 	phone?: string | null
 	clinicinvitations?: OrganizationInvitation[]
 	clinicMembers?: ClinicMember[]
+	growthRecords?: GrowthRecord[]
 	_count?: {
 		sessions?: number
 		accounts?: number
@@ -423,6 +424,7 @@ export type User = {
 		fileStorages?: number
 		clinicinvitations?: number
 		clinicMembers?: number
+		growthRecords?: number
 	}
 }
 
@@ -1338,6 +1340,8 @@ export type GrowthRecord = {
 	patient?: Patient
 	vitalSigns?: VitalSigns | null
 	medical?: MedicalRecords | null
+	recordedBy?: User | null
+	recordedById?: string | null
 }
 
 export type Immunization = {
@@ -1500,6 +1504,7 @@ export type FileStorage = {
 	tokenExpiry?: Date | null
 	description?: string | null
 	metadata?: Record<string, unknown> | null
+	url?: string | null
 	clinicId?: string | null
 	clinic?: Clinic | null
 	userId?: string | null

@@ -40,7 +40,7 @@ export const whoChartTypeSchema = z.enum(ChartType)
 const growthStatusSchema = z.enum(GrowthStatus)
 
 // ==================== GROWTH RECORD SCHEMAS ====================
-export const GrowthRecordBaseSchema = z
+export const GrowthRecordShape = z
 	.object({
 		// Age information
 		ageDays: z.number().int().min(0).max(1825),
@@ -73,6 +73,8 @@ export const GrowthRecordBaseSchema = z
 		weightForAgeZ: z.number().min(-5).max(5).optional(),
 		zScore: z.number().min(-5).max(5).optional(),
 	})
+
+export const GrowthRecordBaseSchema = GrowthRecordShape
 	.refine(
 		data => {
 			// Head circumference should only be measured for children under 2 years

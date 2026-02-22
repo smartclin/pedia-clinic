@@ -328,7 +328,7 @@ export const workspaceRouter = createTRPCRouter({
 				id: z.string(),
 				name: z.string().min(1).max(100).optional(),
 				description: z.string().max(500).optional(),
-				logo: z.string().url().optional(),
+				logo: z.url().optional(),
 			})
 		)
 		.mutation(async ({ ctx, input }) => {

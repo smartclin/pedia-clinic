@@ -18,6 +18,19 @@ import type { ChartType, Gender, GrowthStatus } from '@/types'
 import { db } from '..'
 
 export const growthQueries = {
+	getPatientWithClinic: dedupeQuery(async (patientId: string) => {
+		return db.patient.findUnique({
+			select: {
+				clinicId: true,
+				dateOfBirth: true,
+				firstName: true,
+				gender: true,
+				id: true,
+				lastName: true,
+			},
+			where: { id: patientId },
+		})
+	}),
 	checkMeasurementExists: dedupeQuery(async (id: string) => {
 		return db.growthRecord.findUnique({
 			select: { id: true },

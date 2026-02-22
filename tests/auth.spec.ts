@@ -1,5 +1,5 @@
-import { expect, test } from '../fixtures/global'
-import { SignInPage, SignUpPage } from '../pages/auth.page'
+import { expect, test } from './fixtures/global'
+import { SignInPage, SignUpPage } from './pages/auth.page'
 
 test.describe('Authentication', () => {
 	test.describe('Sign In', () => {

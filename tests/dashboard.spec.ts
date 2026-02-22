@@ -1,9 +1,9 @@
-import { expect, test } from '../fixtures/global'
+import { expect, test } from './fixtures/global'
 import {
 	DashboardPage,
 	NewPatientPage,
 	PatientsListPage,
-} from '../pages/dashboard.page'
+} from './pages/dashboard.page'
 
 test.describe('Dashboard', () => {
 	test.describe('Unauthenticated Access', () => {

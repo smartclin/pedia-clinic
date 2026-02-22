@@ -15,36 +15,30 @@ const icd10CodeSchema = z
 	.regex(/^[A-Z]\d{2}(\.\d{1,3})?$/, 'Invalid ICD-10 code format')
 	.optional()
 const temperatureSchema = z.number().min(30).max(45)
-export const VitalSignsBaseSchema = z
-	.object({
-		ageDays: z.number().int().min(0).max(474_800).optional(),
-		ageMonths: z.number().int().min(0).max(1560).optional(),
-		bmi: z.number().min(10).max(80).optional(),
-		// Temperature (Celsius)
-		bodyTemperature: temperatureSchema.optional(),
-		clinicId: clinicIdSchema.optional(),
-		diastolic: z.number().min(30).max(150).optional(),
-		encounterId: idSchema.optional(),
-		// Patient context
-		gender: genderSchema.optional(),
-		// Cardiovascular
-		heartRate: z.number().min(20).max(300).optional(),
-		// Additional measurements
-		height: z.number().min(20).max(300).optional(), // cm
-		id: z.uuid().optional(),
-		medicalId: idSchema.optional(),
-		// Notes
-		notes: z.string().max(1000).optional(),
-		oxygenSaturation: z.number().min(50).max(100).optional(),
-		patientId: idSchema,
-		recordedAt: dateSchema.default(() => new Date()),
-		// Respiratory
-		respiratoryRate: z.number().min(5).max(100).optional(),
-		// Blood Pressure
-		systolic: z.number().min(50).max(250).optional(),
-		weight: z.number().min(0.5).max(500).optional(), // kg
-	})
-	.refine(
+
+export const VitalSignsShape = z.object({
+  ageDays: z.number().int().min(0).max(474_800).optional(),
+  ageMonths: z.number().int().min(0).max(1560).optional(),
+  bmi: z.number().min(10).max(80).optional(),
+  bodyTemperature: temperatureSchema.optional(),
+  clinicId: clinicIdSchema.optional(),
+  diastolic: z.number().min(30).max(150).optional(),
+  encounterId: idSchema.optional(),
+  gender: genderSchema.optional(),
+  heartRate: z.number().min(20).max(300).optional(),
+  height: z.number().min(20).max(300).optional(),
+  id: z.uuid().optional(),
+  medicalId: idSchema.optional(),
+  notes: z.string().max(1000).optional(),
+  oxygenSaturation: z.number().min(50).max(100).optional(),
+  patientId: idSchema,
+  recordedAt: dateSchema.default(() => new Date()),
+  respiratoryRate: z.number().min(5).max(100).optional(),
+  systolic: z.number().min(50).max(250).optional(),
+  weight: z.number().min(0.5).max(500).optional(),
+})
+
+export const VitalSignsBaseSchema =VitalSignsShape.refine(
 		data => {
 			// Validate blood pressure relationship
 			if (data.systolic && data.diastolic && data.systolic <= data.diastolic) {
