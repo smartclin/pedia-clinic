@@ -56,10 +56,10 @@ echo "Updating ShadCN components..."
 echo "================================"
 
 for component in "${components[@]}"; do
-  if [ -f "components/ui/${component}.tsx" ]; then
+  if [ -f "src/components/ui/${component}.tsx" ]; then
     echo ""
     echo "Updating $component..."
-    pnpm dlx shadcn@latest add "$component" --overwrite
+    bunx shadcn@canary add "$component" --overwrite
   else
     echo "Skipping $component (not found)"
   fi
@@ -68,4 +68,3 @@ done
 echo ""
 echo "================================"
 echo "Update complete!"
-

@@ -1,131 +1,192 @@
-import {
-	ChevronLeftIcon,
-	ChevronRightIcon,
-	MoreHorizontalIcon,
-} from 'lucide-react'
+import { Slot } from '@radix-ui/react-slot'
+import { cva, type VariantProps } from 'class-variance-authority'
 import type * as React from 'react'
 
-import { type Button, buttonVariants } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 
-function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
+function ItemGroup({ className, ...props }: React.ComponentProps<'div'>) {
 	return (
-		<nav
-			aria-label='pagination'
-			className={cn('mx-auto flex w-full justify-center', className)}
-			data-slot='pagination'
+		<div
+			className={cn('group/item-group flex flex-col', className)}
+			data-slot='item-group'
 			{...props}
 		/>
 	)
 }
 
-function PaginationContent({
+function ItemSeparator({
 	className,
 	...props
-}: React.ComponentProps<'ul'>) {
+}: React.ComponentProps<typeof Separator>) {
 	return (
-		<ul
-			className={cn('flex flex-row items-center gap-1', className)}
-			data-slot='pagination-content'
+		<Separator
+			className={cn('my-0', className)}
+			data-slot='item-separator'
+			orientation='horizontal'
 			{...props}
 		/>
 	)
 }
 
-function PaginationItem({ ...props }: React.ComponentProps<'li'>) {
-	return (
-		<li
-			data-slot='pagination-item'
-			{...props}
-		/>
-	)
-}
+const itemVariants = cva(
+	'group/item flex flex-wrap items-center rounded-md border border-transparent text-sm outline-none transition-colors duration-100 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 [a]:transition-colors [a]:hover:bg-accent/50',
+	{
+		variants: {
+			variant: {
+				default: 'bg-transparent',
+				outline: 'border-border',
+				muted: 'bg-muted/50',
+			},
+			size: {
+				default: 'gap-4 p-4',
+				sm: 'gap-2.5 px-4 py-3',
+			},
+		},
+		defaultVariants: {
+			variant: 'default',
+			size: 'default',
+		},
+	}
+)
 
-type PaginationLinkProps = {
-	isActive?: boolean
-} & Pick<React.ComponentProps<typeof Button>, 'size'> &
-	React.ComponentProps<'a'>
-
-function PaginationLink({
+function Item({
 	className,
-	isActive,
-	size = 'icon',
+	variant = 'default',
+	size = 'default',
+	asChild = false,
 	...props
-}: PaginationLinkProps) {
+}: React.ComponentProps<'div'> &
+	VariantProps<typeof itemVariants> & { asChild?: boolean }) {
+	const Comp = asChild ? Slot : 'div'
 	return (
-		<a
-			aria-current={isActive ? 'page' : undefined}
+		<Comp
+			className={cn(itemVariants({ variant, size, className }))}
+			data-size={size}
+			data-slot='item'
+			data-variant={variant}
+			{...props}
+		/>
+	)
+}
+
+const itemMediaVariants = cva(
+	'flex shrink-0 items-center justify-center gap-2 group-has-[[data-slot=item-description]]/item:translate-y-0.5 group-has-[[data-slot=item-description]]/item:self-start [&_svg]:pointer-events-none',
+	{
+		variants: {
+			variant: {
+				default: 'bg-transparent',
+				icon: "size-8 rounded-sm border bg-muted [&_svg:not([class*='size-'])]:size-4",
+				image:
+					'size-10 overflow-hidden rounded-sm [&_img]:size-full [&_img]:object-cover',
+			},
+		},
+		defaultVariants: {
+			variant: 'default',
+		},
+	}
+)
+
+function ItemMedia({
+	className,
+	variant = 'default',
+	...props
+}: React.ComponentProps<'div'> & VariantProps<typeof itemMediaVariants>) {
+	return (
+		<div
+			className={cn(itemMediaVariants({ variant, className }))}
+			data-slot='item-media'
+			data-variant={variant}
+			{...props}
+		/>
+	)
+}
+
+function ItemContent({ className, ...props }: React.ComponentProps<'div'>) {
+	return (
+		<div
 			className={cn(
-				buttonVariants({
-					size,
-					variant: isActive ? 'outline' : 'ghost',
-				}),
+				'flex flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none',
 				className
 			)}
-			data-active={isActive}
-			data-slot='pagination-link'
+			data-slot='item-content'
 			{...props}
 		/>
 	)
 }
 
-function PaginationPrevious({
-	className,
-	...props
-}: React.ComponentProps<typeof PaginationLink>) {
+function ItemTitle({ className, ...props }: React.ComponentProps<'div'>) {
 	return (
-		<PaginationLink
-			aria-label='Go to previous page'
-			className={cn('gap-1 px-2.5 sm:pl-2.5', className)}
-			size='default'
+		<div
+			className={cn(
+				'flex w-fit items-center gap-2 font-medium text-sm leading-snug',
+				className
+			)}
+			data-slot='item-title'
 			{...props}
-		>
-			<ChevronLeftIcon />
-			<span className='hidden sm:block'>Previous</span>
-		</PaginationLink>
+		/>
 	)
 }
 
-function PaginationNext({
-	className,
-	...props
-}: React.ComponentProps<typeof PaginationLink>) {
+function ItemDescription({ className, ...props }: React.ComponentProps<'p'>) {
 	return (
-		<PaginationLink
-			aria-label='Go to next page'
-			className={cn('gap-1 px-2.5 sm:pr-2.5', className)}
-			size='default'
+		<p
+			className={cn(
+				'line-clamp-2 text-balance font-normal text-muted-foreground text-sm leading-normal',
+				'[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
+				className
+			)}
+			data-slot='item-description'
 			{...props}
-		>
-			<span className='hidden sm:block'>Next</span>
-			<ChevronRightIcon />
-		</PaginationLink>
+		/>
 	)
 }
 
-function PaginationEllipsis({
-	className,
-	...props
-}: React.ComponentProps<'span'>) {
+function ItemActions({ className, ...props }: React.ComponentProps<'div'>) {
 	return (
-		<span
-			aria-hidden
-			className={cn('flex size-9 items-center justify-center', className)}
-			data-slot='pagination-ellipsis'
+		<div
+			className={cn('flex items-center gap-2', className)}
+			data-slot='item-actions'
 			{...props}
-		>
-			<MoreHorizontalIcon className='size-4' />
-			<span className='sr-only'>More pages</span>
-		</span>
+		/>
+	)
+}
+
+function ItemHeader({ className, ...props }: React.ComponentProps<'div'>) {
+	return (
+		<div
+			className={cn(
+				'flex basis-full items-center justify-between gap-2',
+				className
+			)}
+			data-slot='item-header'
+			{...props}
+		/>
+	)
+}
+
+function ItemFooter({ className, ...props }: React.ComponentProps<'div'>) {
+	return (
+		<div
+			className={cn(
+				'flex basis-full items-center justify-between gap-2',
+				className
+			)}
+			data-slot='item-footer'
+			{...props}
+		/>
 	)
 }
 
 export {
-	Pagination,
-	PaginationContent,
-	PaginationLink,
-	PaginationItem,
-	PaginationPrevious,
-	PaginationNext,
-	PaginationEllipsis,
+	Item,
+	ItemActions,
+	ItemContent,
+	ItemDescription,
+	ItemFooter,
+	ItemGroup,
+	ItemHeader,
+	ItemMedia,
+	ItemSeparator,
+	ItemTitle,
 }

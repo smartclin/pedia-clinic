@@ -1,5 +1,5 @@
 import { Slot } from '@radix-ui/react-slot'
-import { ChevronRightCircleIcon, MoreHorizontalIcon } from 'lucide-react'
+import { ChevronRight, MoreHorizontal } from 'lucide-react'
 import type * as React from 'react'
 
 import { cn } from '@/lib/utils'
@@ -18,7 +18,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<'ol'>) {
 	return (
 		<ol
 			className={cn(
-				'flex flex-wrap items-center gap-1.5 break-words text-muted-foreground text-sm sm:gap-2.5',
+				'wrap-break-word flex flex-wrap items-center gap-1.5 text-muted-foreground text-sm sm:gap-2.5',
 				className
 			)}
 			data-slot='breadcrumb-list'
@@ -59,7 +59,9 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>) {
 	return (
 		<span
 			aria-current='page'
-			className={cn('font-medium text-sm', className)}
+			aria-disabled='true'
+			className={cn('font-normal text-foreground', className)}
+			data-slot='breadcrumb-page'
 			{...props}
 		/>
 	)
@@ -78,7 +80,7 @@ function BreadcrumbSeparator({
 			role='presentation'
 			{...props}
 		>
-			{children ?? <ChevronRightCircleIcon />}
+			{children ?? <ChevronRight />}
 		</li>
 	)
 }
@@ -95,7 +97,7 @@ function BreadcrumbEllipsis({
 			role='presentation'
 			{...props}
 		>
-			<MoreHorizontalIcon className='size-4' />
+			<MoreHorizontal className='size-4' />
 			<span className='sr-only'>More</span>
 		</span>
 	)
