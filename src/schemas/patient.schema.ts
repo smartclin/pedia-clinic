@@ -21,83 +21,79 @@ const nameSchema = z
 	)
 
 // ==================== BASE SCHEMAS ====================
-export const PatientShape = z
-	.object({
-		address: z
-			.string()
-			.max(500, 'Address must be less than 500 characters')
-			.optional()
-			.nullable(),
-		allergies: z
-			.string()
-			.max(2000, 'Allergies must be less than 2000 characters')
-			.optional()
-			.nullable(),
-		bloodGroup: z.string().nullable(),
-		clinicId: z.uuid(),
-		colorCode: z
-			.string()
-			.regex(/^#([0-9A-F]{3}){1,2}$/i, 'Invalid hex color format')
-			.optional()
-			.nullable(),
-		dateOfBirth: z.date().refine(date => date <= new Date(), {
-			message: 'Date of birth cannot be in future',
-		}),
-		email: emailSchema.nullable(),
-		emergencyContactName: nameSchema.optional().nullable(),
-		emergencyContactNumber: phoneNumberSchema.nullable(),
-		firstName: nameSchema,
-		gender: genderSchema,
-		image: z.string().url('Invalid image URL').optional().nullable(),
-		lastName: nameSchema,
-		maritalStatus: z
-			.enum(['SINGLE', 'MARRIED', 'DIVORCED', 'WIDOWED'])
-			.optional()
-			.nullable(),
-		medicalConditions: z
-			.string()
-			.max(2000, 'Medical conditions must be less than 2000 characters')
-			.optional()
-			.nullable(),
-		medicalHistory: z
-			.string()
-			.max(5000, 'Medical history must be less than 5000 characters')
-			.optional()
-			.nullable(),
-		nutritionalStatus: z
-			.string()
-			.max(100, 'Nutritional status must be less than 100 characters')
-			.optional()
-			.nullable(),
-		phone: phoneNumberSchema.nullable(),
-		status: statusSchema.default('ACTIVE'),
-		userId: z.uuid(),
-	})
+export const PatientShape = z.object({
+	address: z
+		.string()
+		.max(500, 'Address must be less than 500 characters')
+		.optional()
+		.nullable(),
+	allergies: z
+		.string()
+		.max(2000, 'Allergies must be less than 2000 characters')
+		.optional()
+		.nullable(),
+	bloodGroup: z.string().nullable(),
+	clinicId: z.uuid(),
+	colorCode: z
+		.string()
+		.regex(/^#([0-9A-F]{3}){1,2}$/i, 'Invalid hex color format')
+		.optional()
+		.nullable(),
+	dateOfBirth: z.date().refine(date => date <= new Date(), {
+		message: 'Date of birth cannot be in future',
+	}),
+	email: emailSchema.nullable(),
+	emergencyContactName: nameSchema.optional().nullable(),
+	emergencyContactNumber: phoneNumberSchema.nullable(),
+	firstName: nameSchema,
+	gender: genderSchema,
+	image: z.string().url('Invalid image URL').optional().nullable(),
+	lastName: nameSchema,
+	maritalStatus: z
+		.enum(['SINGLE', 'MARRIED', 'DIVORCED', 'WIDOWED'])
+		.optional()
+		.nullable(),
+	medicalConditions: z
+		.string()
+		.max(2000, 'Medical conditions must be less than 2000 characters')
+		.optional()
+		.nullable(),
+	medicalHistory: z
+		.string()
+		.max(5000, 'Medical history must be less than 5000 characters')
+		.optional()
+		.nullable(),
+	nutritionalStatus: z
+		.string()
+		.max(100, 'Nutritional status must be less than 100 characters')
+		.optional()
+		.nullable(),
+	phone: phoneNumberSchema.nullable(),
+	status: statusSchema.default('ACTIVE'),
+	userId: z.uuid(),
+})
 
-
-export const patientBaseSchema = PatientShape
-	.refine(
-		data => {
-			// If emergency contact name is provided, phone should also be provided
-			if (data.emergencyContactName && !data.emergencyContactNumber) {
-				return false
-			}
-			// If emergency contact phone is provided, name should also be provided
-			if (data.emergencyContactNumber && !data.emergencyContactName) {
-				return false
-			}
-			return true
-		},
-		{
-			message:
-				'Emergency contact name and phone must both be provided if either is specified',
-			path: ['emergencyContactNumber'],
+export const patientBaseSchema = PatientShape.refine(
+	data => {
+		// If emergency contact name is provided, phone should also be provided
+		if (data.emergencyContactName && !data.emergencyContactNumber) {
+			return false
 		}
-	)
+		// If emergency contact phone is provided, name should also be provided
+		if (data.emergencyContactNumber && !data.emergencyContactName) {
+			return false
+		}
+		return true
+	},
+	{
+		message:
+			'Emergency contact name and phone must both be provided if either is specified',
+		path: ['emergencyContactNumber'],
+	}
+)
 
 // ==================== CREATE SCHEMA ====================
-export const CreatePatientSchema = patientBaseSchema
-	.omit({ userId: true })
+export const CreatePatientSchema = PatientShape.omit({ userId: true })
 	.extend({
 		clinicId: z.uuid().optional(), // Will be set from session
 	})
@@ -123,7 +119,7 @@ export const CreatePatientSchema = patientBaseSchema
 	)
 
 // ==================== UPDATE SCHEMA ====================
-export const UpdatePatientSchema = patientBaseSchema.partial()
+export const UpdatePatientSchema = PatientShape.partial()
 
 // ==================== UPSERT SCHEMA ====================
 export const UpsertPatientSchema = z.object({
@@ -330,7 +326,7 @@ export type Patient = z.infer<typeof PatientSchema>
 export type PatientFilterInput = z.infer<typeof PatientFilterSchema>
 
 export const getPatientListSchema = z.object({
-	clinicId: z.string().uuid(),
+	clinicId: z.uuid(),
 	page: z.number().min(1).default(1),
 	limit: z.number().min(1).max(100).default(10),
 	search: z.string().optional(),
@@ -349,7 +345,7 @@ export type GetPatientListInput = {
 }
 
 export const infiniteListSchema = z.object({
-	clinicId: z.string().uuid(),
+	clinicId: z.uuid(),
 	limit: z.number().min(1).max(50).default(20),
 	cursor: z.string().nullish(),
 	search: z.string().optional(),

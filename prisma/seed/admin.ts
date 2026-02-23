@@ -6,10 +6,10 @@ import { prisma } from '@/server/db'
 async function seedAdmin() {
   console.log('🌱 Starting admin user, clinic, and doctor profile seed...')
 
-  const adminEmail = 'clinysmar@gmail.com'
-  const adminPassword = 'HealthF24'
-  const adminName = 'Dr. Ali'
-  const adminPhone = '01033022221'
+  const adminEmail = 'hazem0302012@gmail.com'
+  const adminPassword = 'HealthF26'
+  const adminName = 'Dr. Hazem Ali'
+  const adminPhone = '01003497579'
   const clinicName = 'Smart Clinic'
 
   try {
@@ -65,7 +65,7 @@ async function seedAdmin() {
     console.log(`🏥 Clinic created: ${clinic.name}`)
 
     // 2️⃣ CREATE ROLES WITH FIXED IDs
-   // 2️⃣ CREATE ROLES WITH PERMISSIONS
+    // 2️⃣ CREATE ROLES WITH PERMISSIONS
     const rolesToSeed = [
       { id: 'ADMIN', name: 'Admin', permissions: ['ALL'] },
       { id: 'DOCTOR', name: 'Doctor', permissions: ['READ_PATIENT', 'WRITE_ENCOUNTER'] },

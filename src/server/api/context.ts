@@ -18,28 +18,34 @@ type CreateContextOptions = {
 }
 
 export async function createTRPCContext(opts?: CreateContextOptions) {
-	const requestStart = Date.now()
+const requestStart = Date.now()
 
-	// Get headers (App Router safe)
-	const headerStore = opts?.req?.headers ?? headers()
-	const head =
-		headerStore instanceof Headers
-			? headerStore
-			: new Headers(await headerStore)
-	const user = await getUser()
-	// Session
-	const session = await auth.api.getSession({
-		headers: head,
-	})
+  // 1. Get headers safely (Prevents crash during 'next build')
+  let head: Headers;
+  try {
+    const headerStore = opts?.req?.headers ?? await headers();
+    head = headerStore instanceof Headers ? headerStore : new Headers(headerStore);
+  } catch (e) {
+    console.error(e);
+    // This block triggers during prerendering/build
+    head = new Headers();
+  }
 
-	// Correlation ID
-	const correlationId = head.get('x-correlation-id') ?? randomUUID()
+  // 2. Safely attempt to get user/session
+  // If headers are empty (build time), session will naturally be null
+  const user = await getUser();
+  const session = await auth.api.getSession({
+    headers: head,
+  }).catch(() => null);
 
-	// Extract client IP safely
-	const clientIp =
-		head.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-		head.get('x-real-ip') ||
-		'unknown'
+  // 3. Correlation ID
+  const correlationId = head.get('x-correlation-id') ?? randomUUID()
+
+  // 4. Extract client IP safely
+  const clientIp =
+    head.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    head.get('x-real-ip') ||
+    'unknown'
 
 	// Structured log context
 	const logContext = {

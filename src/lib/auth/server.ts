@@ -35,8 +35,8 @@ export const getRole = (session: Session): Role => {
 }
 
 // Permission checking with Better Auth access control
-export const hasPermission = // Server-side permission checking
-	await auth.api.userHasPermission({
+export const hasPermission = async (): Promise<boolean> => {
+	const result = await auth.api.userHasPermission({
 		body: {
 			permissions: {
 				patients: ['create'],
@@ -44,6 +44,8 @@ export const hasPermission = // Server-side permission checking
 			role: 'patient',
 		},
 	})
+	return result.success
+}
 // Optimized getter utilities
 export const getUserId = (session: Session) => session?.user?.id ?? null
 export const getUserEmail = (session: Session) => session?.user?.email ?? null

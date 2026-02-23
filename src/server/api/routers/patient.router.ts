@@ -121,7 +121,7 @@ export const patientRouter = createTRPCRouter({
 		return patientService.getPatientCount(clinicId)
 	}),
 	getStats: protectedProcedure
-		.input(z.object({ clinicId: z.string().uuid() }))
+		.input(z.object({ clinicId: z.uuid() }))
 		.query(async ({ ctx, input }) => {
 			try {
 				await validateClinicAccess(input.clinicId, ctx.user.id)
@@ -179,7 +179,7 @@ export const patientRouter = createTRPCRouter({
 	update: protectedProcedure
 		.input(
 			z.object({
-				id: z.string().uuid(),
+				id: z.uuid(),
 				data: UpdatePatientSchema,
 			})
 		)

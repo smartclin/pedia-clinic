@@ -40,55 +40,53 @@ export const whoChartTypeSchema = z.enum(ChartType)
 const growthStatusSchema = z.enum(GrowthStatus)
 
 // ==================== GROWTH RECORD SCHEMAS ====================
-export const GrowthRecordShape = z
-	.object({
-		// Age information
-		ageDays: z.number().int().min(0).max(1825),
-		ageMonths: z.number().int().min(0).max(60),
-		ageYears: z.number().int().min(0).max(5),
-		bmi: z.number().min(5).max(50).optional(),
-		bmiForAgeZ: z.number().min(-5).max(5).optional(),
-		classification: z.string().max(100).optional(),
-		clinicId: clinicIdSchema,
-		date: dateSchema.default(() => new Date()),
-		encounterId: idSchema.optional(),
-		gender: genderSchema,
-		// Classification
-		growthStatus: growthStatusSchema.default('NORMAL'),
-		hcForAgeZ: z.number().min(-5).max(5).optional(),
-		headCircumference: z.number().min(20).max(60).optional(), // cm (for infants < 2 years)
-		height: z.number().min(20).max(250), // cm
-		heightForAgeZ: z.number().min(-5).max(5).optional(),
-		// Additional info
-		measurementType: measurementTypeSchema.default('Weight'),
-		medicalId: idSchema.optional(),
-		notes: z.string().max(1000).optional(),
-		patientId: patientIdSchema,
-		percentile: z.number().min(0).max(100).optional(),
-		recordedAt: dateSchema.default(() => new Date()),
-		vitalSignsId: idSchema.optional(),
-		// Measurements
-		weight: z.number().min(0.5).max(200), // kg
-		// WHO standards
-		weightForAgeZ: z.number().min(-5).max(5).optional(),
-		zScore: z.number().min(-5).max(5).optional(),
-	})
+export const GrowthRecordShape = z.object({
+	// Age information
+	ageDays: z.number().int().min(0).max(1825),
+	ageMonths: z.number().int().min(0).max(60),
+	ageYears: z.number().int().min(0).max(5),
+	bmi: z.number().min(5).max(50).optional(),
+	bmiForAgeZ: z.number().min(-5).max(5).optional(),
+	classification: z.string().max(100).optional(),
+	clinicId: clinicIdSchema,
+	date: dateSchema.default(() => new Date()),
+	encounterId: idSchema.optional(),
+	gender: genderSchema,
+	// Classification
+	growthStatus: growthStatusSchema.default('NORMAL'),
+	hcForAgeZ: z.number().min(-5).max(5).optional(),
+	headCircumference: z.number().min(20).max(60).optional(), // cm (for infants < 2 years)
+	height: z.number().min(20).max(250), // cm
+	heightForAgeZ: z.number().min(-5).max(5).optional(),
+	// Additional info
+	measurementType: measurementTypeSchema.default('Weight'),
+	medicalId: idSchema.optional(),
+	notes: z.string().max(1000).optional(),
+	patientId: patientIdSchema,
+	percentile: z.number().min(0).max(100).optional(),
+	recordedAt: dateSchema.default(() => new Date()),
+	vitalSignsId: idSchema.optional(),
+	// Measurements
+	weight: z.number().min(0.5).max(200), // kg
+	// WHO standards
+	weightForAgeZ: z.number().min(-5).max(5).optional(),
+	zScore: z.number().min(-5).max(5).optional(),
+})
 
-export const GrowthRecordBaseSchema = GrowthRecordShape
-	.refine(
-		data => {
-			// Head circumference should only be measured for children under 2 years
-			if (data.headCircumference && data.ageMonths && data.ageMonths >= 24) {
-				return false
-			}
-			return true
-		},
-		{
-			message:
-				'Head circumference should only be measured for children under 24 months',
-			path: ['headCircumference'],
+export const GrowthRecordBaseSchema = GrowthRecordShape.refine(
+	data => {
+		// Head circumference should only be measured for children under 2 years
+		if (data.headCircumference && data.ageMonths && data.ageMonths >= 24) {
+			return false
 		}
-	)
+		return true
+	},
+	{
+		message:
+			'Head circumference should only be measured for children under 24 months',
+		path: ['headCircumference'],
+	}
+)
 	.refine(
 		data => {
 			// Validate age consistency
@@ -116,7 +114,7 @@ export const GrowthRecordBaseSchema = GrowthRecordShape
 			path: ['weight'],
 		}
 	)
-export const GrowthRecordCreateSchema = GrowthRecordBaseSchema.extend({
+export const GrowthRecordCreateSchema = GrowthRecordShape.extend({
 	clinicId: clinicIdSchema.optional(), // Required for create
 })
 

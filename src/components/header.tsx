@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -55,6 +55,7 @@ const publicLinks = [
 ] as const
 
 export default function Header() {
+	const [mounted, setMounted] = useState(false)
 	const pathname = usePathname()
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -65,6 +66,10 @@ export default function Header() {
 		pathname?.startsWith('/contact') ||
 		pathname?.startsWith('/privacy') ||
 		pathname?.startsWith('/terms')
+	// Wait until after mounting so we know we're on the client
+	useEffect(() => {
+		setMounted(true)
+	}, [])
 
 	return (
 		<header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60'>
@@ -161,106 +166,108 @@ export default function Header() {
 					<UserMenu />
 
 					{/* Mobile Menu */}
-					<Sheet
-						onOpenChange={setIsOpen}
-						open={isOpen}
-					>
-						<SheetTrigger
-							asChild
-							className='md:hidden'
+					{mounted && (
+						<Sheet
+							onOpenChange={setIsOpen}
+							open={isOpen}
 						>
-							<Button
-								size='icon'
-								variant='ghost'
+							<SheetTrigger
+								asChild
+								className='md:hidden'
 							>
-								<Menu className='h-5 w-5' />
-								<span className='sr-only'>Toggle menu</span>
-							</Button>
-						</SheetTrigger>
-						<SheetContent
-							className='w-75 sm:w-100'
-							side='right'
-						>
-							<div className='flex flex-col gap-6 py-4'>
-								<Link
-									className='flex items-center gap-2 font-bold text-xl'
-									href='/'
-									onClick={() => setIsOpen(false)}
+								<Button
+									size='icon'
+									variant='ghost'
 								>
-									<Baby className='h-6 w-6 text-primary' />
-									Pediatric Clinic
-								</Link>
+									<Menu className='h-5 w-5' />
+									<span className='sr-only'>Toggle menu</span>
+								</Button>
+							</SheetTrigger>
+							<SheetContent
+								className='w-75 sm:w-100'
+								side='right'
+							>
+								<div className='flex flex-col gap-6 py-4'>
+									<Link
+										className='flex items-center gap-2 font-bold text-xl'
+										href='/'
+										onClick={() => setIsOpen(false)}
+									>
+										<Baby className='h-6 w-6 text-primary' />
+										Pediatric Clinic
+									</Link>
 
-								<nav className='flex flex-col gap-4'>
-									{!isPublicRoute ? (
-										<>
-											<div className='space-y-2'>
-												<h3 className='font-semibold text-muted-foreground text-xs uppercase'>
-													Main
-												</h3>
-												{mainLinks.map(({ to, label, icon: Icon }) => (
-													<Link
-														className='flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-sm hover:bg-accent'
-														href={to}
-														key={to}
-														onClick={() => setIsOpen(false)}
-													>
-														<Icon className='h-4 w-4' />
-														{label}
-													</Link>
-												))}
-											</div>
+									<nav className='flex flex-col gap-4'>
+										{!isPublicRoute ? (
+											<>
+												<div className='space-y-2'>
+													<h3 className='font-semibold text-muted-foreground text-xs uppercase'>
+														Main
+													</h3>
+													{mainLinks.map(({ to, label, icon: Icon }) => (
+														<Link
+															className='flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-sm hover:bg-accent'
+															href={to}
+															key={to}
+															onClick={() => setIsOpen(false)}
+														>
+															<Icon className='h-4 w-4' />
+															{label}
+														</Link>
+													))}
+												</div>
 
-											<div className='space-y-2'>
-												<h3 className='font-semibold text-muted-foreground text-xs uppercase'>
-													Patients
-												</h3>
-												{patientLinks.map(({ to, label, icon: Icon }) => (
-													<Link
-														className='flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-sm hover:bg-accent'
-														href={to}
-														key={to}
-														onClick={() => setIsOpen(false)}
-													>
-														<Icon className='h-4 w-4' />
-														{label}
-													</Link>
-												))}
-											</div>
+												<div className='space-y-2'>
+													<h3 className='font-semibold text-muted-foreground text-xs uppercase'>
+														Patients
+													</h3>
+													{patientLinks.map(({ to, label, icon: Icon }) => (
+														<Link
+															className='flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-sm hover:bg-accent'
+															href={to}
+															key={to}
+															onClick={() => setIsOpen(false)}
+														>
+															<Icon className='h-4 w-4' />
+															{label}
+														</Link>
+													))}
+												</div>
 
-											<div className='space-y-2'>
-												<h3 className='font-semibold text-muted-foreground text-xs uppercase'>
-													Clinical
-												</h3>
-												{clinicalLinks.map(({ to, label, icon: Icon }) => (
-													<Link
-														className='flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-sm hover:bg-accent'
-														href={to}
-														key={to}
-														onClick={() => setIsOpen(false)}
-													>
-														<Icon className='h-4 w-4' />
-														{label}
-													</Link>
-												))}
-											</div>
-										</>
-									) : (
-										publicLinks.map(({ to, label }) => (
-											<Link
-												className='flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-sm hover:bg-accent'
-												href={to}
-												key={to}
-												onClick={() => setIsOpen(false)}
-											>
-												{label}
-											</Link>
-										))
-									)}
-								</nav>
-							</div>
-						</SheetContent>
-					</Sheet>
+												<div className='space-y-2'>
+													<h3 className='font-semibold text-muted-foreground text-xs uppercase'>
+														Clinical
+													</h3>
+													{clinicalLinks.map(({ to, label, icon: Icon }) => (
+														<Link
+															className='flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-sm hover:bg-accent'
+															href={to}
+															key={to}
+															onClick={() => setIsOpen(false)}
+														>
+															<Icon className='h-4 w-4' />
+															{label}
+														</Link>
+													))}
+												</div>
+											</>
+										) : (
+											publicLinks.map(({ to, label }) => (
+												<Link
+													className='flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-sm hover:bg-accent'
+													href={to}
+													key={to}
+													onClick={() => setIsOpen(false)}
+												>
+													{label}
+												</Link>
+											))
+										)}
+									</nav>
+								</div>
+							</SheetContent>
+						</Sheet>
+					)}
 				</div>
 			</div>
 		</header>

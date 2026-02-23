@@ -20,7 +20,7 @@ import { makeQueryClient } from './query-client'
 export const getQueryClient = cache(makeQueryClient)
 
 //
-// tRPC Proxy for RSC usage
+// tRPC Proxy for RSC usage - Lazy initialization
 //
 const createServerContext = cache(async () => createTRPCContext())
 
@@ -30,6 +30,7 @@ export const trpc = createTRPCOptionsProxy<AppRouter>({
 	ctx: createServerContext(),
 	queryClient: getQueryClient,
 })
+
 //
 // Direct server caller (for actions / server logic)
 //

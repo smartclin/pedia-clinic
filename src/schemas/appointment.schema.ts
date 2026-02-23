@@ -233,7 +233,7 @@ export type AppointmentCalendarEvent = {
 	color?: string
 }
 export const AppointmentByIdSchema = z.object({
-	id: z.string().uuid('Invalid appointment ID'),
+	id: z.uuid('Invalid appointment ID'),
 	clinicId: z.string().optional(), // Used for multi-tenant isolation
 })
 
@@ -287,6 +287,6 @@ export const ListAppointmentsSchema = z.object({
 export type ListAppointmentsInput = z.infer<typeof ListAppointmentsSchema>
 
 export const DeleteAppointmentSchema = z.object({
-	id: z.string().uuid('Invalid appointment ID'),
+	id: z.uuid('Invalid appointment ID'),
 	clinicId: z.string(),
 })

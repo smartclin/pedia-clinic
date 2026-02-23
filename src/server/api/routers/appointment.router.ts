@@ -93,7 +93,7 @@ export const appointmentRouter = createTRPCRouter({
 	getByPatient: protectedProcedure
 		.input(
 			z.object({
-				patientId: z.string().uuid(),
+				patientId: z.uuid(),
 				limit: z.number().min(1).max(100).optional(),
 				includePast: z.boolean().optional(),
 			})
@@ -116,7 +116,7 @@ export const appointmentRouter = createTRPCRouter({
 	getByDoctor: protectedProcedure
 		.input(
 			z.object({
-				doctorId: z.string().uuid(),
+				doctorId: z.uuid(),
 				date: z.date().optional(),
 			})
 		)
@@ -135,7 +135,7 @@ export const appointmentRouter = createTRPCRouter({
 	getAvailableTimes: protectedProcedure
 		.input(
 			z.object({
-				doctorId: z.string().uuid(),
+				doctorId: z.uuid(),
 				date: z.date(),
 			})
 		)

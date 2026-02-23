@@ -74,7 +74,7 @@ export const growthRouter = createTRPCRouter({
 		}),
 
 	getLatestGrowthRecord: protectedProcedure
-		.input(z.object({ patientId: z.string().uuid() }))
+		.input(z.object({ patientId: z.uuid() }))
 		.query(async ({ ctx, input }) => {
 			const clinicId = ctx.clinic?.id
 			if (!clinicId) {
@@ -98,7 +98,7 @@ export const growthRouter = createTRPCRouter({
 	getPatientMeasurements: protectedProcedure
 		.input(
 			z.object({
-				patientId: z.string().uuid(),
+				patientId: z.uuid(),
 				limit: z.number().min(1).max(100).default(50),
 			})
 		)
@@ -116,7 +116,7 @@ export const growthRouter = createTRPCRouter({
 		}),
 
 	getGrowthSummary: protectedProcedure
-		.input(z.object({ patientId: z.string().uuid() }))
+		.input(z.object({ patientId: z.uuid() }))
 		.query(async ({ ctx, input }) => {
 			const clinicId = ctx.clinic?.id
 			if (!clinicId) {
@@ -148,7 +148,7 @@ export const growthRouter = createTRPCRouter({
 	calculatePercentile: protectedProcedure
 		.input(
 			z.object({
-				patientId: z.string().uuid(),
+				patientId: z.uuid(),
 				measurement: z.object({
 					ageMonths: z.number(),
 					date: z.date(),

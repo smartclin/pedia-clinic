@@ -118,7 +118,7 @@ export const medicalRouter = createTRPCRouter({
 	getDiagnosesByDoctor: protectedProcedure
 		.input(
 			z.object({
-				doctorId: z.string().uuid(),
+				doctorId: z.uuid(),
 				limit: z.number().min(1).max(100).optional(),
 			})
 		)
@@ -306,7 +306,7 @@ export const medicalRouter = createTRPCRouter({
 		}),
 
 	getActivePrescriptionsByPatient: protectedProcedure
-		.input(z.object({ patientId: z.string().uuid() }))
+		.input(z.object({ patientId: z.uuid() }))
 		.query(async ({ ctx, input }) => {
 			const clinicId = ctx.clinic?.id
 			if (!clinicId) {
@@ -363,7 +363,7 @@ export const medicalRouter = createTRPCRouter({
 		}),
 
 	getLatestVitalSignsByPatient: protectedProcedure
-		.input(z.object({ patientId: z.string().uuid() }))
+		.input(z.object({ patientId: z.uuid() }))
 		.query(async ({ ctx, input }) => {
 			const clinicId = ctx.clinic?.id
 			if (!clinicId) {

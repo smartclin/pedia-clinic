@@ -115,7 +115,7 @@ export const doctorRouter = createTRPCRouter({
 		}),
 
 	delete: protectedProcedure
-		.input(z.object({ id: z.string().uuid() }))
+		.input(z.object({ id: z.uuid() }))
 		.mutation(async ({ ctx, input }) => {
 			const clinicId = ctx.clinic?.id
 			const userId = ctx.user?.id

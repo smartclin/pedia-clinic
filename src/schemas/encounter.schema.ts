@@ -17,72 +17,71 @@ const icd10CodeSchema = z
 const temperatureSchema = z.number().min(30).max(45)
 
 export const VitalSignsShape = z.object({
-  ageDays: z.number().int().min(0).max(474_800).optional(),
-  ageMonths: z.number().int().min(0).max(1560).optional(),
-  bmi: z.number().min(10).max(80).optional(),
-  bodyTemperature: temperatureSchema.optional(),
-  clinicId: clinicIdSchema.optional(),
-  diastolic: z.number().min(30).max(150).optional(),
-  encounterId: idSchema.optional(),
-  gender: genderSchema.optional(),
-  heartRate: z.number().min(20).max(300).optional(),
-  height: z.number().min(20).max(300).optional(),
-  id: z.uuid().optional(),
-  medicalId: idSchema.optional(),
-  notes: z.string().max(1000).optional(),
-  oxygenSaturation: z.number().min(50).max(100).optional(),
-  patientId: idSchema,
-  recordedAt: dateSchema.default(() => new Date()),
-  respiratoryRate: z.number().min(5).max(100).optional(),
-  systolic: z.number().min(50).max(250).optional(),
-  weight: z.number().min(0.5).max(500).optional(),
+	ageDays: z.number().int().min(0).max(474_800).optional(),
+	ageMonths: z.number().int().min(0).max(1560).optional(),
+	bmi: z.number().min(10).max(80).optional(),
+	bodyTemperature: temperatureSchema.optional(),
+	clinicId: clinicIdSchema.optional(),
+	diastolic: z.number().min(30).max(150).optional(),
+	encounterId: idSchema.optional(),
+	gender: genderSchema.optional(),
+	heartRate: z.number().min(20).max(300).optional(),
+	height: z.number().min(20).max(300).optional(),
+	id: z.uuid().optional(),
+	medicalId: idSchema.optional(),
+	notes: z.string().max(1000).optional(),
+	oxygenSaturation: z.number().min(50).max(100).optional(),
+	patientId: idSchema,
+	recordedAt: dateSchema.default(() => new Date()),
+	respiratoryRate: z.number().min(5).max(100).optional(),
+	systolic: z.number().min(50).max(250).optional(),
+	weight: z.number().min(0.5).max(500).optional(),
 })
 
-export const VitalSignsBaseSchema =VitalSignsShape.refine(
-		data => {
-			// Validate blood pressure relationship
-			if (data.systolic && data.diastolic && data.systolic <= data.diastolic) {
+export const VitalSignsBaseSchema = VitalSignsShape.refine(
+	data => {
+		// Validate blood pressure relationship
+		if (data.systolic && data.diastolic && data.systolic <= data.diastolic) {
+			return false
+		}
+		return true
+	},
+	{
+		message: 'Systolic pressure must be greater than diastolic pressure',
+		path: ['systolic'],
+	}
+).refine(
+	data => {
+		// Age-appropriate vital signs validation
+		if (data.ageDays !== undefined) {
+			const ageInMonths = Math.floor(data.ageDays / 30.44)
+
+			// Infant heart rate validation
+			if (
+				ageInMonths < 12 &&
+				data.heartRate &&
+				(data.heartRate < 80 || data.heartRate > 200)
+			) {
 				return false
 			}
-			return true
-		},
-		{
-			message: 'Systolic pressure must be greater than diastolic pressure',
-			path: ['systolic'],
-		}
-	)
-	.refine(
-		data => {
-			// Age-appropriate vital signs validation
-			if (data.ageDays !== undefined) {
-				const ageInMonths = Math.floor(data.ageDays / 30.44)
 
-				// Infant heart rate validation
-				if (
-					ageInMonths < 12 &&
-					data.heartRate &&
-					(data.heartRate < 80 || data.heartRate > 200)
-				) {
-					return false
-				}
-
-				// Child heart rate validation
-				if (
-					ageInMonths >= 12 &&
-					ageInMonths < 156 &&
-					data.heartRate &&
-					(data.heartRate < 60 || data.heartRate > 140)
-				) {
-					return false
-				}
+			// Child heart rate validation
+			if (
+				ageInMonths >= 12 &&
+				ageInMonths < 156 &&
+				data.heartRate &&
+				(data.heartRate < 60 || data.heartRate > 140)
+			) {
+				return false
 			}
-			return true
-		},
-		{
-			message: 'Heart rate outside normal range for patient age',
-			path: ['heartRate'],
 		}
-	)
+		return true
+	},
+	{
+		message: 'Heart rate outside normal range for patient age',
+		path: ['heartRate'],
+	}
+)
 // ==================== DIAGNOSIS SCHEMAS ====================
 export const DiagnosisBaseSchema = z.object({
 	appointmentId: idSchema.optional(),
@@ -171,17 +170,17 @@ export const DiagnosisByIdSchema = DiagnosisBaseSchema.extend({
 	id: idSchema,
 })
 
-export const VitalSignsByMedicalRecordSchema = VitalSignsBaseSchema.pick({
+export const VitalSignsByMedicalRecordSchema = VitalSignsShape.pick({
 	medicalId: true,
 })
 
 // ==================== VITAL SIGNS SCHEMAS ====================
 
-export const VitalSignsCreateSchema = VitalSignsBaseSchema
-export const VitalSignsByIdSchema = VitalSignsBaseSchema.pick({
+export const VitalSignsCreateSchema = VitalSignsShape
+export const VitalSignsByIdSchema = VitalSignsShape.pick({
 	id: true,
 })
-export const VitalSignsByPatientSchema = VitalSignsBaseSchema.extend({
+export const VitalSignsByPatientSchema = VitalSignsShape.extend({
 	endDate: dateSchema.optional(),
 
 	limit: z.number().int().min(1).max(100).optional(),
@@ -191,7 +190,7 @@ export const DiagnosisByMedicalRecordSchema = DiagnosisBaseSchema.pick({
 	clinicId: true,
 	medicalId: true,
 })
-export const VitalSignsUpdateSchema = VitalSignsBaseSchema.partial().extend({
+export const VitalSignsUpdateSchema = VitalSignsShape.partial().extend({
 	id: idSchema,
 })
 export const DiagnosisByAppointmentSchema = DiagnosisBaseSchema.pick({

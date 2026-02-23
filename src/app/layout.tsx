@@ -40,11 +40,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html
-			className={cn('scroll-smooth', geistSans.variable, geistMono.variable)}
+			className={cn(geistSans.variable, geistMono.variable)}
+			data-scroll-behavior='smooth'
 			lang='en'
 			suppressHydrationWarning
 		>
-			<body className='min-h-screen overflow-x-hidden bg-background font-sans antialiased'>
+			<body
+				className='min-h-screen overflow-x-hidden bg-background font-sans antialiased'
+				suppressHydrationWarning
+			>
 				<RootProvider>
 					<div className='relative flex min-h-screen flex-col'>
 						<Header />
